@@ -1,5 +1,5 @@
-
 import BlogList from "@components/BlogList";
+import FunnelMap from "@components/Funnel/FunnelMap";
 
 const blogItems = [
   {
@@ -20,6 +20,7 @@ function Home() {
   return (
     <header className="home">
       <BlogList blogItems={blogItems} />
+      <FunnelMap />
     </header>
   );
 }
