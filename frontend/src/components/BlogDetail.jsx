@@ -1,17 +1,16 @@
 import PropTypes from "prop-types";
 import "./blog.css";
 
-function BlogDetail({ props }) {
+function BlogDetail({ title, body }) {
   return (
     <div className="blog-details">
-      <h2>{props.title}</h2>
-      <div>{props.body}</div>
+      <h2>{title}</h2>
+      <div>{body}</div>
     </div>
   );
 }
 
 BlogDetail.propTypes = {
-  props: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
 };

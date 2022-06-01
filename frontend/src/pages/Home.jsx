@@ -3,15 +3,15 @@ import BlogList from "@components/BlogList";
 const blogItems = [
   {
     title: "premier blog",
-    body: "blablabla",
+    body: "blogblogblogblogblogblog",
   },
   {
     title: "deuxième blog",
-    body: "blobloblo",
+    body: "blogblogblogblogblogblog",
   },
   {
     title: "troisième blog",
-    body: "gloubiboulga",
+    body: "blogblogblogblogblogblogblog",
   },
 ];
 
