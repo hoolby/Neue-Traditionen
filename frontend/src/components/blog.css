@@ -1,0 +1,9 @@
+.blog-list {
+  display: flex;
+  flex-direction: row;
+}
+.blog-details {
+  margin: 5px;
+  border: 10px;
+  border-style: solid;
+}
