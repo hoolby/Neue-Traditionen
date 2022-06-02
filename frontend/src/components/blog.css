@@ -1,8 +1,14 @@
 .blog-list {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
 }
 .blog-details {
+  margin: 5px;
+  border: 10px;
+  border-style: solid;
+  border-color: #156064;
+}
+.blog-preview, .create {
   margin: 5px;
   border: 10px;
   border-style: solid;

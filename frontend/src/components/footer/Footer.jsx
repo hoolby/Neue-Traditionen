@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
 
-const Footer = () => {
+function Footer() {
   return (
     <div className="footer">
       <div className="container">
@@ -12,7 +12,7 @@ const Footer = () => {
             What do you think we can do better? we look forward to your open
             opinion. Write to us
           </p>
-          <a>info@emmora.de</a>
+          <href>info@emmora.de</href>
         </section>
         <section className="more-info">
           <ul className="info-left">
@@ -46,5 +46,5 @@ const Footer = () => {
       </div>
     </div>
   );
-};
+}
 export default Footer;

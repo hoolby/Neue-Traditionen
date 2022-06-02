@@ -1,19 +1,23 @@
-import BlogDetail from "@components/BlogDetail";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./blog.css";
 
-function BlogList({ blogItems }) {
+function BlogList({ blogs }) {
   return (
     <div className="blog-list">
-      {blogItems.map((item) => (
-        <BlogDetail key={item} title={item.title} body={item.body} />
+      {blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>
+            <h2>{blog.title}</h2>
+          </Link>
+        </div>
       ))}
     </div>
   );
 }
 
 BlogList.propTypes = {
-  blogItems: PropTypes.string.isRequired,
+  blogs: PropTypes.string.isRequired,
 };
 
 export default BlogList;

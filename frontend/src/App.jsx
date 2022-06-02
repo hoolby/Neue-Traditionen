@@ -4,6 +4,8 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Home from "@pages/Home";
 import Navbar from "@components/nav/Navbar";
 import Footer from "@components/footer/Footer";
+import Create from "@components/create";
+import BlogDetails from "./components/BlogDetails";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,6 +19,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register userMail={userMail} />} />
+          <Route path="/create" element={<Create />} />
+          <Route path="/blogs/:id" element={<BlogDetails />} />
         </Routes>
         <Footer />
       </Router>
