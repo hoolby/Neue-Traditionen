@@ -1,7 +1,7 @@
-import BlogList from "@components/BlogList";
-import Create from "@components/create";
-import useFetch from "@components/useFetch";
-import "@components/blog.css";
+import BlogList from "@components/blogs/BlogList";
+import Create from "@components/blogs/create";
+import useFetch from "@components/blogs/useFetch";
+import "@components/blogs/blog.css";
 
 function Home() {
   const { data, isPending, error } = useFetch("http://localhost:5000/blogs");

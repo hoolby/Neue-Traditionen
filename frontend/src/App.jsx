@@ -4,8 +4,8 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Home from "@pages/Home";
 import Navbar from "@components/nav/Navbar";
 import Footer from "@components/footer/Footer";
-import Create from "@components/create";
-import BlogDetails from "./components/BlogDetails";
+import Create from "@components/blogs/create";
+import BlogDetails from "./components/blogs/BlogDetails";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
