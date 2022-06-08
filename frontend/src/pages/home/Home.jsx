@@ -22,7 +22,7 @@ const Home = () => {
   const [showAdmin, setShowAdmin] = useState(true);
   return (
     <>
-      {!showAdmin ? (
+      {showAdmin ? (
         <AdminPage />
       ) : (
         <section className="home-container">
