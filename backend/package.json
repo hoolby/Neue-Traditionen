@@ -1,7 +1,7 @@
 {
   "name": "mvc-express",
   "version": "1.0.0",
-  "description": "",
+  "description": "This repository is a simple Express MVC structure from scratch.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
