@@ -20,7 +20,6 @@ function Create() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(blog),
     }).then(() => {
-      alert("New blog added.");
       setIsPending(false);
       navigate("/");
     });

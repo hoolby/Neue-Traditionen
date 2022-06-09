@@ -1,14 +1,20 @@
+/* eslint-disable import/no-unresolved */
 import React from "react";
 import Register from "@components/Register";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import Home from "@pages/Home";
+import Home from "@pages/home/Home";
+import AdminPage from "@pages/adminpage/Adminpage";
 import Navbar from "@components/nav/Navbar";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
 import Footer from "@components/footer/Footer";
-import Create from "@components/blogs/create";
-import BlogDetails from "./components/blogs/BlogDetails";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Providers from "@components/providers/Providers";
 
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+library.add(fas, fab);
 
 function App() {
   const userMail = "testmail@testmail.com";
@@ -19,8 +25,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register userMail={userMail} />} />
-          <Route path="/create" element={<Create />} />
-          <Route path="/blogs/:id" element={<BlogDetails />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/providers" element={<Providers />} />
         </Routes>
         <Footer />
       </Router>

@@ -1,31 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line import/no-unresolved
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Footer.css";
 
 function Footer() {
   return (
     <div className="footer">
-      <div className="container">
+      <div className="footer-container">
         <section className="feedback">
           <h3>Give us Feedback!</h3>
-          <p>
-            What do you think we can do better? we look forward to your open
-            opinion. Write to us
-          </p>
-          <href>info@emmora.de</href>
+          <p>Write us an Email</p>
+          <div>
+            <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
+            <href className="email-link">info.de</href>
+          </div>
         </section>
         <section className="more-info">
           <ul className="info-left">
             <li>
               <Link to="/">About us</Link>
-            </li>
-
-            <li>
-              <Link to="/">Plan burial</Link>
-            </li>
-
-            <li>
-              <Link to="/">Checklist</Link>
             </li>
             <li>
               <Link to="/">Blog</Link>
@@ -36,10 +30,14 @@ function Footer() {
           </ul>
           <ul className="info-right">
             <li>
-              <Link to="/">Facebook</Link>
+              <Link to="/">
+                <FontAwesomeIcon icon="fa-brands fa-facebook-f" />
+              </Link>
             </li>
             <li>
-              <Link to="/">Instagram</Link>
+              <Link to="/">
+                <FontAwesomeIcon icon="fa-brands fa-instagram" />
+              </Link>
             </li>
           </ul>
         </section>
