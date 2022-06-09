@@ -34,10 +34,10 @@ function Register({ userMail }) {
       event.preventDefault();
       console.warn(
         firstName,
-        lastName,
+        // lastName,
         consentForConnecting,
         consentNewsletter,
-        consentTOS,
+        // consentTOS,
         password
       );
     }
@@ -132,9 +132,9 @@ function Register({ userMail }) {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              {/*****************************************************************
+              {/* ****************************************************************
                CHECKBOXES
-               ******************************************************************/}
+               ***************************************************************** */}
               <div>
                 <Form.Group>
                   <Form.Check
@@ -181,9 +181,9 @@ function Register({ userMail }) {
         </div>
       </Container>
 
-      {/*****************************************************************
+      {/* ****************************************************************
        BOTTOM SECTION
-      ******************************************************************/}
+      ***************************************************************** */}
       <div className="mb-5">
         <h1 className="mt-5 mb-5 fw-bold">Deine nächsten Schritte</h1>
         <Stack direction="horizontal">
