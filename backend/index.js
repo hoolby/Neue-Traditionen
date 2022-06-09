@@ -12,6 +12,11 @@ connection.connect((err) => {
     console.error(`error connecting: ${err.stack}`);
   }
 });
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 app.use(express.json());
 
 app.get("/blogs", (req, res) => {
