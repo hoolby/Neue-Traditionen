@@ -3,70 +3,189 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
 // This will be overridden by Bootstrap (unless the property is not definded in Bootstrap)
 import "./Register.css";
 
 // eslint-disable-next-line
 function Register({ userMail }) {
-  function submitHandler(event) {
-    event.PreventDefault();
-  }
+  // PROPS: userMail from the previous step in the sign-up process
+  const [validated, setValidated] = React.useState(false); // Sets whether or not the UI will show the validity of user inputs
+
+  const [firstName, setFirstName] = React.useState(null);
+  // const [lastName, setLastName] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
+  const [passwordRepeated, setPasswordRepeated] = React.useState(null);
+  const [consentNewsletter, setConsentNewsletter] = React.useState(false);
+  const [consentForConnecting, setConsentForConnecting] = React.useState(false);
+  // const [consentTOS, setConsentTOS] = React.useState(false);
+
+  // HANDLING SUBMISSION
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    // Checking if all required fields have been completed
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      // Now we set the UI to show the what has been validated / which inputs need to be changed
+      setValidated(true);
+    } else {
+      // Submitting the data
+      event.preventDefault();
+      console.warn(
+        firstName,
+        lastName,
+        consentForConnecting,
+        consentNewsletter,
+        consentTOS,
+        password
+      );
+    }
+  };
 
   return (
     <>
-      <h1>Das hat geklappt!</h1>
-      <p>
-        Bitte bestätige noch fix deine E-Mail-Adresse in deinem Posteingang und
-        vervollständige dein Profil.
-      </p>
-      {/* TEXT, INPUT FIELDS, CHECKBOXES, SUBMIT BUTTON */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        {/* REACT-BOOTSTRAP COMPONENTS */}
-        <Form className="mb-3">
-          {/* Stack is just for making the layout easier (similar to flexbox) */}
-          <Stack gap={2}>
-            <Form.Group controlId="formEmail">
-              <Form.Control
-                variant
-                type="email"
-                placeholder={userMail}
-                disabled
-              />
-            </Form.Group>
-            <Form.Group controlId="formFirstName">
-              <Form.Control type="firstName" placeholder="Vorname" />
-            </Form.Group>
-            <Form.Group controlId="formLastName">
-              <Form.Control type="lastName" placeholder="Nachname" />
-            </Form.Group>
-            {/* CHECKBOXES */}
-            <Form.Check
-              type="checkbox"
-              label="Ja, ich möchte mit anderen Menschen aus der Community verknüpft werden"
-            />
-            <Form.Check
-              type="checkbox"
-              label="Ja, ich möchte persönliche Trost-Inspiration 1x monatlich in meinem Postfach"
-            />
-            <Form.Check type="checkbox" label="Ja, ich stimme den AGBs zu" />
-          </Stack>
-          <Button
-            variant="secondary"
-            type="submit"
-            onClick={() => submitHandler}
+      <h1 className="mt-5 mb-5 fw-bold">Das hat geklappt!</h1>
+      <Container fluid="md">
+        {/* TEXT, INPUT FIELDS, CHECKBOXES, SUBMIT BUTTON */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {/* REACT-BOOTSTRAP COMPONENTS */}
+          <Form
+            className="mb-3"
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmit}
           >
-            Speichern & Einloggen
-          </Button>
-        </Form>
-      </div>
-      {/* BOTTOM SECTION */}
-      <div>
-        <h1>Deine nächsten Schritte</h1>
+            {/* Stack is just for making the layout easier (similar to flexbox) */}
+            <Stack gap={3}>
+              <p className="mb-5">
+                Bitte bestätige noch fix deine E-Mail-Adresse in deinem
+                Posteingang und vervollständige dein Profil.
+              </p>
+
+              {/* Email field (takes value from DB, no changes possible) */}
+              <Form.Group controlId="formEmail">
+                <Form.Control
+                  type="formEmail"
+                  placeholder={userMail}
+                  disabled
+                />
+              </Form.Group>
+              {/* Input first name */}
+              <Form.Group controlId="formFirstName">
+                <Form.Control
+                  required
+                  type="firstName"
+                  placeholder="Vorname"
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.target.value)}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Feld ist erforderlich.
+                </Form.Control.Feedback>
+              </Form.Group>
+              {/* LAST NAME */}
+              {/* <Form.Group controlId="formLastName">
+                <Form.Control
+                  required
+                  type="lastName"
+                  placeholder="Nachname"
+                  value={lastName}
+                  onChange={(event) => setLastName(event.target.value)}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  Feld ist erforderlich.
+                </Form.Control.Feedback>
+              </Form.Group> */}
+              {/* PASSWORD */}
+              <Form.Group controlId="formPassword">
+                <Form.Control
+                  required
+                  type="password"
+                  placeholder="*Passwort"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  Feld ist erforderlich.
+                </Form.Control.Feedback>
+              </Form.Group>
+              {/* REPEAT PASSWORD */}
+              <Form.Group controlId="formPasswordRepeated">
+                <Form.Control
+                  required
+                  type="password"
+                  placeholder="*Passwort wiederholen"
+                  value={passwordRepeated}
+                  onChange={(event) => setPasswordRepeated(event.target.value)}
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  Feld ist erforderlich.
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              {/*****************************************************************
+               CHECKBOXES
+               ******************************************************************/}
+              <div>
+                <Form.Group>
+                  <Form.Check
+                    type="checkbox"
+                    label={
+                      <p>
+                        Newsletter
+                        <br />
+                        Ja, ich möchte persönliche Trost-Inspiration 1x
+                        monatlich in meinem Postfach
+                      </p>
+                    }
+                    onChange={() => setConsentNewsletter(!consentNewsletter)}
+                  />
+                  <Form.Check
+                    type="checkbox"
+                    label={
+                      <p>
+                        Matching
+                        <br />
+                        Ja, ich möchte mit anderen Menschen aus der Community
+                        verknüpft werden
+                      </p>
+                    }
+                    onChange={() =>
+                      setConsentForConnecting(!consentForConnecting)
+                    }
+                  />
+                  {/* <Form.Check
+                    required
+                    type="checkbox"
+                    label="Ja, ich stimme den AGBs zu"
+                    feedback="Sie müssen den AGBs zustimmen, um sich registrieren zu können."
+                    feedbackType="invalid"
+                    onChange={() => setConsentTOS(!consentTOS)}
+                  /> */}
+                </Form.Group>
+              </div>
+            </Stack>
+            <Button variant="secondary" type="submit" className="mt-3">
+              Speichern & Einloggen
+            </Button>
+          </Form>
+        </div>
+      </Container>
+
+      {/*****************************************************************
+       BOTTOM SECTION
+      ******************************************************************/}
+      <div className="mb-5">
+        <h1 className="mt-5 mb-5 fw-bold">Deine nächsten Schritte</h1>
         <Stack direction="horizontal">
           <Card>Card component from Homepage</Card>
           <Card>Card component from Homepage</Card>

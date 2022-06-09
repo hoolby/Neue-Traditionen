@@ -1,9 +1,5 @@
-/* // This will be overridden by Bootstrap (unless the property is not definded in Bootstrap)*/
+/* This will be overridden by Bootstrap (unless the property is not definded in Bootstrap) */
 Form.Control {
-  width: 292px;
-  height: 39px;
+  width: 100%;
   text-align: left;
-
-  background: rgba(200, 125, 97, 0.55);
-  border-radius: 37px;
 }
