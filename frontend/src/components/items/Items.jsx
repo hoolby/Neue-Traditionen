@@ -1,8 +1,10 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import BoxItems from "./BoxItems";
 import Checkbox from "./Checkbox";
 import "./Items.css";
+
 const Items = () => {
   const [infos, setInfos] = useState([
     {

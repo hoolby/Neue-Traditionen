@@ -1,26 +1,17 @@
-
-import BlogList from "@components/BlogList";
-
-const blogItems = [
-  {
-    title: "premier blog",
-    body: "blogblogblogblogblogblog",
-  },
-  {
-    title: "deuxième blog",
-    body: "blogblogblogblogblogblog",
-  },
-  {
-    title: "troisième blog",
-    body: "blogblogblogblogblogblogblog",
-  },
-];
+import BlogList from "@components/blogs/BlogList";
+import Create from "@components/blogs/create";
+import useFetch from "@components/blogs/useFetch";
+import "@components/blogs/blog.css";
 
 function Home() {
+  const { data, isPending, error } = useFetch("http://localhost:5000/blogs");
   return (
-    <header className="home">
-      <BlogList blogItems={blogItems} />
-    </header>
+    <div className="home">
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading...</div>}
+      {data && <BlogList blogs={data.blogs} />}
+      <Create />
+    </div>
   );
 }
 

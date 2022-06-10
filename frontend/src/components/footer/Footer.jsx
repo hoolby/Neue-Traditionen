@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+// eslint-disable-next-line import/no-unresolved
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Footer.css";
 
-const Footer = () => {
+function Footer() {
   return (
     <div className="footer">
       <div className="footer-container">
@@ -12,7 +15,9 @@ const Footer = () => {
           <p>Write us an Email</p>
           <div>
             <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
-            <a className="email-link">info@emmora.de</a>
+
+            <href className="email-link">info.de</href>
+
           </div>
         </section>
         <section className="more-info">
@@ -43,5 +48,5 @@ const Footer = () => {
       </div>
     </div>
   );
-};
+}
 export default Footer;
