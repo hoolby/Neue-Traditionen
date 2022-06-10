@@ -14,9 +14,9 @@ import Providers from "@components/providers/Providers";
 import BlogDetails from "@components/blogs/BlogDetails";
 
 import "./App.css";
+import BlogDetails from "@components/blogs/BlogDetails";
 
 library.add(fas, fab);
-import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const userMail = "testmail@testmail.com";
   return (

@@ -1,3 +1,5 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import BlogList from "@components/blogs/BlogList";
 import useFetch from "@components/blogs/useFetch";
