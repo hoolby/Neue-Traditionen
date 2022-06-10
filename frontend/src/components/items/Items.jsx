@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import BoxItems from "./BoxItems";
 import Checkbox from "./Checkbox";

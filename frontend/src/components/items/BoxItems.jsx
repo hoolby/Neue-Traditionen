@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PropTypes from "prop-types";
 import "./Items.css";
 
 function BoxItems({ items }) {
@@ -15,8 +15,8 @@ function BoxItems({ items }) {
   );
 }
 
-BoxItems.propTypes = {
+/* BoxItems.propTypes = {
   items: PropTypes.string.isRequired,
-};
+}; */
 
 export default BoxItems;

@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import "./blog.css";
 
 function BlogList({ blogs }) {
@@ -16,8 +16,8 @@ function BlogList({ blogs }) {
   );
 }
 
-BlogList.propTypes = {
+/* BlogList.propTypes = {
   blogs: PropTypes.string.isRequired,
-};
+}; */
 
 export default BlogList;
