@@ -1,17 +1,72 @@
-const Joi = require("joi");
+//require("dotenv").config();
+const connection = require("./db-config");
+const dotenv = require("dotenv");
 const express = require("express");
-require("dotenv").config();
-const connection = require("./src/db-config");
-
+const cors = require("cors");
 const app = express();
+app.use(express.json());
+
+app.use(cors());
+app.use((req, res, next) => {
+  const allowedOrigins = ["localhost"];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  return next();
+});
+//res.header("Access-Control-Allow-Methods", "GET, POST");
+//res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//res.header("Access-Control-Allow-Credentials", true);
+
+dotenv.config();
 
 const port = process.env.PORT || 5000;
 
-connection.connect((err) => {
-  if (err) {
-    console.error(`error connecting: ${err.stack}`);
-  }
+app.post("/createProvider", (req, res) => {
+  const title = req.body.title;
+  const mobile = req.body.mobile;
+  const email = req.body.email;
+  const price = req.body.price;
+  connection.query(
+    "INSERT INTO providers (title, mobile, email, price) VALUE (?, ? ,?, ?)",
+    [title, mobile, email, price],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
 });
+
+app.get("/ProviderList", (req, res) => {
+  connection.query("SELECT * FROM providers", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+/* 
+app.put("/api/providers/:id", (req, res) => {
+  const providerId = req.params.id;
+  const providerPropsToUpdate = req.body;
+  connection.query(
+    "UPDATE providers SET ? WHERE id = ?",
+    [providerPropsToUpdate, providerId],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+}); */
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
@@ -112,7 +167,11 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-restricted-syntax
+app.listen(port, (err) => {
   console.log(`Server listening on port ${port}`);
+  connection.connect((err) => {
+    if (err) {
+      console.error(`error connecting: ${err.stack}`);
+    }
+  });
 });

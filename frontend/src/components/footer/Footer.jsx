@@ -15,8 +15,7 @@ function Footer() {
           <p>Write us an Email</p>
           <div>
             <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
-
-            <href className="email-link">info.de</href>
+            <a className="email-link">info@NeueTraditionen.de</a>
           </div>
         </section>
         <section className="more-info">

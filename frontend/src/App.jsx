@@ -11,9 +11,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import Footer from "@components/footer/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Providers from "@components/providers/Providers";
-import BlogDetails from "@components/blogs/BlogDetails";
 
 import "./App.css";
+library.add(fas, fab);
 import BlogDetails from "@components/blogs/BlogDetails";
 
 library.add(fas, fab);
