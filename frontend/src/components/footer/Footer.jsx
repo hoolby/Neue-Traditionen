@@ -17,7 +17,6 @@ function Footer() {
             <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
 
             <href className="email-link">info.de</href>
-
           </div>
         </section>
         <section className="more-info">

@@ -13,9 +13,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Providers from "@components/providers/Providers";
 
 import "./App.css";
+import BlogDetails from "@components/blogs/BlogDetails";
 
 library.add(fas, fab);
-import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const userMail = "testmail@testmail.com";
   return (
@@ -27,6 +27,7 @@ function App() {
           <Route path="/register" element={<Register userMail={userMail} />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/providers" element={<Providers />} />
+          <Route path="/blogs/:id" element={<BlogDetails />} />
         </Routes>
         <Footer />
       </Router>

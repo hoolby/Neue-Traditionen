@@ -23,8 +23,8 @@ function BlogDetails() {
       {isPending && <div>Loading...</div>}
       {data && (
         <article>
-          <h2>{data[0].title}</h2>
-          <div>{data[0].body}</div>
+          <h2>{data.title}</h2>
+          <div>{data.texte}</div>
           <button type="button" onClick={handleClick}>
             Delete (don't do it.)
           </button>
