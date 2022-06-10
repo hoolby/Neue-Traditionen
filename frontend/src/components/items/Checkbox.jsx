@@ -1,12 +1,14 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import "./Items.css";
-const Checkbox = ({ label, value, onChange }) => {
+
+function Checkbox({ label, value, onChange }) {
   return (
-    <label id="privacy" class="form-check-label ml-3">
+    // eslint-disable-next-line jsx-a11y/label-has-associated-control
+    <label id="privacy" className="form-check-label ml-3">
       <input
-        for="privacy"
-        class="form-check-input"
+        htmlFor="privacy"
+        className="form-check-input"
         type="checkbox"
         checked={value}
         onChange={onChange}
@@ -14,5 +16,12 @@ const Checkbox = ({ label, value, onChange }) => {
       {label}
     </label>
   );
+}
+
+Checkbox.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.string.isRequired,
 };
+
 export default Checkbox;

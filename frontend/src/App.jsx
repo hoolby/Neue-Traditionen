@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React from "react";
 import Register from "@components/Register";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
@@ -13,7 +14,9 @@ import Providers from "@components/providers/Providers";
 
 import "./App.css";
 library.add(fas, fab);
+import BlogDetails from "@components/blogs/BlogDetails";
 
+library.add(fas, fab);
 function App() {
   const userMail = "testmail@testmail.com";
   return (
@@ -25,6 +28,7 @@ function App() {
           <Route path="/register" element={<Register userMail={userMail} />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/providers" element={<Providers />} />
+          <Route path="/blogs/:id" element={<BlogDetails />} />
         </Routes>
         <Footer />
       </Router>

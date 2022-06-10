@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+// eslint-disable-next-line import/no-unresolved
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Footer.css";
 
-const Footer = () => {
+function Footer() {
   return (
     <div className="footer">
       <div className="footer-container">
@@ -43,5 +46,5 @@ const Footer = () => {
       </div>
     </div>
   );
-};
+}
 export default Footer;

@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react/prop-types */
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import "./AdminPage.css";
 
-const AdminItems = ({ data }) => {
+function AdminItems({ data }) {
   return (
     <section className="box-admin-item">
       <div>
@@ -25,5 +27,5 @@ const AdminItems = ({ data }) => {
       </div>
     </section>
   );
-};
+}
 export default AdminItems;

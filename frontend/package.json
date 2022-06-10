@@ -1,6 +1,7 @@
 {
   "name": "template-frontend",
   "private": true,
+  "proxy": "http://localhost:5000",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -16,6 +17,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "axios": "^0.27.2",
+    "@mui/material": "^5.8.3",
     "bootstrap": "^5.1.3",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
 
-const NavbarDesktop = () => {
+function NavbarDesktop() {
   return (
     <div>
       <ul className="menu">
@@ -32,5 +32,5 @@ const NavbarDesktop = () => {
       </ul>
     </div>
   );
-};
+}
 export default NavbarDesktop;

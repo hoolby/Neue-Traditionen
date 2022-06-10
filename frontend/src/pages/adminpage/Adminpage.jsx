@@ -1,8 +1,10 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import AdminItems from "./AdminItems";
 import "./AdminPage.css";
 
-const AdminPage = () => {
+function AdminPage() {
   const [adminItems, setAdminItems] = useState([
     {
       title: "Edit checklist",
@@ -39,5 +41,5 @@ const AdminPage = () => {
       </div>
     </div>
   );
-};
+}
 export default AdminPage;
