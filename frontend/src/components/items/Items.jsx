@@ -1,11 +1,11 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import BoxItems from "./BoxItems";
 import Checkbox from "./Checkbox";
 import "./Items.css";
 
-function Items() {
+const Items = () => {
   const [infos, setInfos] = useState([
     {
       link: "/",
@@ -39,29 +39,31 @@ function Items() {
   };
 
   return (
-    <div className="items-container">
-      {infos.map((items, index) => {
-        return <BoxItems key={index} items={items} />;
-      })}
+    <>
+      <div className="items-container">
+        {infos.map((items, index) => {
+          return <BoxItems key={index} items={items} />;
+        })}
 
-      <div className="check-box">
-        <Checkbox
-          label="Choose funeral providers according to your wishes and needs"
-          value={checkedOne}
-          onChange={handleChangeOne}
-        />
-        <Checkbox
-          label="Make informed decisions"
-          value={checkedTwo}
-          onChange={handleChangeTwo}
-        />
-        <Checkbox
-          label="Plan everything online in one place"
-          value={checkedThree}
-          onChange={handleChangeThree}
-        />
+        <div className="check-box">
+          <Checkbox
+            label="Choose funeral providers according to your wishes and needs"
+            value={checkedOne}
+            onChange={handleChangeOne}
+          />
+          <Checkbox
+            label="Make informed decisions"
+            value={checkedTwo}
+            onChange={handleChangeTwo}
+          />
+          <Checkbox
+            label="Plan everything online in one place"
+            value={checkedThree}
+            onChange={handleChangeThree}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
-}
+};
 export default Items;

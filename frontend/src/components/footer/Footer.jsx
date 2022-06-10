@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 // eslint-disable-next-line import/no-unresolved
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Footer.css";
 
@@ -13,7 +15,9 @@ function Footer() {
           <p>Write us an Email</p>
           <div>
             <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
+
             <href className="email-link">info.de</href>
+
           </div>
         </section>
         <section className="more-info">
