@@ -14,7 +14,6 @@ import Providers from "@components/providers/Providers";
 import BlogDetails from "@components/blogs/BlogDetails";
 
 import "./App.css";
-import BlogDetails from "@components/blogs/BlogDetails";
 
 library.add(fas, fab);
 function App() {
