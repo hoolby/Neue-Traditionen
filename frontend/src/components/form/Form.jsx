@@ -1,11 +1,28 @@
 import React, { Component, useState } from "react";
+import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Form.css";
 
-const Form = ({ onAdd, onEdite }) => {
-  console.log(onEdite);
+const Form = ({ providerList /* onEdite */ }) => {
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/createProvider", {
+        title: title,
+        mobile: mobile,
+        email: email,
+        price: price,
+      })
+      .then(() => {
+        providerList();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   /*   const options = [
     { value: "flowers", label: "Flowers" },
     { value: "gravestone", label: "Gravestone" },
@@ -21,12 +38,13 @@ const Form = ({ onAdd, onEdite }) => {
     },
   ]; */
 
-  const [title, setTitle] = useState(onEdite.title ? onEdite.title : "");
-  const [mobile, setMobile] = useState(onEdite ? onEdite.mobile : "");
-  const [email, setEmail] = useState(onEdite ? onEdite.email : "");
+  const [title, setTitle] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [price, setPrice] = useState("");
 
-  //const [providerData, setProviderData] = useState([]);
-  const handelSubmit = (e) => {
+  const [providerData, setProviderData] = useState([]);
+  /*  const handelSubmit = (e) => {
     e.preventDefault();
     onAdd({
       id: Math.floor(Math.random() * 10000),
@@ -37,17 +55,17 @@ const Form = ({ onAdd, onEdite }) => {
     setTitle("");
     setMobile("");
     setEmail("");
-  };
+  }; */
 
   const animatedComponents = makeAnimated();
   return (
-    <form className="form-container" onSubmit={handelSubmit}>
+    <form className="form-container" onSubmit={(e) => handelSubmit(e)}>
       <div className="form-row">
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">Title</label>
           <input
             type="text"
-            value={onEdite ? onEdite.title : title}
+            value={title}
             name={title}
             className="form-control"
             id="validationCustom01"
@@ -63,7 +81,7 @@ const Form = ({ onAdd, onEdite }) => {
             type="number"
             className="form-control"
             id="validationCustom02"
-            value={onEdite ? onEdite.mobile : mobile}
+            value={mobile}
             name={mobile}
             placeholder="Phone"
             onChange={(e) => setMobile(e.target.value)}
@@ -71,24 +89,38 @@ const Form = ({ onAdd, onEdite }) => {
           />
           <div className="valid-feedback">Please choose a mobile.</div>
         </div>
-        <div className="col-md-3 mb-3">
+      </div>
+
+      <div className="form-row">
+        <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom03">Email</label>
           <input
             type="email"
-            value={onEdite ? onEdite.email : email}
+            value={email}
             name={email}
             className="form-control"
             onChange={(e) => setEmail(e.target.value)}
-            id="inputEmail4"
+            id="inputEmail3"
             placeholder="Email"
             required
           />
           <div className="valid-feedback">Please enter your Email.</div>
         </div>
-      </div>
-
-      {/* <div className="form-row">
-        <div className="col-md-8 mb-3">
+        <div className="col-md-4 mb-3">
+          <label htmlFor="validationCustom04">Price</label>
+          <input
+            type="number"
+            value={price}
+            name={price}
+            className="form-control"
+            onChange={(e) => setPrice(e.target.value)}
+            id="inputPrice4"
+            placeholder="Price"
+            required
+          />
+          <div className="valid-feedback">Please enter your Price.</div>
+        </div>
+        {/* <div className="col-md-8 mb-3">
           <label>Services</label>
           <Select
             closeMenuOnSelect={false}
@@ -98,15 +130,26 @@ const Form = ({ onAdd, onEdite }) => {
             options={options}
             onChange={(options) => setServices(options)}
           />
-        </div>
-      </div> */}
+        </div> */}
+      </div>
 
       {/* <button type="submit" class="btn btn-primary">
         Edit Provider
       </button> */}
 
-      <button type="submit" class="btn btn-primary">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        /* onClick={(e) => createProvider(e)} */
+      >
         Create Provider
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        onClick={(e) => providerList(e)}
+      >
+        Provider List
       </button>
     </form>
   );

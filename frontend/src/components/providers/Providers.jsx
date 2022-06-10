@@ -1,61 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProvidersList from "./ProvidersList";
 import Form from "@components/form/Form";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Providers.css";
 
 const Providers = () => {
-  const [providers, setProviders] = useState([
-    {
-      id: 1,
-      title: "number 1",
-      mobile: "4364",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 2,
-      title: "number 2",
-      mobile: "45643",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 3,
-      title: "number 3",
-      mobile: "798",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 4,
-      title: "number 4",
-      mobile: "131432",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 5,
-      title: "number 5",
-      mobile: "",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 6,
-      title: "number 6",
-      mobile: "433144",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 7,
-      title: "number 7",
-      mobile: "4657",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 8,
-      title: "number 8",
-      mobile: "789",
-      email: "a@a.gmail.com",
-    },
-  ]);
-  const [updateItem, setUpdateItem] = useState({});
+  const [providers, setProviders] = useState([]);
+  //const [newProvider, setNewProvider] = useState({});
+  const providerList = () => {
+    axios.get("http://localhost:5000/providerList").then((respons) => {
+      console.log(respons.data);
+      setProviders(respons.data);
+    });
+  };
+  useEffect(() => {
+    providerList();
+  }, []);
+
+  /*   const addNewProvider = (newProvider) => {
+    //const newList = [newProvider, ...providers];
+    //setProviders(newList);
+    providerList();
+  }; */
+  const deleteProvider = (id) => {
+    setProviders(providers.filter((item) => item.id !== id));
+  };
+
+  /*   const createProvider = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/createProvider", {
+        title: title,
+        mobile: mobile,
+        email: email,
+        price: price,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }; */
+  /*  const [updateItem, setUpdateItem] = useState({});
   const addTodo = (todo) => {
     const newTodo = [todo, ...providers];
     setProviders(newTodo);
@@ -71,12 +59,12 @@ const Providers = () => {
     console.log(id);
     const newList = providers.filter((item) => item.id !== id);
     setProviders(newList);
-  };
+  }; */
 
   return (
     <>
       <section className="table-container">
-        <Form onEdite={updateItem} onAdd={addTodo} />
+        <Form /* onEdite={updateItem} */ providerList={providerList} />
 
         <table className="table table-striped table-bordered table-responsive-lg">
           <thead>
@@ -85,6 +73,7 @@ const Providers = () => {
               <th scope="col">Title</th>
               <th scope="col">Mobile</th>
               <th scope="col">Email</th>
+              <th scope="col">Price</th>
             </tr>
           </thead>
           <tbody>
@@ -92,8 +81,9 @@ const Providers = () => {
               <ProvidersList
                 key={provider.id}
                 provider={provider}
-                onUpdate={updateTodo}
-                onDelete={deleteTodo}
+                /* 
+                onUpdate={updateTodo}*/
+                deleteProvider={deleteProvider}
               />
             ))}
           </tbody>
