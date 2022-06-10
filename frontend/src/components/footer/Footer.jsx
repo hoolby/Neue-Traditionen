@@ -1,31 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Footer.css";
 
 const Footer = () => {
   return (
     <div className="footer">
-      <div className="container">
+      <div className="footer-container">
         <section className="feedback">
           <h3>Give us Feedback!</h3>
-          <p>
-            What do you think we can do better? we look forward to your open
-            opinion. Write to us
-          </p>
-          <a>info@emmora.de</a>
+          <p>Write us an Email</p>
+          <div>
+            <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
+            <a className="email-link">info@NeueTraditionen.de</a>
+          </div>
         </section>
         <section className="more-info">
           <ul className="info-left">
             <li>
               <Link to="/">About us</Link>
-            </li>
-
-            <li>
-              <Link to="/">Plan burial</Link>
-            </li>
-
-            <li>
-              <Link to="/">Checklist</Link>
             </li>
             <li>
               <Link to="/">Blog</Link>
@@ -36,10 +29,14 @@ const Footer = () => {
           </ul>
           <ul className="info-right">
             <li>
-              <Link to="/">Facebook</Link>
+              <Link to="/">
+                <FontAwesomeIcon icon="fa-brands fa-facebook-f" />
+              </Link>
             </li>
             <li>
-              <Link to="/">Instagram</Link>
+              <Link to="/">
+                <FontAwesomeIcon icon="fa-brands fa-instagram" />
+              </Link>
             </li>
           </ul>
         </section>

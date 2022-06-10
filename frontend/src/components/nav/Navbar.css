@@ -19,10 +19,9 @@
 .menu a {
   text-decoration: none;
   color: #fff;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 42px;
   padding-bottom: 3px;
-  font-weight: bold;
 }
 .menu a:hover {
   border-bottom: 2px solid rgba(248, 243, 243, 0.2);
