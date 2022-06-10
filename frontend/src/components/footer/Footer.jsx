@@ -12,7 +12,7 @@ const Footer = () => {
           <p>Write us an Email</p>
           <div>
             <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
-            <a className="email-link">info@emmora.de</a>
+            <a className="email-link">info@NeueTraditionen.de</a>
           </div>
         </section>
         <section className="more-info">
