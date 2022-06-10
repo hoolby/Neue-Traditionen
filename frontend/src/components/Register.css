@@ -1,5 +1,0 @@
-/* This will be overridden by Bootstrap (unless the property is not definded in Bootstrap) */
-Form.Control {
-  width: 100%;
-  text-align: left;
-}

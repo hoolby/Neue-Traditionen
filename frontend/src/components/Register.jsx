@@ -4,8 +4,7 @@ import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-// This will be overridden by Bootstrap (unless the property is not definded in Bootstrap)
-import "./Register.css";
+import Items from "@components/items/ItemsCopyForRegistrationPage";
 
 // eslint-disable-next-line
 function Register({ userMail }) {
@@ -186,11 +185,13 @@ function Register({ userMail }) {
       ***************************************************************** */}
       <div className="mb-5">
         <h1 className="mt-5 mb-5 fw-bold">Deine nächsten Schritte</h1>
-        <Stack direction="horizontal">
+        <Items />
+        {/* ALTERNATIVELY: USE REACT BOOTSTRAP STACK */}
+        {/* <Stack direction="horizontal">
           <Card>Card component from Homepage</Card>
           <Card>Card component from Homepage</Card>
           <Card>Card component from Homepage</Card>
-        </Stack>
+        </Stack> */}
       </div>
     </>
   );

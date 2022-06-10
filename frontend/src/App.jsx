@@ -8,9 +8,9 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import Footer from "@components/footer/Footer";
 
-import "./App.css";
 library.add(fas, fab);
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App() {
   const userMail = "testmail@testmail.com";
