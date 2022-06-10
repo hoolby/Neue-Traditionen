@@ -1,7 +1,7 @@
 {
   "name": "mvc-express",
   "version": "1.0.0",
-  "description": "",
+  "description": "This repository is a simple Express MVC structure from scratch.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
@@ -16,7 +16,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "express": "^4.17.2",
+    "express": "^4.18.1",
+    "joi": "^17.6.0",
     "mysql2": "^2.3.3",
     "template-fullstack": "file:.."
   },

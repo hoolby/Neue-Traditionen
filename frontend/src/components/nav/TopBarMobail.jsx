@@ -3,12 +3,11 @@ import NavbarDesktop from "./NavbarDesktop";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
 
-const TopBarMobail = () => {
+function TopBarMobail() {
   const [toggle, setToggle] = useState(false);
   const handelClick = (e) => {
     e.preventDefault();
     setToggle(!toggle);
-    console.log(toggle);
   };
 
   return (
@@ -19,7 +18,7 @@ const TopBarMobail = () => {
           type="button"
           onClick={(e) => handelClick(e)}
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" />
         </button>
       </nav>
       <div className={toggle ? "show" : "heid"}>
@@ -27,5 +26,5 @@ const TopBarMobail = () => {
       </div>
     </div>
   );
-};
+}
 export default TopBarMobail;

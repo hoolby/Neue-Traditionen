@@ -1,0 +1,28 @@
+[33m6b0f646[m[33m ([m[1;36mHEAD -> [m[1;32mpierreBranch[m[33m, [m[1;31morigin/pierreBranch[m[33m)[m HEAD@{0}: pull: Fast-forward
+[33mec91a28[m HEAD@{1}: checkout: moving from dev2 to pierreBranch
+[33m56c6186[m[33m ([m[1;31morigin/dev2[m[33m, [m[1;32mdev2[m[33m)[m HEAD@{2}: reset: moving to HEAD
+[33m56c6186[m[33m ([m[1;31morigin/dev2[m[33m, [m[1;32mdev2[m[33m)[m HEAD@{3}: pull: Fast-forward
+[33m8a0b18f[m HEAD@{4}: checkout: moving from funnel-cards1 to dev2
+[33ma2fd833[m[33m ([m[1;32mfunnel-cards1[m[33m)[m HEAD@{5}: reset: moving to HEAD
+[33ma2fd833[m[33m ([m[1;32mfunnel-cards1[m[33m)[m HEAD@{6}: commit: 08.06pull
+[33m5590566[m[33m ([m[1;31morigin/funnel-cards1[m[33m)[m HEAD@{7}: checkout: moving from dev2 to funnel-cards1
+[33m8a0b18f[m HEAD@{8}: commit: footer email change
+[33m3fa8a35[m HEAD@{9}: pull: Fast-forward
+[33m6c80247[m HEAD@{10}: checkout: moving from funnel-cards1 to dev2
+[33m5590566[m[33m ([m[1;31morigin/funnel-cards1[m[33m)[m HEAD@{11}: commit: dry funnel cards, mapping working
+[33m19bbfbb[m[33m ([m[1;31morigin/blog-component[m[33m, [m[1;32mdev[m[33m)[m HEAD@{12}: checkout: moving from funnel-cards to funnel-cards1
+[33mb3101c1[m[33m ([m[1;32mfunnel-cards[m[33m)[m HEAD@{13}: checkout: moving from funnel-cards1 to funnel-cards
+[33m19bbfbb[m[33m ([m[1;31morigin/blog-component[m[33m, [m[1;32mdev[m[33m)[m HEAD@{14}: checkout: moving from dev to funnel-cards1
+[33m19bbfbb[m[33m ([m[1;31morigin/blog-component[m[33m, [m[1;32mdev[m[33m)[m HEAD@{15}: checkout: moving from funnel-cards to dev
+[33mb3101c1[m[33m ([m[1;32mfunnel-cards[m[33m)[m HEAD@{16}: checkout: moving from dev to funnel-cards
+[33m19bbfbb[m[33m ([m[1;31morigin/blog-component[m[33m, [m[1;32mdev[m[33m)[m HEAD@{17}: pull: Fast-forward
+[33m4e2356e[m HEAD@{18}: checkout: moving from funnel-cards to dev
+[33mb3101c1[m[33m ([m[1;32mfunnel-cards[m[33m)[m HEAD@{19}: commit: test merge funnel save
+[33md29feae[m[33m ([m[1;31morigin/funnel-cards[m[33m)[m HEAD@{20}: checkout: moving from dev to funnel-cards
+[33m4e2356e[m HEAD@{21}: pull: Fast-forward
+[33m2dcd298[m HEAD@{22}: checkout: moving from funnel-cards to dev
+[33md29feae[m[33m ([m[1;31morigin/funnel-cards[m[33m)[m HEAD@{23}: checkout: moving from dev to funnel-cards
+[33m2dcd298[m HEAD@{24}: checkout: moving from funnel-cards to dev
+[33md29feae[m[33m ([m[1;31morigin/funnel-cards[m[33m)[m HEAD@{25}: commit: funnel-card test
+[33m2dcd298[m HEAD@{26}: checkout: moving from dev to funnel-cards
+[33m2dcd298[m HEAD@{27}: commit (initial): first commit, frontend/backend

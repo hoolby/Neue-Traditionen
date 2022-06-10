@@ -6,7 +6,8 @@
   "extends": [
     "plugin:react/recommended",
     "airbnb",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "react-app", "prettier"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -15,7 +16,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "import"],
+  "plugins": ["react", "import","prettier"],
   "rules": {
     "no-console": "off",
     "no-restricted-syntax": [
@@ -27,7 +28,8 @@
     ],
     "react/react-in-jsx-scope": "off",
     "react/jsx-one-expression-per-line": "off",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }] 
   },
   "settings": {
     "import/resolver": {

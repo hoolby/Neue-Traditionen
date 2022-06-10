@@ -1,0 +1,79 @@
+input[type="checkbox"],
+input[type="checkbox"]:checked {
+  background-color: #c97c5d !important;
+  width: 25px;
+  height: 25px;
+  border: none;
+  margin-right: 10px;
+}
+a,
+a.box-item-text {
+  text-decoration: none;
+}
+.items-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 5px;
+  box-sizing: border-box;
+  padding: 10px;
+  flex-wrap: wrap;
+}
+.box-item,
+.check-box {
+  display: flex;
+  width: 20%;
+  height: 218px;
+  background-color: #c7f2a7;
+  border-radius: 7px;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 10px;
+  text-decoration: none;
+}
+.check-box {
+  background-color: #156064;
+  padding-top: 32px;
+  padding-left: 19px;
+}
+.item-title {
+  display: flex;
+  color: #156064;
+}
+.item-button {
+  background-color: #156064;
+  color: white;
+  border: none;
+  border-radius: 22px;
+  font-size: 17px;
+  padding: 0px 37px;
+  margin-top: 29px;
+}
+.box-item-text {
+  color: #156064;
+  font-size: 15px;
+}
+.box-item-icon {
+  font-size: 60px;
+}
+.check-box {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  color: white;
+}
+
+@media only screen and (max-width: 1366px) {
+  .box-item,
+  .check-box {
+    width: 40%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .box-item,
+  .check-box {
+    width: 80%;
+  }
+}
