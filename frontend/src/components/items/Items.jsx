@@ -23,20 +23,13 @@ function Items() {
       text: "Check off the checklist with your to-dos & save everything online",
     },
   ]);
-  const [checkedOne, setCheckedOne] = React.useState(true);
-  const [checkedTwo, setCheckedTwo] = React.useState(true);
-  const [checkedThree, setCheckedThree] = React.useState(true);
+  const [checkedOne] = React.useState(true);
+  const [checkedTwo] = React.useState(true);
+  const [checkedThree] = React.useState(true);
 
-  const handleChangeOne = () => {
-    setCheckedOne(!checkedOne);
-  };
-
-  const handleChangeTwo = () => {
-    setCheckedTwo(!checkedTwo);
-  };
-  const handleChangeThree = () => {
-    setCheckedThree(!checkedThree);
-  };
+  const handleChangeOne = () => {};
+  const handleChangeTwo = () => {};
+  const handleChangeThree = () => {};
 
   return (
     <div className="items-container">
