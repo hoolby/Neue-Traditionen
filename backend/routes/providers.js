@@ -1,6 +1,6 @@
 const providersRouter = require('express').Router();
-// TODO import providers model
+const Provider = require('../models/provider');
 
-// TODO add Routes like e.G
+// TODO add Routes for providers
 
 module.exports = providersRouter;

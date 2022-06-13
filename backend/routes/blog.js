@@ -1,6 +1,6 @@
 const blogRouter = require('express').Router();
-// TODO import blog model
+const Blog = require('../models/blog');
 
-// TODO add Routes like e.G
+// TODO add Routes for blog
 
 module.exports = blogRouter;
