@@ -1,24 +1,28 @@
 /* eslint-disable import/no-unresolved */
+// Pages and components
 import BlogDetails from "@components/blogs/BlogDetails";
 import Footer from "@components/footer/Footer";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
 import Register from "@components/Register";
+import AdminPage from "@pages/adminpage/Adminpage";
+import Home from "@pages/home/Home";
+
+// Modules
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import AdminPage from "@pages/adminpage/Adminpage";
-import Home from "@pages/home/Home";
+library.add(fas, fab);
+
+// CSS
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 
-library.add(fas, fab);
-
-library.add(fas, fab);
 function App() {
-  const userMail = "testmail@testmail.com";
+  const userMail = "testmail@testmail.com"; // for Register Component - to be replaced by user email on entering the registration page from custom link
   return (
     <div className="App">
       <Router>
