@@ -1,13 +1,13 @@
 import React from "react";
+import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
-import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Items from "@components/items/ItemsCopyForRegistrationPage";
 
 // eslint-disable-next-line
-function Register({ userMail }) {
+function Register({ userMail, userId }) {
   // PROPS: userMail from the previous step in the sign-up process
   const [validated, setValidated] = React.useState(false); // Sets whether or not the UI will show the validity of user inputs
 
@@ -31,14 +31,25 @@ function Register({ userMail }) {
     } else {
       // Submitting the data
       event.preventDefault();
-      console.warn(
-        firstName,
-        // lastName,
-        consentForConnecting,
-        consentNewsletter,
-        // consentTOS,
-        password
-      );
+      axios
+        .put(`/api/user/${userId}`, {
+          firstName,
+          // lastName,
+          consentForConnecting,
+          consentNewsletter,
+          // consentTOS,
+          password,
+        })
+        .then((res) => {
+          if (res.status === 200 || res.status === 204) {
+            alert("You have successfully created your account.");
+            // redirect!!
+          } else {
+            alert(
+              `An error occured while submitting your data. Please try again later. HTTP code ${res.status}, ${res.statusText}`
+            );
+          }
+        });
     }
   };
 
@@ -191,6 +202,7 @@ function Register({ userMail }) {
           <Card>Card component from Homepage</Card>
           <Card>Card component from Homepage</Card>
           <Card>Card component from Homepage</Card>
+          // Import Card from Bootstrap !!
         </Stack> */}
       </div>
     </>
