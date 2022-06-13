@@ -1,9 +1,14 @@
-// TODO import routes like eg const moviesRouter = require('./movies');
+const blogRouter = require('./blog');
+const providersRouter = require('./providers');
+
+blogRouter = require('./blog');
+providersRouter = require('./providers');
 
 const setupRoutes = (app) => {
   // User routes
-  // TODO add Routes like eg app.use('/api/movies', moviesRouter);
- 
+  // TODO add missing Routes like e.g. api/auth
+  app('api/blog', blogRouter);
+  app('api/providers', providersRouter); 
 };
 
 module.exports = {
