@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./FunnelCard.css";
 import { Button, Modal } from "react-bootstrap";
+import "./FunnelCard.css";
 
-function FunnelCard(props) {
+function FunnelCard({ increaseStep, choice, selection }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -13,27 +13,27 @@ function FunnelCard(props) {
   return (
     <>
       <div className="card-container">
-        <img className="card-img" src={props.testArray.img} alt="" />
+        <img className="card-img" src={choice.img} alt="" />
         <div className="card-info">
-          <span className="card-title">{props.testArray.title}</span>
-          <span className="card-body">{props.testArray.body}</span>
+          <span className="card-title">{choice.title}</span>
+          <span className="card-body">{choice.body}</span>
         </div>
-        <Button>BootstrapButton</Button>
+        <Button
+          choice={choice}
+          id="selection1"
+          onClick={(e) => increaseStep(choice.title)}
+        >
+          BootstrapButton
+        </Button>
         <button type="button" onClick={handleShow} className="card-button">
           Click
         </button>
       </div>
-      <Modal
-        size="xl"
-        className="modal-dialog modal-xl centered"
-        show={show}
-        onHide={handleClose}
-        animation={false}
-      >
+      <Modal size="xl" show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.testArray.title}</Modal.Title>
+          <Modal.Title>{choice.title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{props.testArray.body}</Modal.Body>
+        <Modal.Body>{choice.body}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
@@ -61,10 +61,10 @@ export default FunnelCard;
 //   //   let toggleInfo = document.getElementById("card-button");
 //   return (
 //     <div className="card-container">
-//       <img className="card-img" src={props.testArray.img} alt="" />
+//       <img className="card-img" src={choice.img} alt="" />
 //       <div className="card-info">
-//         <span className="card-title">{props.testArray.title}</span>
-//         <span className="card-body">{props.testArray.body}</span>
+//         <span className="card-title">{choice.title}</span>
+//         <span className="card-body">{choice.body}</span>
 //       </div>
 //       <Button>asd</Button>
 //       <button type="button" onClick={toggleInfo} className="card-button">
