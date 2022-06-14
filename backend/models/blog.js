@@ -3,7 +3,7 @@ const Joi = require('joi');
 
 const db = connection.promise();
 
-// TODO add methods to handle querie e.G. like e.G const findOne = (id) => { ... }
+// TODO add methods to handle queries e.G. like e.G const findOne = (id) => { ... }
 
 const validate = (data, forCreation = true) => {
     const presence = forCreation ? 'required' : 'optional';
@@ -17,6 +17,9 @@ const validate = (data, forCreation = true) => {
 
 
 const create = ({ title, author, picture, text, date }) => {
+    
+    // TODO upload(optional image)
+
     return db
       .query(
         'INSERT INTO blog (title, author, picture, text, date) VALUES (?, ?, ?, ?, ?)',
