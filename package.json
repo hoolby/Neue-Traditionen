@@ -17,5 +17,9 @@
   "devDependencies": {
     "concurrently": "^7.0.0",
     "husky": "^7.0.0"
+  },
+  "dependencies": {
+    "@emotion/styled": "^11.9.3",
+    "nodemailer": "^6.7.5"
   }
 }
