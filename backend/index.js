@@ -72,8 +72,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-
 app.get("/blogs", (req, res) => {
   let sql = "SELECT * FROM blogs";
   const sqlValues = [];
@@ -167,6 +165,78 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
+// MAIL
+
+// SEND A MAIL
+
+const nodemailer = require("nodemailer");
+
+// Create sender
+const transporter = nodemailer.createTransport({
+  host: "smtp.mailfence.com" /* change the host depending the mail provider */,
+  port: 465 /* same */,
+  auth: {
+    user: "etienne.duret@mailfence.com" /* ADD YOUR MAIL  */,
+    pass: "ADD YOUR PASSWAORD HERE",
+  },
+});
+
+// Verify port
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Server is ready to take our messages");
+  }
+});
+
+// Create mail
+
+const mailOptions = {
+  from: "etienne.duret@mailfence.com",
+  to: "asathal.pierre@gmail.com",
+  subject: "Hello Lucie",
+  text: "text",
+  html: "<body><h1>HTML</h1></body>",
+};
+
+// Send the mail
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    return console.log(error);
+  }
+  console.log("Message sent: ", info);
+});
+
+// CONTACT INVITATION
+
+app.get("/form", (req, res) => res.render("form")); //Check what it is
+app.post("/contact", (req, res) => {
+  console.log(req.body);
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message;
+  connection.query(
+    "INSERT INTO NewTableName (name, email, message) VALUE (?, ?, ?)",
+    [name, email, message],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  )
+  res.status(201).json({"response":"data received"})
+});
+
+app.use((req, res) => res.status(404)); // check if needed
+app.use((err, req, res, next) => res.status(500)); // check if needed
+
+
+
+
+
 app.listen(port, (err) => {
   console.log(`Server listening on port ${port}`);
   connection.connect((err) => {
@@ -175,47 +245,3 @@ app.listen(port, (err) => {
     }
   });
 });
-
-// MAIL 
-
-// SEND A MAIL 
-
-const nodemailer = require('nodemailer');
-
-// Create sender
-const transporter = nodemailer.createTransport({
-    host: 'smtp.mailfence.com', /* change the host depending the mail provider */
-    port: 465,  /* same */
-    auth: {
-        user: 'etienne.duret@mailfence.com', /* ADD YOUR MAIL  */
-        pass: 'ADD YOUR PASSWAORD HERE' 
-    }
-});
-
-
-// Verify port
-transporter.verify(function(error, success) {
-    if (error) {
-         console.log(error);
-    } else {
-         console.log('Server is ready to take our messages');
-    }
- });
-
-// Create mail 
-const mailOptions = {
-    from:"etienne.duret@mailfence.com",
-    to: "asathal.pierre@gmail.com", 
-    subject:"Hello Lucie", 
-    text: "text",
-    html: '<body><h1>HTML</h1></body>'
-};
-
-// Send the mail 
-transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    console.log('Message sent: ', info);
-  });
-
