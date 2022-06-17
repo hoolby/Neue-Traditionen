@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import BlogDetails from "@components/blogs/BlogDetails";
+import ContactForm from "@components/ContactForm";
 import Footer from "@components/footer/Footer";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/blogs/:id" element={<BlogDetails />} />
+          <Route path="/contactform" element={<ContactForm />} />
         </Routes>
         <Footer />
       </Router>
