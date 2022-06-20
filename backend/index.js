@@ -233,7 +233,16 @@ app.post("/contact", (req, res) => {
 app.use((req, res) => res.status(404)); // check if needed
 app.use((err, req, res, next) => res.status(500)); // check if needed
 
-
+// CHECK if some asked for invitation 
+app.get("/contact", (req, res) => {
+  connection.query("SELECT * FROM NewTableName", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
 
 
 
