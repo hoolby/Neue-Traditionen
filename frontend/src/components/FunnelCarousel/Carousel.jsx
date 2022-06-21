@@ -9,7 +9,7 @@ function ControlledCarousel() {
   const [selection, setSelection] = useState({});
 
   const selectOption = (option, choiceIndex) => {
-    //option of?
+    // option of?
     setSelection({ ...selection, ...option }); //  `${selection} + ${elementTitle}`
     handleSelect(choiceIndex + 1);
   };

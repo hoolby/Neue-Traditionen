@@ -1,9 +1,7 @@
+// eslint-disable-next-line import/no-unresolved
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
-
-// eslint-disable-next-line import/no-unresolved
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Footer.css";
 
 function Footer() {
@@ -15,7 +13,9 @@ function Footer() {
           <p>Write us an Email</p>
           <div>
             <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
-            <a className="email-link">info@NeueTraditionen.de</a>
+            <a href="mailto: info@NeueTraditionen.de" className="email-link">
+              info@NeueTraditionen.de
+            </a>
           </div>
         </section>
         <section className="more-info">

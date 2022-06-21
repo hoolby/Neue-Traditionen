@@ -7,9 +7,9 @@ function FunnelCard({ choice, selectOption, choiceIndex }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  function toggleInfo() {
+  /* function toggleInfo() {
     document.getElementById("card-button").toggle("card-opened");
-  }
+  } */
   return (
     <>
       <div className="card-container">
@@ -22,8 +22,7 @@ function FunnelCard({ choice, selectOption, choiceIndex }) {
           choice={choice}
           id="selection1"
           onClick={(e) => {
-            console.log(choiceIndex);
-            var obj = {};
+            const obj = {};
             obj[`${choiceIndex}`] = choice.title;
             selectOption(obj, choiceIndex);
           }}

@@ -41,6 +41,7 @@ a.carousel-control-prev {
   /* display: none; */
   left: -15%;
 }
+
 /* 
 
 .carousel-control.left {
@@ -60,3 +61,11 @@ a.carousel-control-prev {
 .visually-hidden {
   display: null;
 } */
+.carousel-indicators {
+  bottom: 300px !important;
+}
+
+.carousel-indicators,
+.carousel-indicators > button {
+  bottom: 17em;
+}

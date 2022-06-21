@@ -1,39 +1,44 @@
-//require("dotenv").config();
-const connection = require("./db-config");
+// require("dotenv").config();
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
+
+const Joi = require("joi");
+
+const connection = require("./db-config");
+
 const app = express();
 app.use(express.json());
 
 app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = ["localhost"];
-  const origin = req.headers.origin;
+  const { origin } = req.headers;
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
   return next();
 });
-//res.header("Access-Control-Allow-Methods", "GET, POST");
-//res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//res.header("Access-Control-Allow-Credentials", true);
+// res.header("Access-Control-Allow-Methods", "GET, POST");
+// res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+// res.header("Access-Control-Allow-Credentials", true);
 
 dotenv.config();
 
 const port = process.env.PORT || 5000;
 
 app.post("/createProvider", (req, res) => {
-  const title = req.body.title;
-  const mobile = req.body.mobile;
-  const email = req.body.email;
-  const price = req.body.price;
+  const { title } = req.body;
+  const { mobile } = req.body;
+  const { email } = req.body;
+  const { price } = req.body;
   connection.query(
     "INSERT INTO providers (title, mobile, email, price) VALUE (?, ? ,?, ?)",
     [title, mobile, email, price],
     (err, result) => {
       if (err) {
-        console.log(err);
+        /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+        console.warn(err);
       } else {
         res.status(201).send(result);
       }
@@ -44,7 +49,8 @@ app.post("/createProvider", (req, res) => {
 app.get("/ProviderList", (req, res) => {
   connection.query("SELECT * FROM providers", (err, result) => {
     if (err) {
-      console.log(err);
+      /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+      console.warn(err);
     } else {
       res.json(result);
     }
@@ -167,8 +173,10 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-app.listen(port, (err) => {
-  console.log(`Server listening on port ${port}`);
+app.listen(port, (error) => {
+  /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+  console.warn(error);
+  /*  console.log(`Server listening on port ${port}`); */
   connection.connect((err) => {
     if (err) {
       console.error(`error connecting: ${err.stack}`);

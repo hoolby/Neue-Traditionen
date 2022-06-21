@@ -1,10 +1,9 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
 import Items from "@components/items/ItemsCopyForRegistrationPage";
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
 
 // eslint-disable-next-line
 function Register({ userMail }) {
