@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
-import Card from "react-bootstrap/Card";
+/* import Card from "react-bootstrap/Card"; */
 import Container from "react-bootstrap/Container";
 import Items from "@components/items/ItemsCopyForRegistrationPage";
 

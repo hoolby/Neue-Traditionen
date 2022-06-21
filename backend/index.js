@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const joi = require("joi");
 const connection = require("./db-config");
 
 const app = express();
@@ -36,7 +37,7 @@ app.post("/createProvider", (req, res) => {
     [title, mobile, email, price],
     (err, result) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
         res.status(201).send(result);
       }
@@ -47,7 +48,7 @@ app.post("/createProvider", (req, res) => {
 app.get("/ProviderList", (req, res) => {
   connection.query("SELECT * FROM providers", (err, result) => {
     if (err) {
-      console.log(err);
+      console.error(err);
     } else {
       res.json(result);
     }
@@ -108,10 +109,12 @@ app.get("/blogs/:id", (req, res) => {
 
 app.post("/blogs", (req, res) => {
   const { title, texte } = req.body;
-  const { error } = Joi.object({
-    title: Joi.string().max(255).required(),
-    texte: Joi.string().max(10000).required(),
-  }).validate({ title, texte }, { abortEarly: false });
+  const { error } = joi
+    .object({
+      title: joi.string().max(255).required(),
+      texte: joi.string().max(10000).required(),
+    })
+    .validate({ title, texte }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
@@ -185,7 +188,7 @@ const transporter = nodemailer.createTransport({
 // Verify port
 transporter.verify(function (error, success) {
   if (error) {
-    console.log(error);
+    console.error(error);
   } else {
     console.log("Server is ready to take our messages");
   }
@@ -204,7 +207,7 @@ const mailOptions = {
 // Send the mail
 transporter.sendMail(mailOptions, (error, info) => {
   if (error) {
-    return console.log(error);
+    return console.error(error);
   }
   console.log("Message sent: ", info);
 });
@@ -244,11 +247,10 @@ app.get("/contact", (req, res) => {
   });
 });
 
-app.listen(port, (err) => {
-  console.log(`Server listening on port ${port}`);
+app.listen(port, (error) => {
   connection.connect((err) => {
     if (err) {
       console.error(`error connecting: ${err.stack}`);
-    }
+    } else console.error(error);
   });
 });

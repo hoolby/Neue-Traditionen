@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react";
 import axios from "axios";
 import InvitCard from "@components/invitCard";
