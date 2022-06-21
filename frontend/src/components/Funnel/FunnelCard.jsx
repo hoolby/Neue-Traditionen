@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "./FunnelCard.css";
 
-function FunnelCard({ increaseStep, choice, selection }) {
+function FunnelCard({ choice, selectOption, choiceIndex }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -21,7 +21,12 @@ function FunnelCard({ increaseStep, choice, selection }) {
         <Button
           choice={choice}
           id="selection1"
-          onClick={(e) => increaseStep(choice.title)}
+          onClick={(e) => {
+            console.log(choiceIndex);
+            var obj = {};
+            obj[`${choiceIndex}`] = choice.title;
+            selectOption(obj, choiceIndex);
+          }}
         >
           BootstrapButton
         </Button>

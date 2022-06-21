@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import BlogDetails from "@components/blogs/BlogDetails";
 import Footer from "@components/footer/Footer";
-import FunnelMap from "@components/Funnel/FunnelMap";
+import ControlledCarousel from "@components/FunnelCarousel/Carousel";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
 import Register from "@components/Register";
@@ -27,8 +27,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register userMail={userMail} />} />
-          <Route path="/funnel" element={<FunnelMap />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/carousel" element={<ControlledCarousel />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/blogs/:id" element={<BlogDetails />} />
         </Routes>
