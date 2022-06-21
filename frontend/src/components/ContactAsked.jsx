@@ -1,35 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import InvitCard from "@components/invitCard";
 
-class ContactAsked extends React.Component {
-  constructor(props) {
-    super(props);
+function ContactAsked() {
+  const [invitAsked, setInvitAsked] = useState([]);
 
-    this.state = { contactsAsked: [] };
-  }
-
-  componentDidMount() {
-    fetch("http://localhost:5000/contact",{
-     method: "GET"})
-      .then(response => {
-        response.json();
-      })
-      .then(contactsAsked => {
-        this.setState({ contactsAsked });
-      })
-      .then(err => {
-        console.log(err);
+  const getInvit = (e) => {
+    e.preventDefault();
+    axios
+      .get("http://localhost:5000/contact")
+      .then((res) => res.data)
+      .then((data) => {
+        setInvitAsked(data);
       });
-  }
+    /*       .catch((error) => {
+        console.log(error.res);
+      }); */
+  };
 
-  render() {
-    return (
-      <div>
-          {this.state.contactsAsked.map(contact => (
-            <p>{contact}</p>
-          ))}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {invitAsked.map((invit, id) => (
+        <InvitCard key={id} {...invit} />
+      ))}
+      <button type="submit" onClick={getInvit}>
+        See new talker
+      </button>
+    </div>
+  );
 }
 
 export default ContactAsked;

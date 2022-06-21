@@ -1,33 +1,36 @@
-//require("dotenv").config();
-const connection = require("./db-config");
+// require("dotenv").config();
+
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
+const connection = require("./db-config");
+
 const app = express();
 app.use(express.json());
 
 app.use(cors());
 app.use((req, res, next) => {
   const allowedOrigins = ["localhost"];
-  const origin = req.headers.origin;
+  const { origin } = req.headers;
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
   return next();
 });
-//res.header("Access-Control-Allow-Methods", "GET, POST");
-//res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//res.header("Access-Control-Allow-Credentials", true);
+// res.header("Access-Control-Allow-Methods", "GET, POST");
+// res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+// res.header("Access-Control-Allow-Credentials", true);
 
 dotenv.config();
 
 const port = process.env.PORT || 5000;
 
 app.post("/createProvider", (req, res) => {
-  const title = req.body.title;
-  const mobile = req.body.mobile;
-  const email = req.body.email;
-  const price = req.body.price;
+  const { title } = req.body;
+  const { mobile } = req.body;
+  const { email } = req.body;
+  const { price } = req.body;
   connection.query(
     "INSERT INTO providers (title, mobile, email, price) VALUE (?, ? ,?, ?)",
     [title, mobile, email, price],
@@ -169,8 +172,6 @@ app.delete("/blogs/:id", (req, res) => {
 
 // SEND A MAIL
 
-const nodemailer = require("nodemailer");
-
 // Create sender
 const transporter = nodemailer.createTransport({
   host: "smtp.mailfence.com" /* change the host depending the mail provider */,
@@ -210,41 +211,38 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 // CONTACT INVITATION
 
-app.get("/form", (req, res) => res.render("form")); //Check what it is
+/* app.get("/form", (req, res) => res.render("form")); */
 app.post("/contact", (req, res) => {
-  console.log(req.body);
-  const name = req.body.name;
-  const email = req.body.email;
-  const message = req.body.message;
+  const { name } = req.body;
+  const { email } = req.body;
+  const { message } = req.body;
   connection.query(
-    "INSERT INTO NewTableName (name, email, message) VALUE (?, ?, ?)",
+    "INSERT INTO talker (name, email, message) VALUE (?, ?, ?)",
     [name, email, message],
     (err, result) => {
       if (err) {
-        console.log(err);
+        res.status(500).send("Error sending message");
       } else {
         res.status(201).send(result);
       }
     }
-  )
-  res.status(201).json({"response":"data received"})
+  );
+  res.status(201).json({ response: "data received" });
 });
 
-app.use((req, res) => res.status(404)); // check if needed
-app.use((err, req, res, next) => res.status(500)); // check if needed
+/* app.use((req, res) => res.status(404)); 
+app.use((err, req, res, next) => res.status(500)); */
 
-// CHECK if some asked for invitation 
+// CHECK if some asked for invitation
 app.get("/contact", (req, res) => {
-  connection.query("SELECT * FROM NewTableName", (err, result) => {
+  connection.query("SELECT * FROM talker", (err, result) => {
     if (err) {
-      console.log(err);
+      res.status(500).send("Error getting talkers");
     } else {
       res.json(result);
     }
   });
 });
-
-
 
 app.listen(port, (err) => {
   console.log(`Server listening on port ${port}`);
