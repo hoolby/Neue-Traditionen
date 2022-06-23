@@ -11,6 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
+
 app.use((req, res, next) => {
   const allowedOrigins = ["localhost"];
   const { origin } = req.headers;
@@ -190,7 +191,7 @@ transporter.verify(function (error, success) {
   if (error) {
     console.error(error);
   } else {
-    console.log("Server is ready to take our messages");
+    success("Server is ready to take our messages");
   }
 });
 
@@ -205,11 +206,12 @@ const mailOptions = {
 };
 
 // Send the mail
+// eslint-disable-next-line consistent-return
 transporter.sendMail(mailOptions, (error, info) => {
   if (error) {
     return console.error(error);
   }
-  console.log("Message sent: ", info);
+  console.warn("Message sent: ", info);
 });
 
 // CONTACT INVITATION
@@ -230,7 +232,6 @@ app.post("/contact", (req, res) => {
       }
     }
   );
-  res.status(201).json({ response: "data received" });
 });
 
 /* app.use((req, res) => res.status(404)); 
@@ -245,6 +246,21 @@ app.get("/contact", (req, res) => {
       res.json(result);
     }
   });
+});
+
+app.delete("/contact/:id", (req, res) => {
+  const talkerId = req.params.id;
+  connection.query(
+    "DELETE FROM talker WHERE id = ?",
+    [talkerId],
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error deleting this talker");
+      } else if (result.affectedRows)
+        res.status(200).send("🎉 talker deleted!");
+      else res.status(404).send("talker not found");
+    }
+  );
 });
 
 app.listen(port, (error) => {

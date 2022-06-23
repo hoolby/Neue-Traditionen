@@ -15,17 +15,14 @@ function ContactAsked() {
       .then((data) => {
         setInvitAsked(data);
       });
-    /*       .catch((error) => {
-        console.log(error.res);
-      }); */
   };
 
   return (
     <div>
-      {invitAsked.map((invit, id) => (
-        <InvitCard key={id} {...invit} />
+      {invitAsked.map((invit) => (
+        <InvitCard key={invit.id} {...invit} />
       ))}
-      <button type="submit" onClick={getInvit}>
+      <button type="button" onClick={getInvit}>
         See new talker
       </button>
     </div>
