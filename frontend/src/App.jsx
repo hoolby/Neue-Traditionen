@@ -10,6 +10,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
 import CheckList from "@components/checkList/CheckList";
+import InviteGuests from "@components/inviteGuests/InviteGuests";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/checklist" element={<CheckList />} />
+          <Route path="/guestslist" element={<InviteGuests />} />
           <Route path="/blogs/:id" element={<BlogDetails />} />
         </Routes>
         <Footer />
