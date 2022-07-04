@@ -37,7 +37,7 @@ const transporter = nodemailer.createTransport({
   },
   auth: {
     user: "etienne.duret@outlook.fr" /* ADD YOUR MAIL  */,
-    pass: "QLFleSang" /* ADD YOUR PASSWORD */,
+    pass: "" /* ADD YOUR PASSWORD */,
   },
 });
 transporter.verify(function (error, success) {
