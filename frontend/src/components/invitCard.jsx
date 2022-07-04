@@ -3,7 +3,7 @@ import React from "react";
 function InvitCard({ name, email, message, id }) {
   const handleClick = () => {
     fetch(`http://localhost:5000/contact/${id}`, {
-      method: "DELETE",
+      method: "POST",
     });
   };
   return (

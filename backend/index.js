@@ -27,7 +27,26 @@ app.use((req, res, next) => {
 dotenv.config();
 
 const port = process.env.PORT || 5000;
-
+const transporter = nodemailer.createTransport({
+  host: "smtp-mail.outlook.com" /* change the host depending the mail provider */,
+  port: 587 /* same */,
+  secureConnection: false,
+  tls: {
+    ciphers: "SSLv3",
+    rejectUnauthorized: false,
+  },
+  auth: {
+    user: "etienne.duret@outlook.fr" /* ADD YOUR MAIL  */,
+    pass: "QLFleSang" /* ADD YOUR PASSWORD */,
+  },
+});
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.warn(success, "Server is ready to take our messages");
+  }
+});
 app.post("/createProvider", (req, res) => {
   const { title } = req.body;
   const { mobile } = req.body;
@@ -55,22 +74,6 @@ app.get("/ProviderList", (req, res) => {
     }
   });
 });
-/* 
-app.put("/api/providers/:id", (req, res) => {
-  const providerId = req.params.id;
-  const providerPropsToUpdate = req.body;
-  connection.query(
-    "UPDATE providers SET ? WHERE id = ?",
-    [providerPropsToUpdate, providerId],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-}); */
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -172,51 +175,8 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-// MAIL
-
-// SEND A MAIL
-
-// Create sender
-const transporter = nodemailer.createTransport({
-  host: "smtp.mailfence.com" /* change the host depending the mail provider */,
-  port: 465 /* same */,
-  auth: {
-    user: "etienne.duret@mailfence.com" /* ADD YOUR MAIL  */,
-    pass: "ADD YOUR PASSWAORD HERE",
-  },
-});
-
-// Verify port
-transporter.verify(function (error, success) {
-  if (error) {
-    console.error(error);
-  } else {
-    success("Server is ready to take our messages");
-  }
-});
-
-// Create mail
-
-const mailOptions = {
-  from: "etienne.duret@mailfence.com",
-  to: "asathal.pierre@gmail.com",
-  subject: "Hello Lucie",
-  text: "text",
-  html: "<body><h1>HTML</h1></body>",
-};
-
-// Send the mail
-// eslint-disable-next-line consistent-return
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    return console.error(error);
-  }
-  console.warn("Message sent: ", info);
-});
-
 // CONTACT INVITATION
 
-/* app.get("/form", (req, res) => res.render("form")); */
 app.post("/contact", (req, res) => {
   const { name } = req.body;
   const { email } = req.body;
@@ -234,9 +194,6 @@ app.post("/contact", (req, res) => {
   );
 });
 
-/* app.use((req, res) => res.status(404)); 
-app.use((err, req, res, next) => res.status(500)); */
-
 // CHECK if some asked for invitation
 app.get("/contact", (req, res) => {
   connection.query("SELECT * FROM talker", (err, result) => {
@@ -248,17 +205,47 @@ app.get("/contact", (req, res) => {
   });
 });
 
-app.delete("/contact/:id", (req, res) => {
+app.post("/contact/:id", (req, res) => {
   const talkerId = req.params.id;
+  // fetch user from db using id
   connection.query(
-    "DELETE FROM talker WHERE id = ?",
-    [talkerId],
+    `SELECT * from talker where id = ${talkerId}`,
     (err, result) => {
       if (err) {
-        res.status(500).send("Error deleting this talker");
-      } else if (result.affectedRows)
-        res.status(200).send("🎉 talker deleted!");
-      else res.status(404).send("talker not found");
+        res.status(500).send("Error fetching this talker");
+      } else if (result[0]) {
+        // MAIL
+        const emails = result[0].email;
+        // Create mail
+        const mailOptions = {
+          from: "etienne.duret@outlook.fr",
+          to: emails,
+          subject: "Hello",
+          text: "text",
+          html: "<html><body><h1>SEND FROM VS CODE</h1></body></html>",
+        };
+        // Send the mail
+        // eslint-disable-next-line consistent-return
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.warn("Email error:", error);
+            return res.status(500).send("Error sending email");
+          }
+          // delete user
+          connection.query(
+            "DELETE FROM talker WHERE id = ?",
+            [talkerId],
+            (deleteError, deleteResult) => {
+              if (deleteError) {
+                res.status(500).send("Error deleting this talker");
+              } else if (deleteResult.affectedRows) {
+                res.status(200).send("🎉 talker deleted!");
+              } else res.status(404).send("talker not found");
+            }
+          );
+          console.warn("Message sent: ", info);
+        });
+      } else res.status(404).send("talker not found");
     }
   );
 });
