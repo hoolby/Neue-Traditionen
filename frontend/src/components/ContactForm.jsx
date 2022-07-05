@@ -23,10 +23,11 @@ function ContactForm() {
         setStatus("Submit");
         return reply.json();
       })
-      .then(alert("message sent"))
+      .then(alert("Thank you, message sended"))
       .then(navigate("/"));
   };
-  let navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   return (
     <form onSubmit={handleSubmit}>
