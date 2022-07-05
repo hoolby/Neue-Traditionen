@@ -37,7 +37,7 @@ const transporter = nodemailer.createTransport({
   },
   auth: {
     user: "etienne.duret@outlook.fr" /* ADD YOUR MAIL  */,
-    pass: "" /* ADD YOUR PASSWORD */,
+    pass: process.env.MAILPASS /* ADD YOUR PASSWORD */,
   },
 });
 transporter.verify(function (error, success) {
@@ -221,8 +221,8 @@ app.post("/contact/:id", (req, res) => {
           from: "etienne.duret@outlook.fr",
           to: emails,
           subject: "Hello",
-          text: "text",
-          html: "<html><body><h1>SEND FROM VS CODE</h1></body></html>",
+          text: "Hello from Neue Traditionen",
+          html: "<html><body><h1>Hello from Neue Traditionen</h1></body></html>",
         };
         // Send the mail
         // eslint-disable-next-line consistent-return
