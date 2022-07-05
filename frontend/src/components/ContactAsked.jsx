@@ -7,7 +7,8 @@ import InvitCard from "@components/invitCard";
 function ContactAsked() {
   const [invitAsked, setInvitAsked] = useState([]);
 
-  const getAsker = () => {
+  const getInvit = (e) => {
+    e.preventDefault();
     axios
       .get("http://localhost:5000/contact")
       .then((res) => res.data)
@@ -18,12 +19,12 @@ function ContactAsked() {
 
   return (
     <div>
-      <button type="button" onClick={getAsker}>
-        See new talker
-      </button>
       {invitAsked.map((invit) => (
         <InvitCard key={invit.id} {...invit} />
       ))}
+      <button type="button" onClick={getInvit}>
+        See new talker
+      </button>
     </div>
   );
 }
