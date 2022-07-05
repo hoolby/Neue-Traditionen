@@ -18,11 +18,13 @@ function ContactForm() {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(details),
-    }).then((reply) => {
-      setStatus("Submit");
-      return reply.json();
-    });
-    navigate("/");
+    })
+      .then((reply) => {
+        setStatus("Submit");
+        return reply.json();
+      })
+      .then(alert("message sent"))
+      .then(navigate("/"));
   };
   let navigate = useNavigate();
 
