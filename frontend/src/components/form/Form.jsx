@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ const schema = Joi.object({
   mobile: Joi.string().trim().required().messages({
     "string.base": `"" mobile should be a type of 'number'`,
     "string.empty": `"" mobile cannot be an empty field`,
-    //"string.base.patern": `"" 10 digital numbers`,
+    // "string.base.patern": `"" 10 digital numbers`,
     "any.required": `"" mobile is requireed`,
   }),
   /* .trim() */
@@ -52,9 +52,9 @@ function Form({ editProvider, providerList }) {
       setValue("email", editProvider.email);
       setValue("price", editProvider.price);
     }
-  }, [editProvider]);
+  }, [editProvider]); //eslint-disable-line
   const onSubmit = (data, e) => {
-    console.log("data:", data);
+    /* console.log("data:", data); */
     const requestData = editProvider.id ? axios.put : axios.post;
     requestData("http://localhost:5000/provider", {
       title: data.title,
@@ -66,11 +66,11 @@ function Form({ editProvider, providerList }) {
       .then(() => {
         providerList();
         e.target.reset();
-        editProvider.id = null;
+        editProvider.id = null; //eslint-disable-line
       })
       .catch((err) => {
         if (err) {
-          alert(err.response.data.message);
+          alert(err.response.data.message); //eslint-disable-line
         }
       });
   };
@@ -81,7 +81,7 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">Title</label>
           <input
-            {...register("title")}
+            {...register("title")} // eslint-disable-line
             className="form-control"
             id="validationCustom01"
             placeholder="Name Provider"
@@ -91,7 +91,7 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom02">Mobile</label>
           <input
-            {...register("mobile")}
+            {...register("mobile")} // eslint-disable-line
             className="form-control"
             id="validationCustom02"
             placeholder="Phone Number"
@@ -104,7 +104,7 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom03">Email</label>
           <input
-            {...register("email")}
+            {...register("email")} // eslint-disable-line
             className="form-control"
             id="inputEmail3"
             placeholder="Email"
@@ -114,7 +114,7 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom04">Price</label>
           <input
-            {...register("price")}
+            {...register("price")} // eslint-disable-line
             className="form-control"
             id="inputPrice4"
             placeholder="Price"

@@ -10,8 +10,8 @@ function Providers() {
   const [editProvider, setEditProvider] = useState({});
   useEffect(() => {
     providerList();
-    console.log(providers);
-  }, []);
+    /* console.log(providers); */
+  }, []); // eslint-disable-line
   const providerList = () => {
     axios.get("http://localhost:5000/provider").then((respons) => {
       setProviders(respons.data);
@@ -23,9 +23,9 @@ function Providers() {
   };
 
   const deleteProvider = (id) => {
-    console.log(id);
+    /* console.log(id); */
     axios.delete(`http://localhost:5000/provider/${id}`).then((respons) => {
-      console.log(respons);
+      /* console.log(respons); */
       providerList();
     });
   };

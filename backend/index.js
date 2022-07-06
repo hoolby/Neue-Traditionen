@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 dotenv.config();
 process.on("unhandledRejection", (error) => {
-  console.error("unhandledRejection", error);
+  console.error("unhandledRejection", error); //eslint-disable-line
 });
 
 const port = process.env.PORT || 5000;
@@ -33,7 +33,7 @@ const port = process.env.PORT || 5000;
 
 app.post("/provider", (req, res) => {
   const { title, mobile, email, price } = req.body;
-  //let validationErrors = null;
+  // let validationErrors = null;
   db.query("SELECT * FROM providers WHERE email = ?", [email])
     .then(([result]) => {
       if (result[0])
@@ -41,7 +41,7 @@ app.post("/provider", (req, res) => {
           type: "DUPLICATE EMAIL",
           message: "the email is already exist in the data base",
         });
-      //res.status(409).json({ message: "This email is already used" });
+      // res.status(409).json({ message: "This email is already used" });
       /*    validationErrors = Joi.object({
         title: Joi.string()
           .min(3)
@@ -76,7 +76,7 @@ app.post("/provider", (req, res) => {
         });
     })
     .catch((err) => {
-      console.error("reject", err);
+      console.error("reject", err); //eslint-disable-line
       if (err.type === "DUPLICATE EMAIL")
         res.status(409).json({ message: err.message });
       /* else if (err.type === "INVALID_DATA")
@@ -88,7 +88,7 @@ app.post("/provider", (req, res) => {
 app.get("/provider", (req, res) => {
   connection.query("SELECT * FROM providers", (err, result) => {
     if (err) {
-      console.error(err);
+      console.error(err); //eslint-disable-line
       res.status(500).send("Error retrieving users from database");
     } else {
       res.json(result);
@@ -104,11 +104,11 @@ app.put("/provider", (req, res) => {
   // let validationErrors = null;
   db.query("SELECT * FROM providers WHERE id = ?", [providerId]).then(
     ([result]) => {
-      console.log("req.body is ", { ...req.body });
+      console.log("req.body is ", { ...req.body }); //eslint-disable-line
 
-      existProvider = result[0];
-      console.log("existProvider is ", { ...existProvider });
-      if (!existProvider) return Promise.reject("THIS PROVIDER DOES NOT EXIST");
+      existProvider = result[0]; //eslint-disable-line
+      console.log("existProvider is ", { ...existProvider }); //eslint-disable-line
+      if (!existProvider) return Promise.reject("THIS PROVIDER DOES NOT EXIST"); //eslint-disable-line
       /*  validationErrors = Joi.object({
         title: Joi.string().min(3).max(255),
         mobile: Joi.number(),
@@ -123,14 +123,14 @@ app.put("/provider", (req, res) => {
           providerId,
         ])
         .then(() => {
-          //console.log(result);
-          console.log({ ...existProvider, ...req.body });
+          // console.log(result);
+          console.log({ ...existProvider, ...req.body }); //eslint-disable-line
           res.status(200).json({ ...existProvider, ...req.body });
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err); //eslint-disable-line
           if (err === "THIS PROVIDER DOES NOT EXIST")
-            res.status(404).send(`User with id ${userId} not found.`);
+            res.status(404).send(`User with id ${providerId} not found.`);
           /*  else if (err === "INVALID_DATA") res.status(422).send("INVALID_DATA"); */ else
             res.status(500).send("Error saving the provider");
         });
@@ -140,13 +140,13 @@ app.put("/provider", (req, res) => {
 
 app.delete("/provider/:id", (req, res) => {
   const providerId = req.params.id;
-  console.log(providerId);
+  console.log(providerId); //eslint-disable-line
   connection.query(
     "DELETE FROM providers WHERE id = ?",
     [providerId],
-    (err, result) => {
+    (err) => {
       if (err) {
-        console.log(err);
+        console.log(err); //eslint-disable-line
         res.status(500).send("Error deleting an user");
       } else {
         res.status(204).send("Provider deleted !");
@@ -215,7 +215,6 @@ app.post("/blogs", (req, res) => {
 
 app.put("/blogs/:id", (req, res) => {
   const blogsId = req.params.id;
-  const db = connection.promise();
   let existingBlog = null;
   db.query("SELECT * FROM blogs WHERE id = ?", [blogsId])
     .then(([results]) => {
@@ -229,7 +228,7 @@ app.put("/blogs/:id", (req, res) => {
       res.status(200).json({ ...existingBlog, ...req.body });
     })
     .catch((err) => {
-      console.error(err);
+      console.error(err); //eslint-disable-line
       if (err === "RECORD_NOT_FOUND")
         res.status(404).send(`blog with id ${blogsId} not found.`);
       else res.status(500).send("Error updating a blog.");
@@ -265,11 +264,12 @@ const transporter = nodemailer.createTransport({
 });
 
 // Verify port
+// eslint-disable-next-line
 transporter.verify(function (error, success) {
   if (error) {
-    console.error(error);
+    console.error(error); //eslint-disable-line
   } else {
-    console.log("Server is ready to take our messages");
+    console.log("Server is ready to take our messages"); //eslint-disable-line
   }
 });
 
@@ -286,9 +286,9 @@ const mailOptions = {
 // Send the mail
 transporter.sendMail(mailOptions, (error, info) => {
   if (error) {
-    return console.error(error);
+    return console.error(error); //eslint-disable-line
   }
-  console.log("Message sent: ", info);
+  return console.log("Message sent: ", info); //eslint-disable-line
 });
 
 // CONTACT INVITATION
@@ -329,7 +329,7 @@ app.get("/contact", (req, res) => {
 app.listen(port, (error) => {
   connection.connect((err) => {
     if (err) {
-      console.error(`error connecting: ${err.stack}`);
-    } else console.error(error);
+      console.error(`error connecting: ${err.stack}`); //eslint-disable-line
+    } else console.error(error); //eslint-disable-line
   });
 });
