@@ -1,12 +1,13 @@
-//require("dotenv").config();
-const connection = require("./db-config");
+// require("dotenv").config();
+
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
-const Joi = require("joi");
-const { promise } = require("./db-config");
-const { object } = require("joi");
-const { response } = require("express");
+
+const nodemailer = require("nodemailer");
+const joi = require("joi");
+const connection = require("./db-config");
+
 const app = express();
 app.use(express.json());
 const db = connection.promise();
@@ -463,10 +464,12 @@ app.get("/blogs/:id", (req, res) => {
 
 app.post("/blogs", (req, res) => {
   const { title, texte } = req.body;
-  const { error } = Joi.object({
-    title: Joi.string().max(255).required(),
-    texte: Joi.string().max(10000).required(),
-  }).validate({ title, texte }, { abortEarly: false });
+  const { error } = joi
+    .object({
+      title: joi.string().max(255).required(),
+      texte: joi.string().max(10000).required(),
+    })
+    .validate({ title, texte }, { abortEarly: false });
   if (error) {
     res.status(422).json({ validationErrors: error.details });
   } else {
@@ -523,11 +526,86 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-app.listen(port, (err) => {
-  console.log(`Server listening on port ${port}`);
+// MAIL
+
+// SEND A MAIL
+
+// Create sender
+const transporter = nodemailer.createTransport({
+  host: "smtp.mailfence.com" /* change the host depending the mail provider */,
+  port: 465 /* same */,
+  auth: {
+    user: "etienne.duret@mailfence.com" /* ADD YOUR MAIL  */,
+    pass: "ADD YOUR PASSWAORD HERE",
+  },
+});
+
+// Verify port
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("Server is ready to take our messages");
+  }
+});
+
+// Create mail
+
+const mailOptions = {
+  from: "etienne.duret@mailfence.com",
+  to: "asathal.pierre@gmail.com",
+  subject: "Hello Lucie",
+  text: "text",
+  html: "<body><h1>HTML</h1></body>",
+};
+
+// Send the mail
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    return console.error(error);
+  }
+  console.log("Message sent: ", info);
+});
+
+// CONTACT INVITATION
+
+/* app.get("/form", (req, res) => res.render("form")); */
+app.post("/contact", (req, res) => {
+  const { name } = req.body;
+  const { email } = req.body;
+  const { message } = req.body;
+  connection.query(
+    "INSERT INTO talker (name, email, message) VALUE (?, ?, ?)",
+    [name, email, message],
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error sending message");
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+  res.status(201).json({ response: "data received" });
+});
+
+/* app.use((req, res) => res.status(404)); 
+app.use((err, req, res, next) => res.status(500)); */
+
+// CHECK if some asked for invitation
+app.get("/contact", (req, res) => {
+  connection.query("SELECT * FROM talker", (err, result) => {
+    if (err) {
+      res.status(500).send("Error getting talkers");
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+app.listen(port, (error) => {
   connection.connect((err) => {
     if (err) {
       console.error(`error connecting: ${err.stack}`);
-    }
+    } else console.error(error);
   });
 });
