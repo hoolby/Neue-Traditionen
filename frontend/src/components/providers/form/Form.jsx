@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
+
+import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
 const schema = Joi.object({
@@ -33,7 +35,7 @@ const schema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required("email is required"),
-  price: Joi.number().precision(2).required("price is required"),
+  price: Joi.number().integer().precision(2).required("price is required"),
 });
 
 function Form({ editProvider, providerList }) {
@@ -44,7 +46,11 @@ function Form({ editProvider, providerList }) {
     formState: { errors },
   } = useForm({
     resolver: joiResolver(schema),
+    mode: "onBlur",
   });
+  const [show, setShow] = useState(false);
+  const [handelError, setHandelError] = useState("");
+  const [varient, setVarient] = useState("");
   useEffect(() => {
     if (editProvider.id) {
       setValue("title", editProvider.title);
@@ -63,7 +69,7 @@ function Form({ editProvider, providerList }) {
       price: data.price,
       id: editProvider.id,
     })
-      .then(() => {
+      .then((respons) => {
         providerList();
         e.target.reset();
         editProvider.id = null; //eslint-disable-line
@@ -72,11 +78,26 @@ function Form({ editProvider, providerList }) {
         if (err) {
           alert(err.response.data.message); //eslint-disable-line
         }
+
+        // alert(err.response.data.message);
       });
   };
 
   return (
     <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+      {show && (
+        <Alert
+          className="alert-link"
+          variant={varient}
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          <Alert.Heading>{handelError}</Alert.Heading>
+        </Alert>
+      )}
+      <div className="form-row form-title">
+        <h4>Add providers</h4>
+      </div>
       <div className="form-row">
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">Title</label>
@@ -86,7 +107,9 @@ function Form({ editProvider, providerList }) {
             id="validationCustom01"
             placeholder="Name Provider"
           />
-          <p>{errors.title?.message}</p>
+          {errors.title && (
+            <p className="error-message">{errors.title.message}</p>
+          )}
         </div>
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom02">Mobile</label>
@@ -96,7 +119,9 @@ function Form({ editProvider, providerList }) {
             id="validationCustom02"
             placeholder="Phone Number"
           />
-          <p>{errors.mobile?.message}</p>
+          {errors.mobile && (
+            <p className="error-message">{errors.mobile.message}</p>
+          )}
         </div>
       </div>
 
@@ -109,7 +134,9 @@ function Form({ editProvider, providerList }) {
             id="inputEmail3"
             placeholder="Email"
           />
-          <p>{errors.email?.message}</p>
+          {errors.email && (
+            <p className="error-message">{errors.email.message}</p>
+          )}
         </div>
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom04">Price</label>
@@ -119,13 +146,16 @@ function Form({ editProvider, providerList }) {
             id="inputPrice4"
             placeholder="Price"
           />
-          <p>{errors.price?.message}</p>
+          {errors.price && (
+            <p className="error-message">{errors.price.message}</p>
+          )}
         </div>
       </div>
 
       <button type="submit" className="btn btn-primary">
         {editProvider.id ? "Edite Provider" : "Create Provider"}
       </button>
+      <div className="form-row form-bottom" />
     </form>
   );
 }

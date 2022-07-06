@@ -15,7 +15,7 @@ function Items() {
       text: "Download a list of possible costs as a guide",
     },
     {
-      link: "/",
+      link: "/checklist",
       icon: "fa-solid fa-list-check",
       text: "Check off the checklist with your to-dos & save everything online",
     },

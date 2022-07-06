@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Form from "@components/form/Form";
+import Form from "@components/providers/form/Form";
+import Alert from "react-bootstrap/Alert";
 import ProvidersList from "./ProvidersList";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./Providers.css";
 
 function Providers() {
   const [providers, setProviders] = useState([]);
   const [editProvider, setEditProvider] = useState({});
+  const [show, setShow] = useState(false);
+  const [handelError, setHandelError] = useState("");
+  const [varient, setVarient] = useState("");
   useEffect(() => {
     providerList();
     /* console.log(providers); */
@@ -27,11 +32,24 @@ function Providers() {
     axios.delete(`http://localhost:5000/provider/${id}`).then((respons) => {
       /* console.log(respons); */
       providerList();
+      setHandelError("A provider deleted!");
+      setShow(true);
+      setVarient("warning");
     });
   };
 
   return (
     <section className="table-container">
+      {show && (
+        <Alert
+          className="alert-link"
+          variant={varient}
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          <Alert.Heading>{handelError}</Alert.Heading>
+        </Alert>
+      )}
       <Form editProvider={editProvider} providerList={providerList} />
 
       <table className="table table-striped table-bordered table-responsive-lg">
