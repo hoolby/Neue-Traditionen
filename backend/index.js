@@ -520,9 +520,8 @@ const mailOptions = {
 transporter.sendMail(mailOptions, (error) => {
   if (error) {
     return console.error(error);
-  } else {
-    return "text";
   }
+  return "text";
 });
 
 // CONTACT INVITATION
