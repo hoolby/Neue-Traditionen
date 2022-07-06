@@ -1,111 +1,130 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "joi";
 import "./Form.css";
 
-function Form({ onAdd, onEdite }) {
-  /*   const options = [
-    { value: "flowers", label: "Flowers" },
-    { value: "gravestone", label: "Gravestone" },
-    { value: "musician", label: "Musician" },
-    { value: "spiker", label: "Spiker" },
-    {
-      value: "special urn or coffin of choice",
-      label: "Special urn or coffin of choice",
-    },
-    {
-      value: "commemorative notice in the local newspaper",
-      label: "Commemorative notice in the local newspaper",
-    },
-  ]; */
+const schema = Joi.object({
+  title: Joi.string()
+    .min(3)
+    .max(255)
+    .case("lower")
+    .required("title is required")
+    .messages({
+      "string.base": `title should be a type of 'text'`,
+      "string.min": `title should have at least 3 characters`,
+      "string.max": `title should have less than 255 characters`,
+      "string.empty": "title can't be empty",
+      "string.required": `title is a required field`,
+    }),
+  mobile: Joi.string().trim().required().messages({
+    "string.base": `"" mobile should be a type of 'number'`,
+    "string.empty": `"" mobile cannot be an empty field`,
+    //"string.base.patern": `"" 10 digital numbers`,
+    "any.required": `"" mobile is requireed`,
+  }),
+  /* .trim() */
+  /* .regex(/^[6-9]\d{9}$/) */
 
-  const [title, setTitle] = useState(onEdite.title ? onEdite.title : "");
-  const [mobile, setMobile] = useState(onEdite ? onEdite.mobile : "");
-  const [email, setEmail] = useState(onEdite ? onEdite.email : "");
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required("email is required"),
+  price: Joi.number().precision(2).required("price is required"),
+});
 
-  // const [providerData, setProviderData] = useState([]);
-  const handelSubmit = (e) => {
-    e.preventDefault();
-    onAdd({
-      id: Math.floor(Math.random() * 10000),
-      title,
-      mobile,
-      email,
-    });
-    setTitle("");
-    setMobile("");
-    setEmail("");
+function Form({ editProvider, providerList }) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: joiResolver(schema),
+  });
+  useEffect(() => {
+    if (editProvider.id) {
+      setValue("title", editProvider.title);
+      setValue("mobile", editProvider.mobile);
+      setValue("email", editProvider.email);
+      setValue("price", editProvider.price);
+    }
+  }, [editProvider]);
+  const onSubmit = (data, e) => {
+    console.log("data:", data);
+    const requestData = editProvider.id ? axios.put : axios.post;
+    requestData("http://localhost:5000/provider", {
+      title: data.title,
+      mobile: data.mobile,
+      email: data.email,
+      price: data.price,
+      id: editProvider.id,
+    })
+      .then(() => {
+        providerList();
+        e.target.reset();
+        editProvider.id = null;
+      })
+      .catch((err) => {
+        if (err) {
+          alert(err.response.data.message);
+        }
+      });
   };
 
-  /* const animatedComponents = makeAnimated(); */
   return (
-    <form className="form-container" onSubmit={handelSubmit}>
+    <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-row">
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">Title</label>
           <input
-            type="text"
-            value={onEdite ? onEdite.title : title}
-            name={title}
+            {...register("title")}
             className="form-control"
             id="validationCustom01"
             placeholder="Name Provider"
-            onChange={(e) => setTitle(e.target.value)}
-            required
           />
-          <div className="valid-feedback">Please choose a title.</div>
+          <p>{errors.title?.message}</p>
         </div>
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom02">Mobile</label>
           <input
-            type="number"
+            {...register("mobile")}
             className="form-control"
             id="validationCustom02"
-            value={onEdite ? onEdite.mobile : mobile}
-            name={mobile}
-            placeholder="Phone"
-            onChange={(e) => setMobile(e.target.value)}
-            required
+            placeholder="Phone Number"
           />
-          <div className="valid-feedback">Please choose a mobile.</div>
-        </div>
-        <div className="col-md-3 mb-3">
-          <label htmlFor="validationCustom03">Email</label>
-          <input
-            type="email"
-            value={onEdite ? onEdite.email : email}
-            name={email}
-            className="form-control"
-            onChange={(e) => setEmail(e.target.value)}
-            id="inputEmail4"
-            placeholder="Email"
-            required
-          />
-          <div className="valid-feedback">Please enter your Email.</div>
+          <p>{errors.mobile?.message}</p>
         </div>
       </div>
 
-      {/* <div className="form-row">
-        <div className="col-md-8 mb-3">
-          <label>Services</label>
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponents}
-            isMulti
-            value={onEdite ? onEdite.services : services}
-            options={options}
-            onChange={(options) => setServices(options)}
+      <div className="form-row">
+        <div className="col-md-4 mb-3">
+          <label htmlFor="validationCustom03">Email</label>
+          <input
+            {...register("email")}
+            className="form-control"
+            id="inputEmail3"
+            placeholder="Email"
           />
+          <p>{errors.email?.message}</p>
         </div>
-      </div> */}
-
-      {/* <button type="submit" class="btn btn-primary">
-        Edit Provider
-      </button> */}
+        <div className="col-md-4 mb-3">
+          <label htmlFor="validationCustom04">Price</label>
+          <input
+            {...register("price")}
+            className="form-control"
+            id="inputPrice4"
+            placeholder="Price"
+          />
+          <p>{errors.price?.message}</p>
+        </div>
+      </div>
 
       <button type="submit" className="btn btn-primary">
-        Create Provider
+        {editProvider.id ? "Edite Provider" : "Create Provider"}
       </button>
     </form>
   );
