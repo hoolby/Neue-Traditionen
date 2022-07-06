@@ -6,6 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
 const schema = Joi.object({
@@ -22,10 +25,10 @@ const schema = Joi.object({
       "string.required": `title is a required field`,
     }),
   mobile: Joi.string().trim().required().messages({
-    "string.base": `"" mobile should be a type of 'number'`,
-    "string.empty": `"" mobile cannot be an empty field`,
+    "string.base": ` mobile should be a type of 'number'`,
+    "string.empty": ` mobile cannot be an empty field`,
     //"string.base.patern": `"" 10 digital numbers`,
-    "any.required": `"" mobile is requireed`,
+    "any.required": ` mobile is requireed`,
   }),
   /* .trim() */
   /* .regex(/^[6-9]\d{9}$/) */
@@ -33,10 +36,11 @@ const schema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required("email is required"),
-  price: Joi.number().precision(2).required("price is required"),
+  price: Joi.number().integer().precision(2).required("price is required"),
 });
 
 function Form({ editProvider, providerList }) {
+  console.log(editProvider);
   const {
     register,
     handleSubmit,
@@ -44,7 +48,11 @@ function Form({ editProvider, providerList }) {
     formState: { errors },
   } = useForm({
     resolver: joiResolver(schema),
+    mode: "onBlur",
   });
+  const [show, setShow] = useState(false);
+  const [handelError, setHandelError] = useState("");
+  const [varient, setVarient] = useState("");
   useEffect(() => {
     if (editProvider.id) {
       setValue("title", editProvider.title);
@@ -63,40 +71,69 @@ function Form({ editProvider, providerList }) {
       price: data.price,
       id: editProvider.id,
     })
-      .then(() => {
+      .then((respons) => {
+        console.log(respons);
         providerList();
         e.target.reset();
+        setHandelError("It was successfull");
+        setShow(true);
+        setVarient("success");
+        setValue("title", "");
+        setValue("mobile", "");
+        setValue("email", "");
+        setValue("price", "");
         editProvider.id = null;
       })
       .catch((err) => {
         if (err) {
-          alert(err.response.data.message);
+          setHandelError(err.response.data.message);
+          setShow(true);
+          setVarient("danger");
         }
+
+        //alert(err.response.data.message);
       });
   };
 
   return (
     <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+      {show && (
+        <Alert
+          className="alert-link"
+          variant={varient}
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          <Alert.Heading>{handelError}</Alert.Heading>
+        </Alert>
+      )}
+      <div className="form-row form-title">
+        <h4>Add providers</h4>
+      </div>
       <div className="form-row">
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">Title</label>
           <input
-            {...register("title")}
-            className="form-control"
+            {...register("title", { onBlur: (e) => console.log(e) })}
+            className={`form-control ${errors.title && "error-input"}`}
             id="validationCustom01"
             placeholder="Name Provider"
           />
-          <p>{errors.title?.message}</p>
+          {errors.title && (
+            <p className="error-message">{errors.title.message}</p>
+          )}
         </div>
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom02">Mobile</label>
           <input
             {...register("mobile")}
-            className="form-control"
+            className={`form-control ${errors.mobile && "error-input"}`}
             id="validationCustom02"
             placeholder="Phone Number"
           />
-          <p>{errors.mobile?.message}</p>
+          {errors.mobile && (
+            <p className="error-message">{errors.mobile.message}</p>
+          )}
         </div>
       </div>
 
@@ -105,27 +142,32 @@ function Form({ editProvider, providerList }) {
           <label htmlFor="validationCustom03">Email</label>
           <input
             {...register("email")}
-            className="form-control"
+            className={`form-control ${errors.email && "error-input"}`}
             id="inputEmail3"
             placeholder="Email"
           />
-          <p>{errors.email?.message}</p>
+          {errors.email && (
+            <p className="error-message">{errors.email.message}</p>
+          )}
         </div>
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom04">Price</label>
           <input
-            {...register("price")}
-            className="form-control"
+            {...register("price", { valueAsNumber: true })}
+            className={`form-control ${errors.price && "error-input"}`}
             id="inputPrice4"
             placeholder="Price"
           />
-          <p>{errors.price?.message}</p>
+          {errors.price && (
+            <p className="error-message">{errors.price.message}</p>
+          )}
         </div>
       </div>
 
       <button type="submit" className="btn btn-primary">
         {editProvider.id ? "Edite Provider" : "Create Provider"}
       </button>
+      <div className="form-row form-bottom"></div>
     </form>
   );
 }

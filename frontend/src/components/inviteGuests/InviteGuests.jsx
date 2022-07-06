@@ -1,32 +1,33 @@
 import React, { useEffect, useState } from "react";
-import Form from "@components/checkList/form/Form";
-import CheckListItem from "@components/checkList/CheckListItem";
+import Form from "@components/inviteGuests/form/Form";
+import GuestsList from "@components/inviteGuests/GuestsList";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
-import "./CheckList.css";
+import "./InviteGuests.css";
 
-function CheckList() {
-  const [checklistList, setChecklistList] = useState([]);
-  const [newItemchecklist, setNewItemchecklist] = useState({});
+function InviteGuests() {
+  const [listOfGuest, setListOfGuest] = useState([]);
+  const [newGuest, setNewGuest] = useState({});
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
 
   useEffect(() => {
-    checklistItems();
+    guestItems();
   }, []);
-  const checklistItems = () => {
-    axios.get("http://localhost:5000/checklist").then((respons) => {
-      setChecklistList(respons.data);
+  const guestItems = () => {
+    axios.get("http://localhost:5000/guests").then((respons) => {
+      console.log(respons.data);
+      setListOfGuest(respons.data);
     });
   };
-  const updateChecklist = (list) => {
-    setNewItemchecklist(list);
+  const updateGuest = (list) => {
+    setNewGuest(list);
   };
-  const deleteChecklist = (id) => {
-    axios.delete(`http://localhost:5000/checklist/${id}`).then(() => {
-      checklistItems();
+  const deleteGuest = (id) => {
+    axios.delete(`http://localhost:5000/guests/${id}`).then(() => {
+      guestItems();
       setHandelError("An item deleted!");
       setShow(true);
       setVarient("warning");
@@ -44,26 +45,24 @@ function CheckList() {
           <Alert.Heading>{handelError}</Alert.Heading>
         </Alert>
       )}
-      <Form
-        checklistItems={checklistItems}
-        newItemchecklist={newItemchecklist}
-      />
+      <Form guestItems={guestItems} newGuest={newGuest} />
       <table className="table table-striped table-bordered table-responsive-lg">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Done</th>
-            <th scope="col">Title</th>
-            <th scope="col">Responsible</th>
+            <th scope="col">Invited</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Number</th>
           </tr>
         </thead>
         <tbody>
-          {checklistList.map((list) => (
-            <CheckListItem
+          {listOfGuest.map((list) => (
+            <GuestsList
               key={list.id}
               list={list}
-              updateChecklist={updateChecklist}
-              deleteChecklist={deleteChecklist}
+              updateGuest={updateGuest}
+              deleteGuest={deleteGuest}
             />
           ))}
         </tbody>
@@ -72,4 +71,4 @@ function CheckList() {
   );
 }
 
-export default CheckList;
+export default InviteGuests;
