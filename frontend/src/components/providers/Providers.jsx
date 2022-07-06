@@ -1,82 +1,56 @@
-/* eslint-disable no-restricted-syntax */
-import React, { useState } from "react";
-import Form from "@components/form/Form";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Form from "@components/providers/form/Form";
+import Alert from "react-bootstrap/Alert";
 import ProvidersList from "./ProvidersList";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./Providers.css";
 
 function Providers() {
-  const [providers, setProviders] = useState([
-    {
-      id: 1,
-      title: "number 1",
-      mobile: "4364",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 2,
-      title: "number 2",
-      mobile: "45643",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 3,
-      title: "number 3",
-      mobile: "798",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 4,
-      title: "number 4",
-      mobile: "131432",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 5,
-      title: "number 5",
-      mobile: "",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 6,
-      title: "number 6",
-      mobile: "433144",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 7,
-      title: "number 7",
-      mobile: "4657",
-      email: "a@a.gmail.com",
-    },
-    {
-      id: 8,
-      title: "number 8",
-      mobile: "789",
-      email: "a@a.gmail.com",
-    },
-  ]);
-  const [updateItem, setUpdateItem] = useState({});
-  const addTodo = (todo) => {
-    const newTodo = [todo, ...providers];
-    setProviders(newTodo);
-    console.log(todo, ...providers);
+  const [providers, setProviders] = useState([]);
+  const [editProvider, setEditProvider] = useState({});
+  const [show, setShow] = useState(false);
+  const [handelError, setHandelError] = useState("");
+  const [varient, setVarient] = useState("");
+  useEffect(() => {
+    providerList();
+    /* console.log(providers); */
+  }, []); // eslint-disable-line
+  const providerList = () => {
+    axios.get("http://localhost:5000/provider").then((respons) => {
+      setProviders(respons.data);
+    });
   };
 
-  const updateTodo = (id) => {
-    setUpdateItem(providers.find((item) => item.id === id));
-    return updateItem;
+  const updateProvider = (provider) => {
+    setEditProvider(provider);
   };
 
-  const deleteTodo = (id) => {
-    console.log(id);
-    const newList = providers.filter((item) => item.id !== id);
-    setProviders(newList);
+  const deleteProvider = (id) => {
+    /* console.log(id); */
+    axios.delete(`http://localhost:5000/provider/${id}`).then((respons) => {
+      /* console.log(respons); */
+      providerList();
+      setHandelError("A provider deleted!");
+      setShow(true);
+      setVarient("warning");
+    });
   };
 
   return (
     <section className="table-container">
-      <Form onEdite={updateItem} onAdd={addTodo} />
+      {show && (
+        <Alert
+          className="alert-link"
+          variant={varient}
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          <Alert.Heading>{handelError}</Alert.Heading>
+        </Alert>
+      )}
+      <Form editProvider={editProvider} providerList={providerList} />
 
       <table className="table table-striped table-bordered table-responsive-lg">
         <thead>
@@ -85,6 +59,7 @@ function Providers() {
             <th scope="col">Title</th>
             <th scope="col">Mobile</th>
             <th scope="col">Email</th>
+            <th scope="col">Price</th>
           </tr>
         </thead>
         <tbody>
@@ -92,8 +67,8 @@ function Providers() {
             <ProvidersList
               key={provider.id}
               provider={provider}
-              onUpdate={updateTodo}
-              onDelete={deleteTodo}
+              updateProvider={updateProvider}
+              deleteProvider={deleteProvider}
             />
           ))}
         </tbody>
