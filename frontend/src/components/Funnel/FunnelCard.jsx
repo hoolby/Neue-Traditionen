@@ -8,9 +8,9 @@ function FunnelCard(props) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  function toggleInfo() {
+  /* function toggleInfo() {
     document.getElementById("card-button").toggle("card-opened");
-  }
+  } */
   return (
     <>
       <div className="card-container">

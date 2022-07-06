@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
@@ -39,14 +39,13 @@ const schema = Joi.object({
   number: Joi.string().trim().required().messages({
     "string.base": ` number should be a type of 'number'`,
     "string.empty": ` number cannot be an empty field`,
-    //"string.base.patern": `"" 10 digital numbers`,
+    // "string.base.patern": `"" 10 digital numbers`,
     "any.required": ` number is requireed`,
   }),
   checked: Joi.boolean(),
 });
 
 function Form({ newGuest, guestItems }) {
-  console.log(newGuest);
   const {
     register,
     handleSubmit,
@@ -56,7 +55,7 @@ function Form({ newGuest, guestItems }) {
     resolver: joiResolver(schema),
     mode: "onBlur",
   });
-  let valueOfChecked = newGuest.checked ? true : false;
+  const valueOfChecked = !!newGuest.checked;
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
@@ -69,8 +68,7 @@ function Form({ newGuest, guestItems }) {
     }
   }, [newGuest]);
   const onSubmit = (data, e) => {
-    console.log("data:", data);
-    let changeschecked = data.checked ? 1 : 0;
+    const changeschecked = data.checked ? 1 : 0;
     const requestData = newGuest.id ? axios.put : axios.post;
     requestData("http://localhost:5000/guests", {
       firstname: data.firstname,
@@ -79,8 +77,7 @@ function Form({ newGuest, guestItems }) {
       checked: changeschecked,
       id: newGuest.id,
     })
-      .then((respons) => {
-        console.log(respons);
+      .then(() => {
         guestItems();
         e.target.reset();
         setHandelError("It was successfull");
@@ -90,7 +87,7 @@ function Form({ newGuest, guestItems }) {
         setValue("lastname", "");
         setValue("number", "");
         setValue("checked", "");
-        newGuest.id = null;
+        newGuest.id = null; //eslint-disable-line
       })
       .catch((err) => {
         if (err) {
@@ -99,7 +96,7 @@ function Form({ newGuest, guestItems }) {
           setVarient("danger");
         }
 
-        //alert(err.response.data.message);
+        // alert(err.response.data.message);
       });
   };
 
@@ -122,7 +119,7 @@ function Form({ newGuest, guestItems }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">First Name</label>
           <input
-            {...register("firstname")}
+            {...register("firstname")} //eslint-disable-line
             className={`form-control ${errors.firstname && "error-input"}`}
             id="validationCustom01"
             placeholder="First Name"
@@ -134,7 +131,7 @@ function Form({ newGuest, guestItems }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom02">Last Name</label>
           <input
-            {...register("lastname")}
+            {...register("lastname")} //eslint-disable-line
             className={`form-control ${errors.lastname && "error-input"}`}
             id="validationCustom02"
             placeholder="Last Name"
@@ -149,7 +146,7 @@ function Form({ newGuest, guestItems }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom03">Number</label>
           <input
-            {...register("number")}
+            {...register("number")} //eslint-disable-line
             className={`form-control ${errors.number && "error-input"}`}
             id="validationCustom03"
             placeholder="Phone Number"
@@ -160,8 +157,8 @@ function Form({ newGuest, guestItems }) {
         </div>
         <div className="col-md-4 mb-3">
           <input
-            class="form-check-input gust-form-checkbox"
-            {...register("checked")}
+            className="form-check-input gust-form-checkbox"
+            {...register("checked")} //eslint-disable-line
             type="checkbox"
             id="flexCheckDefault"
           />
@@ -179,7 +176,7 @@ function Form({ newGuest, guestItems }) {
           Back to checklist page
         </button>
       </Link>
-      <div className="form-row form-bottom"></div>
+      <div className="form-row form-bottom" />
     </form>
   );
 }

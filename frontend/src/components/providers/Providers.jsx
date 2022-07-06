@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Form from "@components/providers/form/Form";
+import Alert from "react-bootstrap/Alert";
 import ProvidersList from "./ProvidersList";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Alert from "react-bootstrap/Alert";
+
 import "./Providers.css";
 
 function Providers() {
@@ -14,7 +15,8 @@ function Providers() {
   const [varient, setVarient] = useState("");
   useEffect(() => {
     providerList();
-  }, []);
+    /* console.log(providers); */
+  }, []); // eslint-disable-line
   const providerList = () => {
     axios.get("http://localhost:5000/provider").then((respons) => {
       setProviders(respons.data);
@@ -26,7 +28,9 @@ function Providers() {
   };
 
   const deleteProvider = (id) => {
-    axios.delete(`http://localhost:5000/provider/${id}`).then(() => {
+    /* console.log(id); */
+    axios.delete(`http://localhost:5000/provider/${id}`).then((respons) => {
+      /* console.log(respons); */
       providerList();
       setHandelError("A provider deleted!");
       setShow(true);

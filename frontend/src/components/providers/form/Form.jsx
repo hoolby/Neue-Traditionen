@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
@@ -25,10 +24,10 @@ const schema = Joi.object({
       "string.required": `title is a required field`,
     }),
   mobile: Joi.string().trim().required().messages({
-    "string.base": ` mobile should be a type of 'number'`,
-    "string.empty": ` mobile cannot be an empty field`,
-    //"string.base.patern": `"" 10 digital numbers`,
-    "any.required": ` mobile is requireed`,
+    "string.base": `"" mobile should be a type of 'number'`,
+    "string.empty": `"" mobile cannot be an empty field`,
+    // "string.base.patern": `"" 10 digital numbers`,
+    "any.required": `"" mobile is requireed`,
   }),
   /* .trim() */
   /* .regex(/^[6-9]\d{9}$/) */
@@ -40,7 +39,6 @@ const schema = Joi.object({
 });
 
 function Form({ editProvider, providerList }) {
-  console.log(editProvider);
   const {
     register,
     handleSubmit,
@@ -60,9 +58,9 @@ function Form({ editProvider, providerList }) {
       setValue("email", editProvider.email);
       setValue("price", editProvider.price);
     }
-  }, [editProvider]);
+  }, [editProvider]); //eslint-disable-line
   const onSubmit = (data, e) => {
-    console.log("data:", data);
+    /* console.log("data:", data); */
     const requestData = editProvider.id ? axios.put : axios.post;
     requestData("http://localhost:5000/provider", {
       title: data.title,
@@ -72,26 +70,16 @@ function Form({ editProvider, providerList }) {
       id: editProvider.id,
     })
       .then((respons) => {
-        console.log(respons);
         providerList();
         e.target.reset();
-        setHandelError("It was successfull");
-        setShow(true);
-        setVarient("success");
-        setValue("title", "");
-        setValue("mobile", "");
-        setValue("email", "");
-        setValue("price", "");
-        editProvider.id = null;
+        editProvider.id = null; //eslint-disable-line
       })
       .catch((err) => {
         if (err) {
-          setHandelError(err.response.data.message);
-          setShow(true);
-          setVarient("danger");
+          alert(err.response.data.message); //eslint-disable-line
         }
 
-        //alert(err.response.data.message);
+        // alert(err.response.data.message);
       });
   };
 
@@ -114,8 +102,8 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">Title</label>
           <input
-            {...register("title", { onBlur: (e) => console.log(e) })}
-            className={`form-control ${errors.title && "error-input"}`}
+            {...register("title")} // eslint-disable-line
+            className="form-control"
             id="validationCustom01"
             placeholder="Name Provider"
           />
@@ -126,8 +114,8 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom02">Mobile</label>
           <input
-            {...register("mobile")}
-            className={`form-control ${errors.mobile && "error-input"}`}
+            {...register("mobile")} // eslint-disable-line
+            className="form-control"
             id="validationCustom02"
             placeholder="Phone Number"
           />
@@ -141,8 +129,8 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom03">Email</label>
           <input
-            {...register("email")}
-            className={`form-control ${errors.email && "error-input"}`}
+            {...register("email")} // eslint-disable-line
+            className="form-control"
             id="inputEmail3"
             placeholder="Email"
           />
@@ -153,8 +141,8 @@ function Form({ editProvider, providerList }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom04">Price</label>
           <input
-            {...register("price", { valueAsNumber: true })}
-            className={`form-control ${errors.price && "error-input"}`}
+            {...register("price")} // eslint-disable-line
+            className="form-control"
             id="inputPrice4"
             placeholder="Price"
           />
@@ -167,7 +155,7 @@ function Form({ editProvider, providerList }) {
       <button type="submit" className="btn btn-primary">
         {editProvider.id ? "Edite Provider" : "Create Provider"}
       </button>
-      <div className="form-row form-bottom"></div>
+      <div className="form-row form-bottom" />
     </form>
   );
 }

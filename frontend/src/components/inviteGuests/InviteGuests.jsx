@@ -18,7 +18,6 @@ function InviteGuests() {
   }, []);
   const guestItems = () => {
     axios.get("http://localhost:5000/guests").then((respons) => {
-      console.log(respons.data);
       setListOfGuest(respons.data);
     });
   };

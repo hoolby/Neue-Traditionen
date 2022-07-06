@@ -4,31 +4,27 @@ import { useForm } from "react-hook-form";
 import "./CheckList.css";
 
 function CheckListItem({ list, updateChecklist, deleteChecklist }) {
-  //let valueOfChecked = list.checked ? true : false;
+  // let valueOfChecked = list.checked ? true : false;
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({});
+  const { register, setValue } = useForm({});
 
   useEffect(() => {
-    setValue("checked", list.checked ? true : false);
-  }, [list.checked]);
+    //eslint-disable-line
+    setValue("checked", !!list.checked); //eslint-disable-line
+  }, [list.checked]); //eslint-disable-line
   return (
     <tr>
       <td>{list.id}</td>
       <td>
         <input
           className="form-check-input"
-          {...register("checked")}
+          {...register("checked")} //eslint-disable-line
           type="checkbox"
           id="flexCheckDefault"
           disabled
         />
-        <label class="form-check-label" htmlFor="flexCheckDefault">
-          You did it
+        <label className="form-check-label" htmlFor="flexCheckDefault">
+          You did it {/* eslint-disable-line */}
         </label>
       </td>
       <td>{list.title}</td>

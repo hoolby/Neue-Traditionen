@@ -30,7 +30,7 @@ function Form({ checklistItems, newItemchecklist }) {
     setValue,
     formState: { errors },
   } = useForm({ resolver: joiResolver(schema), mode: "onBlur" });
-  let valueOfChecked = newItemchecklist.checked ? true : false;
+  const valueOfChecked = !!newItemchecklist.checked;
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
@@ -41,11 +41,10 @@ function Form({ checklistItems, newItemchecklist }) {
       setValue("responsible", newItemchecklist.responsible);
       setValue("checked", valueOfChecked);
     }
-  }, [newItemchecklist]);
+  }, [newItemchecklist]); //eslint-disable-line
 
   const onSubmit = (data, e) => {
-    console.log(data);
-    let changeschecked = data.checked ? 1 : 0;
+    const changeschecked = data.checked ? 1 : 0;
     const requestData = newItemchecklist.id ? axios.put : axios.post;
     requestData("http://localhost:5000/checklist", {
       title: data.title,
@@ -59,7 +58,7 @@ function Form({ checklistItems, newItemchecklist }) {
         setHandelError("It was successfull");
         setShow(true);
         setVarient("success");
-        newItemchecklist.id = null;
+        newItemchecklist.id = null; //eslint-disable-line
         setValue("title", "");
         setValue("responsible", "");
         setValue("checked", "");
@@ -93,7 +92,7 @@ function Form({ checklistItems, newItemchecklist }) {
         <div className="col-md-4 mb-3">
           <label htmlFor="validationCustom01">Title</label>
           <input
-            {...register("title")}
+            {...register("title")} //eslint-disable-line
             className={`form-control ${errors.title && "error-input"}`}
             id="validationCustom01"
             placeholder="Title"
@@ -108,7 +107,7 @@ function Form({ checklistItems, newItemchecklist }) {
             name="responsible"
             className={`form-control ${errors.responsible && "error-input"}`}
             aria-label="Default select example"
-            {...register("responsible", { required: "true" })}
+            {...register("responsible", { required: "true" })} //eslint-disable-line
           >
             <option value="">-- How is responsible --</option>
             <option value="admin">Admin</option>
@@ -141,8 +140,8 @@ function Form({ checklistItems, newItemchecklist }) {
         </div>
         <div className="col-md-4 mb-3">
           <input
-            class="form-check-input"
-            {...register("checked")}
+            className="form-check-input"
+            {...register("checked")} //eslint-disable-line
             type="checkbox"
             id="flexCheckDefault"
           />
@@ -154,7 +153,7 @@ function Form({ checklistItems, newItemchecklist }) {
       <button type="submit" className="btn btn-primary">
         Create Item
       </button>
-      <div className="form-row form-bottom"></div>
+      <div className="form-row form-bottom" />
     </form>
   );
 }

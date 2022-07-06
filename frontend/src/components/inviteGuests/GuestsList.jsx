@@ -4,17 +4,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./InviteGuests.css";
 
 function GuestsList({ list, updateGuest, deleteGuest }) {
-  //let valueOfChecked = list.checked ? true : false;
+  // let valueOfChecked = list.checked ? true : false;
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({});
+  const { register, setValue } = useForm({});
 
   useEffect(() => {
-    setValue("checked", list.checked ? true : false);
+    setValue("checked", !!list.checked);
   }, [list.checked]);
   return (
     <tr>
@@ -22,12 +17,14 @@ function GuestsList({ list, updateGuest, deleteGuest }) {
       <td>
         <input
           className="form-check-input"
-          {...register("checked")}
+          {...register("checked")} //eslint-disable-line
           type="checkbox"
           id="flexCheckDefault"
           disabled
         />
-        <label class="form-check-label" htmlFor="flexCheckDefault">
+        <label className="form-check-label" htmlFor="flexCheckDefault">
+          {" "}
+          {/* eslint-disable-line */}
           Invited
         </label>
       </td>
