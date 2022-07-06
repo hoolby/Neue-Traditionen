@@ -3,26 +3,23 @@ import BoxItems from "./BoxItems";
 import "./Items.css";
 
 function Items() {
-  const [infos /* , setInfos */] = useState([
+  const [infos] = useState([
     {
       link: "/",
       icon: "fa-solid fa-sliders",
-      text: "Choosing items for the burial",
+      text: "Elemente für die Bestattung auswählen",
     },
     {
       link: "/",
       icon: "fa-solid fa-scroll",
-      text: "Download a list of possible costs as a guide",
+      text: "Kostenorientierung herunterladen",
     },
     {
       link: "/checklist",
       icon: "fa-solid fa-list-check",
-      text: "Check off the checklist with your to-dos & save everything online",
+      text: "Checkliste für deine Planung abhaken und online speichern",
     },
   ]);
-  /*  const [checkedOne] = React.useState(true);
-  const [checkedTwo] = React.useState(true);
-  const [checkedThree] = React.useState(true); */
 
   return (
     <div className="items-container">
