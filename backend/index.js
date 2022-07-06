@@ -13,6 +13,7 @@ app.use(express.json());
 const db = connection.promise();
 
 app.use(cors());
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
@@ -24,6 +25,46 @@ process.on("unhandledRejection", (error) => {
 });
 
 const port = process.env.PORT || 5000;
+const transporter = nodemailer.createTransport({
+  host: "smtp-mail.outlook.com" /* change the host depending the mail provider */,
+  port: 587 /* same */,
+  secureConnection: false,
+  tls: {
+    ciphers: "SSLv3",
+    rejectUnauthorized: false,
+  },
+  auth: {
+    user: "etienne.duret@outlook.fr" /* ADD YOUR MAIL  */,
+    pass: process.env.MAILPASS /* ADD YOUR PASSWORD */,
+  },
+});
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.warn(success, "Server is ready to take our messages");
+  }
+});
+app.post("/createProvider", (req, res) => {
+  const { title } = req.body;
+  const { mobile } = req.body;
+  const { email } = req.body;
+  const { price } = req.body;
+  connection.query(
+    "INSERT INTO providers (title, mobile, email, price) VALUE (?, ? ,?, ?)",
+    [title, mobile, email, price],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+/* app.get("/ProviderList", (req, res) => {
+  connection.query("SELECT * FROM providers", (err, result) => { */
 
 app.get("/checklist", (req, res) => {
   connection.query("SELECT * FROM checklist", (err, result) => {
@@ -35,95 +76,6 @@ app.get("/checklist", (req, res) => {
       res.json(reversList);
     }
   });
-});
-
-app.post("/checklist", (req, res) => {
-  const { title, responsible } = req.body;
-  const checked = req.body.checked ? true : false; // eslint-disable-line
-  let validationErrors = null;
-  validationErrors = Joi.object({
-    title: Joi.string().min(3).max(255).required().messages({
-      "string.base": `title should be a type of 'text'`,
-      "string.min": `title should have at least 3 characters`,
-      "string.max": `title should have less than 255 characters`,
-      "string.empty": "title can't be empty",
-      "string.required": `title is a required field`,
-    }),
-    responsible: Joi.string().required(),
-    checked: Joi.boolean(),
-  }).validate({ title, responsible, checked }, { abortEarly: false }).error;
-  if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
-  return db
-    .query(
-      "INSERT INTO checklist (title, responsible, checked) VALUE (?, ?, ?)",
-      [title, responsible, checked]
-    )
-    .then(([{ insertId }]) => {
-      res.status(201).json({ id: insertId, title, responsible, checked });
-    })
-    .catch((err) => {
-      if (err === "INVALID_DATA") {
-        res.status(422).send({ message: "Invalid data" });
-      } else {
-        res.status(500).send("interval server error");
-      }
-    });
-});
-
-app.put("/checklist", (req, res) => {
-  const checklistId = req.body.id;
-  const { title, responsible } = req.body;
-  const checked = req.body.checked ? true : false; // eslint-disable-line
-  let validationErrors = null;
-  let existChecklist = null;
-  db.query("SELECT * FROM checklist WHERE id = ?", [checklistId]).then(
-    ([results]) => {
-      existChecklist = results[0]; // eslint-disable-line
-      if (!existChecklist)
-        return Promise.reject("THIS CHECKLIST DOSE NOT EXIST"); // eslint-disable-line
-      validationErrors = Joi.object({
-        title: Joi.string().min(3).max(255).required().messages({
-          "string.base": `title should be a type of 'text'`,
-          "string.min": `title should have at least 3 characters`,
-          "string.max": `title should have less than 255 characters`,
-          "string.empty": "title can't be empty",
-          "string.required": `title is a required field`,
-        }),
-        responsible: Joi.string().required(),
-        checked: Joi.boolean(),
-      }).validate({ title, responsible, checked }, { abortEarly: false }).error;
-      if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
-      return db
-        .query("UPDATE checklist SET ? WHERE id=?", [
-          { title, responsible, checked },
-          checklistId,
-        ])
-        .then(() => {
-          res.status(201).json({ ...req.body, ...existChecklist });
-        })
-        .catch((err) => {
-          if (err === "THIS CHECKLIST DOSE NOT EXIST")
-            res.status(404).send(`Checklist with id ${checklistId} not found.`);
-          else if (err === "INVALID_DATA")
-            res.status(422).send({ message: "Invalid data" });
-          else res.status(500).send("Error saving the provider");
-        });
-    }
-  );
-});
-app.delete("/checklist/:id", (req, res) => {
-  const checklistId = req.params.id;
-  connection.query(
-    "DELETE FROM checklist WHERE id = ?",
-    [checklistId],
-    (err) => {
-      if (err) {
-        res.status(500).send("server interval error");
-      } else {
-        res.status(204).send("delete an item");
-      }
-    }
-  );
 });
 
 app.get("/guests", (req, res) => {
@@ -492,42 +444,8 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-// MAIL
-
-// SEND A MAIL
-
-// Create sender
-const transporter = nodemailer.createTransport({
-  host: "smtp.mailfence.com" /* change the host depending the mail provider */,
-  port: 465 /* same */,
-  auth: {
-    user: "etienne.duret@mailfence.com" /* ADD YOUR MAIL  */,
-    pass: "ADD YOUR PASSWAORD HERE",
-  },
-});
-
-// Create mail
-
-const mailOptions = {
-  from: "etienne.duret@mailfence.com",
-  to: "asathal.pierre@gmail.com",
-  subject: "Hello Lucie",
-  text: "text",
-  html: "<body><h1>HTML</h1></body>",
-};
-
-// Send the mail
-transporter.sendMail(mailOptions, (error) => {
-  if (error) {
-    return console.error(error);
-  } else {
-    return "text";
-  }
-});
-
 // CONTACT INVITATION
 
-/* app.get("/form", (req, res) => res.render("form")); */
 app.post("/contact", (req, res) => {
   const { name } = req.body;
   const { email } = req.body;
@@ -543,11 +461,7 @@ app.post("/contact", (req, res) => {
       }
     }
   );
-  res.status(201).json({ response: "data received" });
 });
-
-/* app.use((req, res) => res.status(404)); 
-app.use((err, req, res, next) => res.status(500)); */
 
 // CHECK if some asked for invitation
 app.get("/contact", (req, res) => {
@@ -558,6 +472,51 @@ app.get("/contact", (req, res) => {
       res.json(result);
     }
   });
+});
+
+app.post("/contact/:id", (req, res) => {
+  const talkerId = req.params.id;
+  // fetch user from db using id
+  connection.query(
+    `SELECT * from talker where id = ${talkerId}`,
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching this talker");
+      } else if (result[0]) {
+        // MAIL
+        const emails = result[0].email;
+        // Create mail
+        const mailOptions = {
+          from: "etienne.duret@outlook.fr",
+          to: emails,
+          subject: "Hello",
+          text: "Hello from Neue Traditionen",
+          html: "<html><body><h1>Hello from Neue Traditionen</h1></body></html>",
+        };
+        // Send the mail
+        // eslint-disable-next-line consistent-return
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.warn("Email error:", error);
+            return res.status(500).send("Error sending email");
+          }
+          // delete user
+          connection.query(
+            "DELETE FROM talker WHERE id = ?",
+            [talkerId],
+            (deleteError, deleteResult) => {
+              if (deleteError) {
+                res.status(500).send("Error deleting this talker");
+              } else if (deleteResult.affectedRows) {
+                res.status(200).send("🎉 talker deleted!");
+              } else res.status(404).send("talker not found");
+            }
+          );
+          console.warn("Message sent: ", info);
+        });
+      } else res.status(404).send("talker not found");
+    }
+  );
 });
 
 app.listen(port, (error) => {

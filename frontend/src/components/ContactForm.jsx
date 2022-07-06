@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ContactForm() {
   const [status, setStatus] = useState("Submit");
@@ -17,11 +18,16 @@ function ContactForm() {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(details),
-    }).then((reply) => {
-      setStatus("Submit");
-      return reply.json();
-    });
+    })
+      .then((reply) => {
+        setStatus("Submit");
+        return reply.json();
+      })
+      .then(alert("Thank you, message sended"))
+      .then(navigate("/"));
   };
+
+  const navigate = useNavigate();
 
   return (
     <form onSubmit={handleSubmit}>
