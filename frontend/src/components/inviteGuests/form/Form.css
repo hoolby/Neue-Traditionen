@@ -1,0 +1,39 @@
+.form-container {
+  padding: 40px 100px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-around;
+}
+.form-title,
+.form-bottom {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 37px;
+}
+.checkbox-checklist {
+  display: flex;
+  justify-content: flex-start;
+}
+.error-message {
+  color: red;
+}
+.error-input,
+.error-input:focus {
+  border: 1px solid red;
+  box-shadow: 0 0 0 0.25rem rgb(208 54 68 / 25%);
+}
+.form-check-input {
+  vertical-align: bottom;
+}
+.gust-form-checkbox {
+  margin-top: 27px;
+}
+.form-bottom {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

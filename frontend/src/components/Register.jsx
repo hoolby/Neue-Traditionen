@@ -3,7 +3,9 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
+/* import Card from "react-bootstrap/Card"; */
 import Container from "react-bootstrap/Container";
+// eslint-disable-next-line import/no-unresolved
 import Items from "@components/items/ItemsCopyForRegistrationPage";
 
 // eslint-disable-next-line

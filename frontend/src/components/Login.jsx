@@ -69,7 +69,7 @@ function Login() {
               <Form.Group controlId="formEmail">
                 <Form.Control
                   type="formEmail"
-                  placeholder={"Deine E-Mail-Adresse"}
+                  placeholder="Deine E-Mail-Adresse"
                   required
                   value={userMail}
                   onChange={(event) => setUserMail(event.target.value)}

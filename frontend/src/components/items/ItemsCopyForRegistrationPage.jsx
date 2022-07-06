@@ -15,20 +15,19 @@ function Items() {
       text: "Kostenorientierung herunterladen",
     },
     {
-      link: "/",
+      link: "/checklist",
       icon: "fa-solid fa-list-check",
       text: "Checkliste für deine Planung abhaken und online speichern",
     },
   ]);
 
   return (
-    <>
-      <div className="items-container">
-        {infos.map((items, index) => {
-          return <BoxItems key={index} items={items} />;
-        })}
-      </div>
-    </>
+    <div className="items-container">
+      {infos.map((items, index) => {
+        const test = index;
+        return <BoxItems key={test} items={items} />;
+      })}
+    </div>
   );
 }
 export default Items;

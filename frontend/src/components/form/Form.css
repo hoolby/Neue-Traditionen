@@ -1,9 +1,0 @@
-.form-container {
-  padding: 40px 100px;
-  width: 100%;
-  box-sizing: border-box;
-}
-.form-row {
-  display: flex;
-  justify-content: space-around;
-}

@@ -10,7 +10,7 @@ function AdminPage() {
       title: "Edit checklist",
       image: "",
       body: "lab lab lab lab lab lab is lab lab lab yes",
-      link: "/",
+      link: "/checklist",
     },
     {
       title: "Download price overview",

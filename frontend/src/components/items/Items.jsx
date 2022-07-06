@@ -19,7 +19,7 @@ function Items() {
       text: "Kostenorientierung herunterladen",
     },
     {
-      link: "/",
+      link: "/checklist",
       icon: "fa-solid fa-list-check",
       text: "Checkliste für deine Planung abhaken und online speichern",
     },

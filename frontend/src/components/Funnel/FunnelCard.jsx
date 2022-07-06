@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useState } from "react";
 import "./FunnelCard.css";
 import { Button, Modal } from "react-bootstrap";
@@ -7,9 +8,9 @@ function FunnelCard(props) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  function toggleInfo() {
+  /* function toggleInfo() {
     document.getElementById("card-button").toggle("card-opened");
-  }
+  } */
   return (
     <>
       <div className="card-container">
