@@ -4,11 +4,11 @@ import BlogDetails from "@components/blogs/BlogDetails";
 import ContactAsked from "@components/ContactAsked";
 import ContactForm from "@components/ContactForm";
 import Footer from "@components/footer/Footer";
+import ControlledCarousel from "@components/FunnelCarousel/Carousel";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
 import Register from "@components/Register";
 import Login from "@components/Login";
-import FunnelMap from "@components/Funnel/FunnelMap";
 
 import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
@@ -43,13 +43,13 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/carousel" element={<ControlledCarousel />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/checklist" element={<CheckList />} />
           <Route path="/guestslist" element={<InviteGuests />} />
           <Route path="/blogs/:id" element={<BlogDetails />} />
           <Route path="/contactform" element={<ContactForm />} />
           <Route path="/invitation" element={<ContactAsked />} />
-          <Route path="/Funeral" element={<FunnelMap />} />
           <Route path="/blogs" element={<HomeBlogs />} />
         </Routes>
         <Footer />

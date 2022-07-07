@@ -20,6 +20,9 @@ function Items() {
       text: "Checkliste für deine Planung abhaken und online speichern",
     },
   ]);
+  /*   const [checkedOne] = React.useState(true);
+  const [checkedTwo] = React.useState(true);
+  const [checkedThree] = React.useState(true); */
 
   return (
     <div className="items-container">
