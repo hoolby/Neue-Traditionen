@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 function ContactForm() {
+  const [value, setValue] = useState("");
   const [status, setStatus] = useState("Submit");
+
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus("Sending...");
@@ -27,39 +37,47 @@ function ContactForm() {
       .then(navigate("/"));
   };
 
-  const navigate = useNavigate();
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">
-          Name:
-          <input type="text" id="name" placeholder="first name" required />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="email">
-          Email:
-          <input
-            type="email"
-            id="email"
-            placeholder="exemple@exemple.com"
-            required
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="message">
-          Message:
-          <textarea
-            id="message"
-            placeholder="You want to talk with someone?"
-            required
-          />
-        </label>
-      </div>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        "& > :not(style)": { m: 1, width: "25ch" },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <TextField
+        id="name"
+        htmlFor="name"
+        label="Firstname"
+        variant="outlined"
+        required
+      />
+      <TextField
+        id="email"
+        htmlFor="email"
+        label="email"
+        variant="outlined"
+        type="email"
+        placeholder="exemple@exemple.com"
+        helperText="valid email pls"
+        required
+      />
+      <TextField
+        id="message"
+        htmlFor="message"
+        label="Message"
+        variant="outlined"
+        placeholder="You want to talk with someone?"
+        multiline
+        maxRows={5}
+        value={value}
+        onChange={handleChange}
+        required
+      />
       <button type="submit">{status}</button>
-    </form>
+    </Box>
   );
 }
 
