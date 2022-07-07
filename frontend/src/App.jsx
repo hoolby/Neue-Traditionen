@@ -48,7 +48,7 @@ function App() {
           <Route path="/blogs/:id" element={<BlogDetails />} />
           <Route path="/contactform" element={<ContactForm />} />
           <Route path="/invitation" element={<ContactAsked />} />
-          <Route path="/funneral" element={<FunnelMap />} />
+          <Route path="/Funeral" element={<FunnelMap />} />
         </Routes>
         <Footer />
       </Router>
