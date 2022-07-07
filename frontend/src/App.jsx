@@ -22,6 +22,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import CheckList from "@components/checkList/CheckList";
 import InviteGuests from "@components/inviteGuests/InviteGuests";
+import HomeBlogs from "./pages/HomeBlogs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/contactform" element={<ContactForm />} />
           <Route path="/invitation" element={<ContactAsked />} />
           <Route path="/Funeral" element={<FunnelMap />} />
+          <Route path="/blogs" element={<HomeBlogs />} />
         </Routes>
         <Footer />
       </Router>
