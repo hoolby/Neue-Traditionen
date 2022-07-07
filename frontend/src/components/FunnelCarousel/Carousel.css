@@ -1,0 +1,71 @@
+.carousel {
+  margin-top: 4em;
+  /* color: blue; */
+}
+
+/* .carousel-container {
+  display: flex;
+  flex-direction: column;
+} */
+
+/* .carousel-control-next > * {
+  position: absolute;
+  background-color: red;
+  top: 50%;
+  right: -50%;
+  top: 20%;
+} */
+
+/* .carousel-control-prev > span {
+  position: absolute;
+  top: 20%;
+  left: -50%;
+  background-color: red;
+} */
+[role="button"] {
+  size: 5px;
+  margin-top: 25px;
+  height: 50px;
+}
+
+#myCarousel > a {
+  background-color: red;
+}
+
+a.carousel-control-next {
+  /* display: none; */
+  left: 100%;
+}
+
+a.carousel-control-prev {
+  /* display: none; */
+  left: -15%;
+}
+
+/* 
+
+.carousel-control.left {
+  margin-left: -25px;
+}
+
+.carousel-control.right {
+  margin-right: -50px;
+}
+
+.carousel-control-next > a {
+  size: 5px;
+  margin-top: 15px;
+  height: 20px;
+}
+
+.visually-hidden {
+  display: null;
+} */
+.carousel-indicators {
+  bottom: 300px !important;
+}
+
+.carousel-indicators,
+.carousel-indicators > button {
+  bottom: 17em;
+}

@@ -1,12 +1,12 @@
 import React from "react";
 import axios from "axios";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
 /* import Card from "react-bootstrap/Card"; */
 import Container from "react-bootstrap/Container";
 // eslint-disable-next-line import/no-unresolved
 import Items from "@components/items/ItemsCopyForRegistrationPage";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
 
 // eslint-disable-next-line
 function Register({ userMail, userId }) {
