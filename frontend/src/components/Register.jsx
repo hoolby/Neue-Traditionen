@@ -189,6 +189,10 @@ function Register({ userMail, userId }) {
             <Button variant="secondary" type="submit" className="mt-3">
               Speichern & Einloggen
             </Button>
+            <Button variant="secondary" type="submit" className="mt-3">
+              Already registered?
+              <a href="/login">Sign In</a>
+            </Button>
           </Form>
         </div>
       </Container>

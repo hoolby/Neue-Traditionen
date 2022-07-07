@@ -100,6 +100,10 @@ function Login() {
             {postSubmitMessage ? (
               <p className="mt-3">{postSubmitMessage}</p>
             ) : null}
+            <Button variant="secondary" type="submit" className="mt-3">
+              Need an Account?
+              <a href="/register">Sign Up</a>
+            </Button>
           </Form>
         </div>
       </Container>
