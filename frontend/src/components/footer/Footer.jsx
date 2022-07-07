@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";

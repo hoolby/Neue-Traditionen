@@ -1,12 +1,15 @@
-import Items from "@components/items/ItemsCopyForRegistrationPage";
 import React from "react";
-import Button from "react-bootstrap/Button";
+import axios from "axios";
+/* import Card from "react-bootstrap/Card"; */
 import Container from "react-bootstrap/Container";
+// eslint-disable-next-line import/no-unresolved
+import Items from "@components/items/ItemsCopyForRegistrationPage";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 
 // eslint-disable-next-line
-function Register({ userMail }) {
+function Register({ userMail, userId }) {
   // PROPS: userMail from the previous step in the sign-up process
   const [validated, setValidated] = React.useState(false); // Sets whether or not the UI will show the validity of user inputs
 
@@ -30,14 +33,25 @@ function Register({ userMail }) {
     } else {
       // Submitting the data
       event.preventDefault();
-      console.warn(
-        firstName,
-        // lastName,
-        consentForConnecting,
-        consentNewsletter,
-        // consentTOS,
-        password
-      );
+      axios
+        .put(`/api/user/${userId}`, {
+          firstName,
+          // lastName,
+          consentForConnecting,
+          consentNewsletter,
+          // consentTOS,
+          password,
+        })
+        .then((res) => {
+          if (res.status === 200 || res.status === 204) {
+            alert("You have successfully created your account.");
+            // redirect!!
+          } else {
+            alert(
+              `An error occured while submitting your data. Please try again later. HTTP code ${res.status}, ${res.statusText}`
+            );
+          }
+        });
     }
   };
 
@@ -175,6 +189,10 @@ function Register({ userMail }) {
             <Button variant="secondary" type="submit" className="mt-3">
               Speichern & Einloggen
             </Button>
+            <Button variant="secondary" type="submit" className="mt-3">
+              Already registered?
+              <a href="/login">Sign In</a>
+            </Button>
           </Form>
         </div>
       </Container>
@@ -190,6 +208,7 @@ function Register({ userMail }) {
           <Card>Card component from Homepage</Card>
           <Card>Card component from Homepage</Card>
           <Card>Card component from Homepage</Card>
+          // Import Card from Bootstrap !!
         </Stack> */}
       </div>
     </>

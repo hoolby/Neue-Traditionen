@@ -1,16 +1,19 @@
 // require("dotenv").config();
+
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
 
+const nodemailer = require("nodemailer");
 const Joi = require("joi");
-
 const connection = require("./db-config");
 
 const app = express();
 app.use(express.json());
+const db = connection.promise();
 
 app.use(cors());
+
 app.use((req, res, next) => {
   const allowedOrigins = ["localhost"];
   const { origin } = req.headers;
@@ -24,9 +27,31 @@ app.use((req, res, next) => {
 // res.header("Access-Control-Allow-Credentials", true);
 
 dotenv.config();
+process.on("unhandledRejection", (error) => {
+  console.error("unhandledRejection", error);
+});
 
 const port = process.env.PORT || 5000;
-
+const transporter = nodemailer.createTransport({
+  host: "smtp-mail.outlook.com" /* change the host depending the mail provider */,
+  port: 587 /* same */,
+  secureConnection: false,
+  tls: {
+    ciphers: "SSLv3",
+    rejectUnauthorized: false,
+  },
+  auth: {
+    user: process.env.MAIL /* ADD YOUR MAIL  */,
+    pass: process.env.MAILPASS /* ADD YOUR PASSWORD */,
+  },
+});
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.warn(success, "Server is ready to take our messages");
+  }
+});
 app.post("/createProvider", (req, res) => {
   const { title } = req.body;
   const { mobile } = req.body;
@@ -39,6 +64,7 @@ app.post("/createProvider", (req, res) => {
       if (err) {
         /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
         console.warn(err);
+        console.error(err);
       } else {
         res.status(201).send(result);
       }
@@ -46,39 +72,291 @@ app.post("/createProvider", (req, res) => {
   );
 });
 
-app.get("/ProviderList", (req, res) => {
-  connection.query("SELECT * FROM providers", (err, result) => {
+/* app.get("/ProviderList", (req, res) => {
+  connection.query("SELECT * FROM providers", (err, result) => { */
+
+app.get("/checklist", (req, res) => {
+  connection.query("SELECT * FROM checklist", (err, result) => {
     if (err) {
       /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
       console.warn(err);
+      console.error(err);
+      res.status(500).send("Error retrieving users from database");
     } else {
-      res.json(result);
+      const reversList = result.reverse();
+      res.json(reversList);
     }
   });
 });
-/* 
-app.put("/api/providers/:id", (req, res) => {
+
+app.get("/guests", (req, res) => {
+  connection.query("SELECT * FROM guests", (err, result) => {
+    if (err) {
+      res.status(500).send("Error retrieving users from database");
+    } else {
+      const reversList = result.reverse();
+      res.json(reversList);
+    }
+  });
+});
+
+app.post("/guests", (req, res) => {
+  const { firstname, lastname, number } = req.body;
+  const checked = req.body.checked ? true : false; // eslint-disable-line
+  let validationErrors = null;
+  validationErrors = Joi.object({
+    firstname: Joi.string()
+      .min(3)
+      .max(255)
+      .case("lower")
+      .required("firstname is required")
+      .messages({
+        "string.base": `firstname should be a type of 'text'`,
+        "string.min": `firstname should have at least 3 characters`,
+        "string.max": `firstname should have less than 255 characters`,
+        "string.empty": "firstname can't be empty",
+        "string.required": `firstname is a required field`,
+      }),
+    lastname: Joi.string()
+      .min(3)
+      .max(255)
+      .case("lower")
+      .required("firstname is required")
+      .messages({
+        "string.base": `lastname should be a type of 'text'`,
+        "string.min": `lastname should have at least 3 characters`,
+        "string.max": `lastname should have less than 255 characters`,
+        "string.empty": "lastname can't be empty",
+        "string.required": `lastname is a required field`,
+      }),
+    number: Joi.string().pattern(/^\d+$/).required().messages({
+      "string.base": ` number should be a type of 'number'`,
+      "string.empty": ` number cannot be an empty field`,
+      "any.required": ` number is requireed`,
+    }),
+    checked: Joi.boolean(),
+  }).validate(
+    { firstname, lastname, number, checked },
+    { abortEarly: false }
+  ).error;
+  if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
+  return db
+    .query(
+      "INSERT INTO guests (firstname, lastname, number, checked) VALUE (?, ?, ?, ?)",
+      [firstname, lastname, number, checked]
+    )
+    .then(([{ insertId }]) => {
+      res
+        .status(201)
+        .json({ id: insertId, firstname, lastname, number, checked });
+    })
+    .catch((err) => {
+      if (err === "INVALID_DATA")
+        res.status(422).json({ message: "Invalid data" });
+      else res.status(500).json({ message: "Error saving the user" });
+    });
+});
+
+app.put("/guests", (req, res) => {
+  const guestId = req.body.id;
+  const { firstname, lastname, number } = req.body;
+  const checked = req.body.checked ? true : false; // eslint-disable-line
+  let validationErrors = null;
+  let existGuest = null;
+  db.query("SELECT * FROM guests WHERE id=?", [guestId]).then(([result]) => {
+    existGuest = result[0]; // eslint-disable-line
+
+    if (!existGuest) return Promise.reject("THIS GUEST DOES NOT EXIST"); // eslint-disable-line
+    validationErrors = Joi.object({
+      firstname: Joi.string()
+        .min(3)
+        .max(255)
+        .case("lower")
+        .required("firstname is required")
+        .messages({
+          "string.base": `firstname should be a type of 'text'`,
+          "string.min": `firstname should have at least 3 characters`,
+          "string.max": `firstname should have less than 255 characters`,
+          "string.empty": "firstname can't be empty",
+          "string.required": `firstname is a required field`,
+        }),
+      lastname: Joi.string()
+        .min(3)
+        .max(255)
+        .case("lower")
+        .required("firstname is required")
+        .messages({
+          "string.base": `lastname should be a type of 'text'`,
+          "string.min": `lastname should have at least 3 characters`,
+          "string.max": `lastname should have less than 255 characters`,
+          "string.empty": "lastname can't be empty",
+          "string.required": `lastname is a required field`,
+        }),
+      number: Joi.string().pattern(/^\d+$/).required().messages({
+        "string.base": ` number should be a type of 'number'`,
+        "string.empty": ` number cannot be an empty field`,
+        "any.required": ` number is requireed`,
+      }),
+      checked: Joi.boolean(),
+    }).validate(
+      { firstname, lastname, number, checked },
+      { abortEarly: false }
+    ).error;
+    if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
+    return db
+      .query("UPDATE guests SET ? WHERE id = ?", [
+        { firstname, lastname, number, checked },
+        guestId,
+      ])
+      .then(() => {
+        res.status(200).json({ ...existGuest, ...req.body }); // eslint-disable-line
+      })
+      .catch((err) => {
+        if (err === "THIS PROVIDER DOES NOT EXIST")
+          res.status(404).send(`Guest with id ${guestId} not found.`);
+        else if (err === "INVALID_DATA")
+          res.status(422).json({ message: "Invalid data" });
+        else res.status(500).json({ message: "Error saving the guest" });
+      });
+  });
+});
+
+app.delete("/guests/:id", (req, res) => {
+  const guestId = req.params.id;
+  connection.query("DELETE FROM guests WHERE id = ?", [guestId], (err) => {
+    if (err) {
+      res.status(500).send("Error deleting an guest");
+    } else {
+      res.status(204).send("Guest deleted !");
+    }
+  });
+});
+
+app.get("/provider", (req, res) => {
+  connection.query("SELECT * FROM providers", (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error retrieving users from database");
+    } else {
+      const reversList = result.reverse();
+      res.json(reversList);
+    }
+  });
+});
+
+app.post("/provider", (req, res) => {
+  const { title, mobile, email, price } = req.body;
+  let validationErrors = null;
+
+  db.query("SELECT * FROM providers WHERE email = ?", [email])
+    .then(([result]) => {
+      if (result[0]) return Promise.reject("DUPLICATE EMAIL"); // eslint-disable-line
+      validationErrors = Joi.object({
+        title: Joi.string()
+          .min(3)
+          .max(255)
+          .case("lower")
+          .required("title is required")
+          .messages({
+            "string.base": `title should be a type of 'text'`,
+            "string.min": `title should have at least 3 characters`,
+            "string.max": `title should have less than 255 characters`,
+            "string.empty": "title can't be empty",
+            "string.required": `title is a required field`,
+          }),
+        mobile: Joi.string().pattern(/^\d+$/).required().messages({
+          "string.base": ` mobile should be a type of 'number'`,
+          "string.empty": ` mobile cannot be an empty field`,
+          "any.required": ` mobile is requireed`,
+        }),
+        email: Joi.string().email().required("email is required"),
+        price: Joi.number().precision(2).required("price is required"),
+      }).validate({ title, mobile, email, price }, { abortEarly: false }).error;
+
+      if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
+
+      return db
+        .query(
+          "INSERT INTO providers (title, mobile, email, price) VALUE (?, ? ,?, ?)",
+          [title, mobile, email, price]
+        )
+        .then(() => {
+          res.status(201).json({ id: insertId, title, mobile, email, price }); // eslint-disable-line
+        });
+    })
+    .catch((err) => {
+      console.error("reject", err);
+      if (err === "DUPLICATE EMAIL")
+        res.status(409).json({ message: "This email is already used" });
+      else if (err === "INVALID_DATA")
+        res.status(422).json({ message: "Invalid data" });
+      else res.status(500).json({ message: "Error saving the user" });
+    });
+});
+
+app.put("/provider", (req, res) => {
+  const providerId = req.body.id;
+  const { title, mobile, email, price } = req.body;
+  let existProvider = null;
+  let validationErrors = null;
+  db.query("SELECT * FROM providers WHERE id = ?", [providerId]).then(
+    ([result]) => {
+      existProvider = result[0]; // eslint-disable-line
+      if (!existProvider) return Promise.reject("THIS PROVIDER DOES NOT EXIST"); // eslint-disable-line
+      validationErrors = Joi.object({
+        title: Joi.string()
+          .min(3)
+          .max(255)
+          .case("lower")
+          .required("title is required")
+          .messages({
+            "string.base": `title should be a type of 'text'`,
+            "string.min": `title should have at least 3 characters`,
+            "string.max": `title should have less than 255 characters`,
+            "string.empty": "title can't be empty",
+            "string.required": `title is a required field`,
+          }),
+        mobile: Joi.string().pattern(/^\d+$/).required().messages({
+          "string.base": ` mobile should be a type of 'number'`,
+          "string.empty": ` mobile cannot be an empty field`,
+          "any.required": ` mobile is requireed`,
+        }),
+        email: Joi.string().email().required("email is required"),
+        price: Joi.number().precision(2).required("price is required"),
+      }).validate({ title, mobile, email, price }, { abortEarly: false }).error;
+      if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
+      return db
+        .query("UPDATE providers SET ? WHERE id = ?", [
+          { title, mobile, email, price },
+          providerId,
+        ])
+        .then(() => {
+          res.status(200).json({ ...existProvider, ...req.body });
+        })
+        .catch((err) => {
+          if (err === "THIS PROVIDER DOES NOT EXIST")
+            res.status(404).send(`Provider with id ${providerId} not found.`);
+          else if (err === "INVALID_DATA") res.status(422).send("Invalid data");
+          else res.status(500).send("Error saving the provider");
+        });
+    }
+  );
+});
+
+app.delete("/provider/:id", (req, res) => {
   const providerId = req.params.id;
-  const providerPropsToUpdate = req.body;
   connection.query(
-    "UPDATE providers SET ? WHERE id = ?",
-    [providerPropsToUpdate, providerId],
-    (err, result) => {
+    "DELETE FROM providers WHERE id = ?",
+    [providerId],
+    (err) => {
       if (err) {
-        console.log(err);
+        res.status(500).send("Error deleting an provider");
       } else {
-        res.send(result);
+        res.status(204).send("Provider deleted !");
       }
     }
   );
-}); */
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
 });
-
-app.use(express.json());
 
 app.get("/blogs", (req, res) => {
   let sql = "SELECT * FROM blogs";
@@ -138,15 +416,19 @@ app.post("/blogs", (req, res) => {
 
 app.put("/blogs/:id", (req, res) => {
   const blogsId = req.params.id;
-  const db = connection.promise();
+  const datbase = connection.promise();
   let existingBlog = null;
-  db.query("SELECT * FROM blogs WHERE id = ?", [blogsId])
+  datbase
+    .query("SELECT * FROM blogs WHERE id = ?", [blogsId])
     .then(([results]) => {
       // eslint-disable-next-line prefer-destructuring
       existingBlog = results[0];
       // eslint-disable-next-line prefer-promise-reject-errors
       if (!existingBlog) return Promise.reject("RECORD_NOT_FOUND");
-      return db.query("UPDATE movies SET ? WHERE id = ?", [req.body, blogsId]);
+      return datbase.query("UPDATE movies SET ? WHERE id = ?", [
+        req.body,
+        blogsId,
+      ]);
     })
     .then(() => {
       res.status(200).json({ ...existingBlog, ...req.body });
@@ -177,9 +459,64 @@ app.listen(port, (error) => {
   /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
   console.warn(error);
   /*  console.log(`Server listening on port ${port}`); */
+  connection.connect((err, res) => {
+    if (err) {
+      res.status(500).send("Error getting talkers");
+    } else {
+      res.json(res);
+    }
+  });
+});
+
+app.post("/contact/:id", (req, res) => {
+  const talkerId = req.params.id;
+  // fetch user from db using id
+  connection.query(
+    `SELECT * from talker where id = ${talkerId}`,
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching this talker");
+      } else if (result[0]) {
+        // MAIL
+        const emails = result[0].email;
+        // Create mail
+        const mailOptions = {
+          from: "etienne.duret@outlook.fr",
+          to: emails,
+          subject: "Hello",
+          text: "Hello from Neue Traditionen",
+          html: "<html><body><h1>Hello from Neue Traditionen</h1></body></html>",
+        };
+        // Send the mail
+        // eslint-disable-next-line consistent-return
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.warn("Email error:", error);
+            return res.status(500).send("Error sending email");
+          }
+          // delete user
+          connection.query(
+            "DELETE FROM talker WHERE id = ?",
+            [talkerId],
+            (deleteError, deleteResult) => {
+              if (deleteError) {
+                res.status(500).send("Error deleting this talker");
+              } else if (deleteResult.affectedRows) {
+                res.status(200).send("🎉 talker deleted!");
+              } else res.status(404).send("talker not found");
+            }
+          );
+          console.warn("Message sent: ", info);
+        });
+      } else res.status(404).send("talker not found");
+    }
+  );
+});
+
+app.listen(port, (error) => {
   connection.connect((err) => {
     if (err) {
       console.error(`error connecting: ${err.stack}`);
-    }
+    } else console.error(error);
   });
 });

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "./FunnelCard.css";
