@@ -15,16 +15,9 @@ const db = connection.promise();
 app.use(cors());
 
 app.use((req, res, next) => {
-  const allowedOrigins = ["localhost"];
-  const { origin } = req.headers;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  return next();
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
 });
-// res.header("Access-Control-Allow-Methods", "GET, POST");
-// res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-// res.header("Access-Control-Allow-Credentials", true);
 
 dotenv.config();
 process.on("unhandledRejection", (error) => {
@@ -62,8 +55,6 @@ app.post("/createProvider", (req, res) => {
     [title, mobile, email, price],
     (err, result) => {
       if (err) {
-        /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-        console.warn(err);
         console.error(err);
       } else {
         res.status(201).send(result);
@@ -78,8 +69,6 @@ app.post("/createProvider", (req, res) => {
 app.get("/checklist", (req, res) => {
   connection.query("SELECT * FROM checklist", (err, result) => {
     if (err) {
-      /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-      console.warn(err);
       console.error(err);
       res.status(500).send("Error retrieving users from database");
     } else {
@@ -455,15 +444,32 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-app.listen(port, (error) => {
-  /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-  console.warn(error);
-  /*  console.log(`Server listening on port ${port}`); */
-  connection.connect((err, res) => {
+// CONTACT INVITATION
+
+app.post("/contact", (req, res) => {
+  const { name } = req.body;
+  const { email } = req.body;
+  const { message } = req.body;
+  connection.query(
+    "INSERT INTO talker (name, email, message) VALUE (?, ?, ?)",
+    [name, email, message],
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error sending message");
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+// CHECK if some asked for invitation
+app.get("/contact", (req, res) => {
+  connection.query("SELECT * FROM talker", (err, result) => {
     if (err) {
       res.status(500).send("Error getting talkers");
     } else {
-      res.json(res);
+      res.json(result);
     }
   });
 });

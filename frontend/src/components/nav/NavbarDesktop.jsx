@@ -11,7 +11,7 @@ function NavbarDesktop() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/funeral">Funeral</Link>
+          <Link to="/carousel">Funeral</Link>
         </li>
         <li>
           <Link to="/">Grief</Link>
