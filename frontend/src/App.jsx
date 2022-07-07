@@ -8,6 +8,7 @@ import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
 import Register from "@components/Register";
 import Login from "@components/Login";
+import FunnelMap from "@components/Funnel/FunnelMap";
 
 import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
@@ -47,6 +48,7 @@ function App() {
           <Route path="/blogs/:id" element={<BlogDetails />} />
           <Route path="/contactform" element={<ContactForm />} />
           <Route path="/invitation" element={<ContactAsked />} />
+          <Route path="/funneral" element={<FunnelMap />} />
         </Routes>
         <Footer />
       </Router>
