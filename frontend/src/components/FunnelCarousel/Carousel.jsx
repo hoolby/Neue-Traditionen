@@ -1,12 +1,15 @@
+import Register from "@components/Register";
 import FunnelCard from "@components/Funnel/FunnelCard";
 import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
 import sections from "../Funnel/sections";
+import LastStepOfCarousel from "@components/LastStepOfCarousel";
 import "./Carousel.css";
 
 function ControlledCarousel() {
-  const [index, setIndex] = useState(0); //   index of?
-  const [selection, setSelection] = useState({});
+  const [index, setIndex] = useState(0); //   index of the carousel's current step
+  const [selection, setSelection] = useState({}); // object with all selections the user has made
+  const [userMail, setUserMail] = useState(null); // to be set in final step (in LastStepOfCarousel component)
 
   const selectOption = (option, choiceIndex) => {
     // option of?
@@ -17,7 +20,9 @@ function ControlledCarousel() {
     setIndex(selectedIndex);
   };
 
-  return (
+  const [showRegisterComponent, setShowRegisterComponent] = useState(false);
+
+  return !showRegisterComponent ? (
     <Carousel
       className="carousel"
       interval={null}
@@ -46,7 +51,16 @@ function ControlledCarousel() {
           </Carousel.Item>
         );
       })}
+      <Carousel.Item>
+        <LastStepOfCarousel
+          selection={selection}
+          setUserMail={setUserMail}
+          setShowRegisterComponent={setShowRegisterComponent}
+        />
+      </Carousel.Item>
     </Carousel>
+  ) : (
+    <Register userMail={userMail} />
   );
 }
 
