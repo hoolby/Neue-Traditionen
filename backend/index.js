@@ -474,6 +474,23 @@ app.get("/contact", (req, res) => {
   });
 });
 
+// DELETE only talker
+app.delete("/contact/:id", (req, res) => {
+  const talkerId = req.params.id;
+  connection.query(
+    "DELETE FROM talker WHERE id = ?",
+    [talkerId],
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error deleting a blog");
+      } else if (result.affectedRows)
+        res.status(200).send("🎉 talker deleted!");
+      else res.status(404).send("talker not found");
+    }
+  );
+});
+
+// SEND mail and delete talker
 app.post("/contact/:id", (req, res) => {
   const talkerId = req.params.id;
   // fetch user from db using id
@@ -487,7 +504,7 @@ app.post("/contact/:id", (req, res) => {
         const emails = result[0].email;
         // Create mail
         const mailOptions = {
-          from: "etienne.duret@outlook.fr",
+          from: process.env.MAIL,
           to: emails,
           subject: "Hello",
           text: "Hello from Neue Traditionen",

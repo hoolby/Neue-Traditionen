@@ -6,6 +6,11 @@ function InvitCard({ name, email, message, id }) {
       method: "POST",
     });
   };
+  const handleDelete = () => {
+    fetch(`http://localhost:5000/contact/${id}`, {
+      method: "DELETE",
+    });
+  };
   return (
     <div>
       <ul className="invitCard">
@@ -15,6 +20,9 @@ function InvitCard({ name, email, message, id }) {
       </ul>
       <button type="submit" onClick={handleClick}>
         send invit & delete
+      </button>
+      <button type="submit" onClick={handleDelete}>
+        delete only
       </button>
     </div>
   );
