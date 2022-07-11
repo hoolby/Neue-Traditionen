@@ -9,6 +9,7 @@ import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
 import Register from "@components/Register";
 import Login from "@components/Login";
+import CreateBlog from "@components/blogs/CreateBlog";
 
 import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
@@ -51,6 +52,7 @@ function App() {
           <Route path="/contactform" element={<ContactForm />} />
           <Route path="/invitation" element={<ContactAsked />} />
           <Route path="/blogs" element={<HomeBlogs />} />
+          <Route path="/create" element={<CreateBlog />} />
         </Routes>
         <Footer />
       </Router>
