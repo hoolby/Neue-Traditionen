@@ -27,8 +27,8 @@ function AdminPage() {
     {
       title: "Inform in the blog",
       image: "",
-      body: "lab lab lab lab lab lab is lab lab lab yes",
-      link: "/",
+      body: "On click, you can add a new blog.",
+      link: "/create",
     },
   ]);
   return (

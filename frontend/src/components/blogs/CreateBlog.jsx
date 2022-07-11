@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./blog.css";
 
-function Create() {
+function CreateBlog() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [isPending, setIsPending] = useState(false);
@@ -59,4 +59,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default CreateBlog;

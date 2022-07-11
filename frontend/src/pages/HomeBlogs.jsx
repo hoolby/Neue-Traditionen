@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import "@components/blogs/blog.css";
 import BlogList from "@components/blogs/BlogList";
-import Create from "@components/blogs/create";
 import useFetch from "@components/blogs/useFetch";
 
 function HomeBlogs() {
@@ -11,7 +10,6 @@ function HomeBlogs() {
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
       {data && <BlogList blogs={data} />}
-      <Create />
     </div>
   );
 }

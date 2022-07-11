@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import BlogList from "@components/blogs/BlogList";
 import useFetch from "@components/blogs/useFetch";
-import Create from "@components/blogs/create";
+import Create from "@components/blogs/CreateBlog";
 import Items from "../../components/items/Items";
 import AdminPage from "../adminpage/Adminpage";
 import "./Home.css";
@@ -25,7 +25,6 @@ function Home() {
             {error && <div>{error}</div>}
             {isPending && <div>Loading...</div>}
             {data && <BlogList blogs={data} />}
-            <Create />
           </div>
         </section>
       )}
