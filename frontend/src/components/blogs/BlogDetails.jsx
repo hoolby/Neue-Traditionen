@@ -1,5 +1,7 @@
 import "./blog.css";
 import { useParams, useNavigate } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 import useFetch from "./useFetch";
 
 function BlogDetails() {
@@ -18,17 +20,17 @@ function BlogDetails() {
   };
 
   return (
-    <div className="blog-details">
+    <div>
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
       {data && (
-        <article>
-          <h2>{data.title}</h2>
-          <div>{data.texte}</div>
-          <button type="button" onClick={handleClick}>
+        <Card style={{ width: "50rem" }}>
+          <Card.Title>{data.title}</Card.Title>
+          <Card.Text>{data.texte}</Card.Text>
+          <Button variant="primary" type="button" onClick={handleClick}>
             Delete (don't do it.)
-          </button>
-        </article>
+          </Button>
+        </Card>
       )}
     </div>
   );
