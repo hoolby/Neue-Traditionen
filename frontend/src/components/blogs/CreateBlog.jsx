@@ -4,14 +4,14 @@ import "./blog.css";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [texte, setTexte] = useState("");
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const blog = { title, body };
+    const blog = { title, texte };
 
     setIsPending(true);
 
@@ -43,14 +43,14 @@ function CreateBlog() {
           <strong>Blog body:</strong>
           <textarea
             required
-            value={body}
-            onChange={(event) => setBody(event.target.value)}
+            value={texte}
+            onChange={(event) => setTexte(event.target.value)}
             id="bodyId"
           />
         </label>
-        {!isPending && <button type="button">Add blog</button>}
+        {!isPending && <button type="submit">Add blog</button>}
         {isPending && (
-          <button type="button" disabled>
+          <button type="submit" disabled>
             Adding blog...
           </button>
         )}

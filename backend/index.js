@@ -403,6 +403,21 @@ app.post("/blogs", (req, res) => {
   }
 });
 
+/* app.post("/blogs", (req, res) => {
+  const { title, texte } = req.body;
+  connection.query(
+    "INSERT INTO blogs(title, texte) VALUES (?, ?)",
+    [title, texte],
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error adding the blog");
+      } else {
+        res.status(200).send("Blog successfully posted");
+      }
+    }
+  );
+}); */
+
 app.put("/blogs/:id", (req, res) => {
   const blogsId = req.params.id;
   const datbase = connection.promise();
