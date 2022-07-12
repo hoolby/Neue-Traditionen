@@ -519,6 +519,17 @@ app.post("/contact/:id", (req, res) => {
   );
 });
 
+// Getting content for the funeral selection process (carousel)
+
+app.get("/selectionprocess", (req, res) => {
+  connection.query("SELECT * FROM selectionprocess", (err, results) => {
+    if (err) {
+      res.status(500).send("Error retrieving options for funeral planning");
+    } else if (results.length) res.json(results);
+    else res.status(404).send("not found");
+  });
+});
+
 app.listen(port, (error) => {
   connection.connect((err) => {
     if (err) {

@@ -4,7 +4,7 @@ import BlogDetails from "@components/blogs/BlogDetails";
 import ContactAsked from "@components/ContactAsked";
 import ContactForm from "@components/ContactForm";
 import Footer from "@components/footer/Footer";
-import ControlledCarousel from "@components/FunnelCarousel/Carousel";
+import ControlledCarousel from "@components/FunnelCarousel/CarouselCopy";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
 import Register from "@components/Register";
