@@ -24,13 +24,26 @@ function BlogDetails() {
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
       {data && (
-        <Card style={{ width: "50rem" }}>
-          <Card.Title>{data.title}</Card.Title>
-          <Card.Text>{data.texte}</Card.Text>
-          <Button variant="primary" type="button" onClick={handleClick}>
+        <div>
+          <Card
+            id="oneCard"
+            /* className="card-body" */ style={{ width: "50rem" }}
+          >
+            <Card.Title id="font" /* className="title" */>
+              {data.title}
+            </Card.Title>
+            <Card.Text id="font" /* className="body" */>{data.texte}</Card.Text>
+          </Card>
+
+          <Button
+            id="button"
+            variant="primary"
+            type="button"
+            onClick={handleClick}
+          >
             Delete (don't do it.)
           </Button>
-        </Card>
+        </div>
       )}
     </div>
   );
