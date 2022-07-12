@@ -30,7 +30,7 @@ function Form({ checklistItems, newItemchecklist }) {
     setValue,
     formState: { errors },
   } = useForm({ resolver: joiResolver(schema), mode: "onBlur" });
-  let valueOfChecked = newItemchecklist.checked ? true : false;
+  //let valueOfChecked = newItemchecklist.checked ? true : false;
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
@@ -39,20 +39,28 @@ function Form({ checklistItems, newItemchecklist }) {
     if (newItemchecklist.id) {
       setValue("title", newItemchecklist.title);
       setValue("responsible", newItemchecklist.responsible);
-      setValue("checked", valueOfChecked);
+      setValue("checked", newItemchecklist.checked);
     }
   }, [newItemchecklist]);
 
   const onSubmit = (data, e) => {
     console.log(data);
-    let changeschecked = data.checked ? 1 : 0;
+    //let changeschecked = data.checked ? 1 : 0;
     const requestData = newItemchecklist.id ? axios.put : axios.post;
-    requestData("http://localhost:5000/checklist", {
-      title: data.title,
-      responsible: data.responsible,
-      checked: changeschecked,
-      id: newItemchecklist.id,
-    })
+    requestData(
+      "http://localhost:5000/checklist",
+      {
+        title: data.title,
+        responsible: data.responsible,
+        checked: data.checked,
+        id: newItemchecklist.id,
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
       .then(() => {
         checklistItems();
         e.target.reset();
@@ -152,7 +160,7 @@ function Form({ checklistItems, newItemchecklist }) {
         </div>
       </div>
       <button type="submit" className="btn btn-primary">
-        Create Item
+        {newItemchecklist.id ? "Edite Item" : "Create Item"}
       </button>
       <div className="form-row form-bottom"></div>
     </form>

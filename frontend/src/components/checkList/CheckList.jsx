@@ -16,10 +16,23 @@ function CheckList() {
   useEffect(() => {
     checklistItems();
   }, []);
+
+  /* const config = {
+    headers: {
+      authentication: localStorage.getItem("token"),
+    },
+  }; */
   const checklistItems = () => {
-    axios.get("http://localhost:5000/checklist").then((respons) => {
-      setChecklistList(respons.data);
-    });
+    axios
+      .get("http://localhost:5000/checklist", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((respons) => {
+        console.log(respons.data[1]);
+        setChecklistList(respons.data[1]);
+      });
   };
   const updateChecklist = (list) => {
     setNewItemchecklist(list);

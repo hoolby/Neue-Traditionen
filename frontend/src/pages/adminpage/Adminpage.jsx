@@ -9,26 +9,17 @@ function AdminPage() {
     {
       title: "Edit checklist",
       image: "",
-      body: "lab lab lab lab lab lab is lab lab lab yes",
       link: "/checklist",
     },
     {
       title: "Download price overview",
       image: "",
-      body: "lab lab lab lab lab lab is lab lab lab yes",
       link: "/",
     },
     {
       title: "Select funeral provider",
       image: "",
-      body: "lab lab lab lab lab lab is lab lab lab yes",
       link: "/providers",
-    },
-    {
-      title: "Inform in the blog",
-      image: "",
-      body: "lab lab lab lab lab lab is lab lab lab yes",
-      link: "/",
     },
   ]);
   return (

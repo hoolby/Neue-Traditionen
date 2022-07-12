@@ -4,12 +4,12 @@ const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
 const Joi = require("joi");
-const { promise } = require("./db-config");
-const { object } = require("joi");
-const { response } = require("express");
+const argon2 = require("argon2");
 const app = express();
 app.use(express.json());
 const db = connection.promise();
+const jwt = require("jsonwebtoken");
+const jwt_decode = require("jwt-decode");
 
 app.use(cors());
 app.use((req, res, next) => {
@@ -24,23 +24,192 @@ process.on("unhandledRejection", (error) => {
 
 const port = process.env.PORT || 5000;
 
-////////////////checklist////////
+////////hashing-password/////////
 
-app.get("/checklist", (req, res) => {
-  connection.query("SELECT * FROM checklist", (err, result) => {
+const hashingOptions = {
+  type: argon2.argon2id,
+  memoryCost: 2 ** 16,
+  timeCost: 5,
+  parallelism: 1,
+};
+
+const hashPassword = (plainPassword) => {
+  return argon2.hash(plainPassword, hashingOptions);
+};
+
+const verifyPassword = (plainPassword, hashedPassword) => {
+  return argon2.verify(hashedPassword, plainPassword, hashingOptions);
+};
+
+const PRIVATE_KEY = "superSecretStringNowoneShouldKnowOrTheCanGenerateTokens";
+
+const calculateToken = (userEmail = "", user_id = "") => {
+  return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, {
+    expiresIn: "2h",
+  });
+};
+
+//const decode = jwt_decode(token);
+
+const verifyToken = (req, res, nex) => {
+  // console.log("req.body", req.body);
+  // console.log("req.query", req.query);
+};
+
+/////////////login/////////////
+app.post("/checkCredentials", (req, res) => {
+  const { email, password } = req.body;
+  let existUser = null;
+  db.query("SELECT * FROM user WHERE email = ?", [email]).then(
+    async ([result]) => {
+      existUser = result[0];
+      if (!existUser) res.status(404).send({ message: "user does not exist" });
+      else {
+        const passwordIsCorect = await verifyPassword(
+          password,
+          existUser.hashedPassword
+        );
+        console.log("passwordIsCorect", passwordIsCorect);
+        if (passwordIsCorect) {
+          const token = calculateToken(email, existUser.user_id);
+          existUser.token = token;
+          const decode = jwt_decode(token);
+          res.cookie("user_token", token);
+          console.log("decode", decode);
+          res.status(200).send(existUser);
+        } else {
+          res
+            .status(401)
+            .send({ message: "The password is not match with email" });
+        }
+      }
+    }
+  );
+});
+
+///////////////register////////////////
+
+app.post("/register", async (req, res) => {
+  const {
+    email,
+    username,
+    consentNewsletter,
+    password,
+    consentForConnecting,
+    role,
+  } = req.body;
+  const hashedPassword = await hashPassword(password);
+  let validationErrors = null;
+  Promise.all([
+    db
+      .query("SELECT * FROM user WHERE email = ?", [email])
+      .then(([result]) => result[0]),
+    db
+      .query("SELECT * FROM user WHERE username = ?", [username])
+      .then(([result]) => result[0]),
+  ])
+    .then(([otherUserWithEmail, user]) => {
+      if (user) return Promise.reject("DUPLICATE_USERNAME");
+      if (otherUserWithEmail) return Promise.reject("DUPLICATE_EMAIL");
+      validationErrors = Joi.object({
+        username: Joi.string().min(3).max(255).required().messages({
+          "string.base": `username should be a type of 'text'`,
+          "string.min": `username should have at least 3 characters`,
+          "string.max": `username should have less than 255 characters`,
+          "string.empty": "username can't be empty",
+          "string.required": `username is a required field`,
+        }),
+        email: Joi.string()
+          .email({ tlds: { allow: false } })
+          .required()
+          .messages({
+            "string.base": `email is a required field`,
+            "string.empty": "email can't be empty",
+            "string.required": `email is a required field`,
+          }),
+        consentNewsletter: Joi.boolean(),
+        consentForConnecting: Joi.boolean(),
+      }).validate(
+        {
+          email,
+          username,
+          consentNewsletter,
+          consentForConnecting,
+        },
+        { abortEarly: false }
+      ).error;
+      if (validationErrors) return Promise.reject("INVALID_DATA");
+
+      return db
+        .query(
+          "INSERT INTO user (email, username, hashedPassword, consentNewsletter, consentForConnecting, role) VALUE (?, ?, ?, ?, ?, ?)",
+          [
+            email,
+            username,
+            hashedPassword,
+            consentNewsletter,
+            consentForConnecting,
+            role,
+          ]
+        )
+        .then(([{ insertId }]) => {
+          const token = calculateToken(email, insertId);
+          res.cookie("user_token", token);
+          res.status(200).json({
+            user_id: insertId,
+            email,
+            username,
+            hashedPassword,
+            consentNewsletter,
+            consentForConnecting,
+            role,
+          });
+        });
+    })
+    .catch((err) => {
+      if (err === "DUPLICATE_USERNAME")
+        res.status(409).json({ message: "This username is already used" });
+      if (err === "DUPLICATE_EMAIL")
+        res.status(409).send({ message: "This email is already used" });
+      else if (err === "INVALID_DATA")
+        res.status(422).send({ message: "Invalid data" });
+      else res.status(500).send("interval server error");
+    });
+});
+app.get("/users", (req, res) => {
+  connection.query("SELECT * FROM user", (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send("Error retrieving users from database");
     } else {
-      const reversList = result.reverse();
-      res.json(reversList);
+      res.json(result);
     }
   });
 });
+////////////////checklist////////
+
+app.get("/checklist", (req, res) => {
+  console.log("req.headers", req.headers.authorization);
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  console.log("decode", decode);
+  db.query("SELECT * FROM checklist WHERE user_id = ?", [decode.id])
+    .then((result) => {
+      const reversList = result.reverse();
+      res.json(reversList);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving checklist from database");
+    });
+});
 
 app.post("/checklist", (req, res) => {
-  const { title, responsible } = req.body;
-  const checked = req.body.checked ? true : false;
+  const { title, responsible, checked } = req.body;
+  //const checked = req.body.checked ? true : false;
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  const user_id = decode.id;
   let validationErrors = null;
   console.log(checked);
   validationErrors = Joi.object({
@@ -56,12 +225,14 @@ app.post("/checklist", (req, res) => {
   }).validate({ title, responsible, checked }, { abortEarly: false }).error;
   if (validationErrors) return Promise.reject("INVALID_DATA");
   db.query(
-    "INSERT INTO checklist (title, responsible, checked) VALUE (?, ?, ?)",
-    [title, responsible, checked]
+    "INSERT INTO checklist (title, responsible, checked, user_id) VALUE (?, ?, ?, ?)",
+    [title, responsible, checked, user_id]
   )
     .then(([{ insertId }]) => {
-      res.status(201).json({ id: insertId, title, responsible, checked });
-      console.log({ title, responsible, checked });
+      res
+        .status(201)
+        .json({ id: insertId, title, responsible, checked, user_id });
+      console.log({ title, responsible, checked, user_id });
     })
     .catch((err) => {
       if (err === "INVALID_DATA") {
@@ -74,9 +245,8 @@ app.post("/checklist", (req, res) => {
 
 app.put("/checklist", (req, res) => {
   const checklistId = req.body.id;
-  const { title, responsible } = req.body;
-  const checked = req.body.checked ? true : false;
-  console.log(checked);
+  const { title, responsible, checked } = req.body;
+  //const checked = req.body.checked ? true : false;
   let validationErrors = null;
   let existChecklist = null;
   db.query("SELECT * FROM checklist WHERE id = ?", [checklistId]).then(
@@ -134,20 +304,25 @@ app.delete("/checklist/:id", (req, res) => {
 ////////////////guestslist//////////////
 
 app.get("/guests", (req, res) => {
-  connection.query("SELECT * FROM guests", (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Error retrieving users from database");
-    } else {
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  db.query("SELECT * FROM guests WHERE user_id = ?", [decode.id])
+    .then((result) => {
       const reversList = result.reverse();
       res.json(reversList);
-    }
-  });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving guest from database");
+    });
 });
 
 app.post("/guests", (req, res) => {
-  const { firstname, lastname, number } = req.body;
-  const checked = req.body.checked ? true : false;
+  const { firstname, lastname, number, checked } = req.body;
+  // const checked = req.body.checked ? true : false;
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  const user_id = decode.id;
   let validationErrors = null;
   validationErrors = Joi.object({
     firstname: Joi.string()
@@ -187,13 +362,13 @@ app.post("/guests", (req, res) => {
   ).error;
   if (validationErrors) return Promise.reject("INVALID_DATA");
   db.query(
-    "INSERT INTO guests (firstname, lastname, number, checked) VALUE (?, ?, ?, ?)",
-    [firstname, lastname, number, checked]
+    "INSERT INTO guests (firstname, lastname, number, checked, user_id) VALUE (?, ?, ?, ?, ?)",
+    [firstname, lastname, number, checked, user_id]
   )
     .then(([{ insertId }]) => {
       res
         .status(201)
-        .json({ id: insertId, firstname, lastname, number, checked });
+        .json({ id: insertId, firstname, lastname, number, checked, user_id });
     })
     .catch((err) => {
       console.error("reject", err);

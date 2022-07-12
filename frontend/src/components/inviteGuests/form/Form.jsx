@@ -56,7 +56,7 @@ function Form({ newGuest, guestItems }) {
     resolver: joiResolver(schema),
     mode: "onBlur",
   });
-  let valueOfChecked = newGuest.checked ? true : false;
+  //let valueOfChecked = newGuest.checked ? true : false;
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
@@ -65,20 +65,28 @@ function Form({ newGuest, guestItems }) {
       setValue("firstname", newGuest.firstname);
       setValue("lastname", newGuest.lastname);
       setValue("number", newGuest.number);
-      setValue("checked", valueOfChecked);
+      setValue("checked", newGuest.checked);
     }
   }, [newGuest]);
   const onSubmit = (data, e) => {
     console.log("data:", data);
-    let changeschecked = data.checked ? 1 : 0;
+    //let changeschecked = data.checked ? 1 : 0;
     const requestData = newGuest.id ? axios.put : axios.post;
-    requestData("http://localhost:5000/guests", {
-      firstname: data.firstname,
-      lastname: data.lastname,
-      number: data.number,
-      checked: changeschecked,
-      id: newGuest.id,
-    })
+    requestData(
+      "http://localhost:5000/guests",
+      {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        number: data.number,
+        checked: data.checked,
+        id: newGuest.id,
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
       .then((respons) => {
         console.log(respons);
         guestItems();

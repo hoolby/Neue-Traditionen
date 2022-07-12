@@ -3,7 +3,8 @@ import BlogDetails from "@components/blogs/BlogDetails";
 import Footer from "@components/footer/Footer";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
-import Register from "@components/Register";
+import Login from "@components/login/Login";
+import Register from "@components/register/Register";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -20,14 +21,14 @@ library.add(fas, fab);
 
 library.add(fas, fab);
 function App() {
-  const userMail = "testmail@testmail.com";
   return (
     <div className="App">
       <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register userMail={userMail} />} />
+          <Route path="/checkCredentials" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/checklist" element={<CheckList />} />

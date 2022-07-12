@@ -17,10 +17,16 @@ function InviteGuests() {
     guestItems();
   }, []);
   const guestItems = () => {
-    axios.get("http://localhost:5000/guests").then((respons) => {
-      console.log(respons.data);
-      setListOfGuest(respons.data);
-    });
+    axios
+      .get("http://localhost:5000/guests", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((respons) => {
+        console.log(respons.data[1]);
+        setListOfGuest(respons.data[1]);
+      });
   };
   const updateGuest = (list) => {
     setNewGuest(list);
