@@ -1,5 +1,7 @@
 /* eslint-disable import/no-unresolved */
 // Pages and components
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import BlogDetails from "@components/blogs/BlogDetails";
 import ContactAsked from "@components/ContactAsked";
 import ContactForm from "@components/ContactForm";
@@ -7,17 +9,11 @@ import Footer from "@components/footer/Footer";
 import ControlledCarousel from "@components/FunnelCarousel/Carousel";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
-import Register from "@components/Register";
-import Login from "@components/Login";
 import CreateBlog from "@components/blogs/CreateBlog";
-
 import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
-
-// Modules
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import Login from "@components/login/Login";
+import Register from "@components/register/Register";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -38,11 +34,14 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
+
+          {/* <Route
             path="/register"
             element={<Register userMail={userMail} userId={userId} />}
           />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} /> */}
+          <Route path="/checkCredentials" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/carousel" element={<ControlledCarousel />} />
           <Route path="/providers" element={<Providers />} />

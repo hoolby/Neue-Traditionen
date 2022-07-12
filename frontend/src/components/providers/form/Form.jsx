@@ -96,7 +96,7 @@ function Form({ editProvider, providerList }) {
         </Alert>
       )}
       <div className="form-row form-title">
-        <h4>Add providers</h4>
+        <h4>Add Funeral Provider</h4>
       </div>
       <div className="form-row">
         <div className="col-md-4 mb-3">
@@ -153,7 +153,7 @@ function Form({ editProvider, providerList }) {
       </div>
 
       <button type="submit" className="btn btn-primary">
-        {editProvider.id ? "Edite Provider" : "Create Provider"}
+        {editProvider.id ? "Edite Funeral Provider" : "Create Funeral Provider"}
       </button>
       <div className="form-row form-bottom" />
     </form>

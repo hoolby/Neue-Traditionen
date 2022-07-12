@@ -8,7 +8,7 @@ import "./AdminPage.css";
 function AdminItems({ data }) {
   return (
     <section className="box-admin-item">
-      <div>
+      <div className="admin-title">
         <span className="admin-item-icon">
           <FontAwesomeIcon
             icon="fa-solid fa-list-check"
@@ -22,7 +22,9 @@ function AdminItems({ data }) {
         <img className="admin-item-body-imag" src="" />
         <article className="admin-item-body-bottem">
           {data.body}
-          <Link to={data.link}>TO OVERVIEW</Link>
+          <button type="button" className="btn-detail">
+            <Link to={data.link}>TO OVERVIEW</Link>
+          </button>
         </article>
       </div>
     </section>
