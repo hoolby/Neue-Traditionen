@@ -30,11 +30,6 @@ function Form({ checklistItems, newItemchecklist }) {
     setValue,
     formState: { errors },
   } = useForm({ resolver: joiResolver(schema), mode: "onBlur" });
-<<<<<<< HEAD
-  const valueOfChecked = !!newItemchecklist.checked;
-=======
-  //let valueOfChecked = newItemchecklist.checked ? true : false;
->>>>>>> login-page
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
@@ -48,12 +43,6 @@ function Form({ checklistItems, newItemchecklist }) {
   }, [newItemchecklist]); //eslint-disable-line
 
   const onSubmit = (data, e) => {
-<<<<<<< HEAD
-    const changeschecked = data.checked ? 1 : 0;
-=======
-    console.log(data);
-    //let changeschecked = data.checked ? 1 : 0;
->>>>>>> login-page
     const requestData = newItemchecklist.id ? axios.put : axios.post;
     requestData(
       "http://localhost:5000/checklist",
