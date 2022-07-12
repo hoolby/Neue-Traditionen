@@ -6,12 +6,12 @@ import "./blog.css";
 
 function BlogList({ blogs }) {
   return (
-    <div>
+    <div className="cards">
       {blogs.map((blog) => (
         <CardGroup>
-          <Card style={{ width: "18rem" }} key={blog.id}>
+          <Card className="card" style={{ width: "18rem" }} key={blog.id}>
             <Link to={`/blogs/${blog.id}`}>
-              <Card.Title>{blog.title}</Card.Title>
+              <Card.Title className="title">{blog.title}</Card.Title>
             </Link>
           </Card>
         </CardGroup>
