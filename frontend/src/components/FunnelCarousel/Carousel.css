@@ -1,48 +1,36 @@
 .carousel {
   margin-top: 4em;
-  /* color: blue; */
+  margin-bottom: 4em;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
-/* .carousel-container {
-  display: flex;
-  flex-direction: column;
-} */
-
-/* .carousel-control-next > * {
-  position: absolute;
-  background-color: red;
+/* .carousel-control-next {
+  position: static !important;
   top: 50%;
   right: -50%;
   top: 20%;
-} */
+}
 
-/* .carousel-control-prev > span {
-  position: absolute;
+.carousel-control-prev > span {
+  position: static !important;
   top: 20%;
   left: -50%;
-  background-color: red;
 } */
+
 [role="button"] {
   size: 5px;
   margin-top: 25px;
   height: 50px;
 }
 
-#myCarousel > a {
-  background-color: red;
-}
-
-a.carousel-control-next {
-  /* display: none; */
+/* a.carousel-control-next {
   left: 100%;
 }
 
 a.carousel-control-prev {
-  /* display: none; */
   left: -15%;
-}
-
-/* 
+} */
 
 .carousel-control.left {
   margin-left: -25px;
@@ -60,12 +48,15 @@ a.carousel-control-prev {
 
 .visually-hidden {
   display: null;
-} */
-.carousel-indicators {
-  bottom: 300px !important;
 }
 
-.carousel-indicators,
-.carousel-indicators > button {
-  bottom: 17em;
+.carousel-indicators {
+  position: static !important;
+}
+
+.card-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
