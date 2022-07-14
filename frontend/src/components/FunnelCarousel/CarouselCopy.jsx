@@ -24,7 +24,6 @@ function ControlledCarousel() {
     if (multiplechoice) {
       // Some choice has been made already at the current step
       ////// Remove choice if previously selected
-      //////  NOT WORKING
       if (selection[choicescategory]?.includes(choicetitle)) {
         // OPTION 1:  try to target delete the choice from the Array directly
         // selection[choicescategory].delete(
