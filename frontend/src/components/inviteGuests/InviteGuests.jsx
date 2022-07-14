@@ -24,7 +24,7 @@ function InviteGuests() {
         },
       })
       .then((respons) => {
-        console.log(respons.data[1]);
+        console.warn(respons.data[1]);
         setListOfGuest(respons.data[1]);
       });
   };

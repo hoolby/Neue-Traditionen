@@ -6,14 +6,15 @@ const cors = require("cors");
 
 const nodemailer = require("nodemailer");
 const Joi = require("joi");
-const connection = require("./db-config");
 
 const argon2 = require("argon2");
+
 const app = express();
 app.use(express.json());
-const db = connection.promise();
+const db = connection.promise(); // eslint-disable-line
 const jwt = require("jsonwebtoken");
-const jwt_decode = require("jwt-decode");
+const jwt_decode = require("jwt-decode"); // eslint-disable-line
+const connection = require("./db-config");
 
 app.use(cors());
 
@@ -83,32 +84,32 @@ const verifyPassword = (plainPassword, hashedPassword) => {
 
 const PRIVATE_KEY = "superSecretStringNowoneShouldKnowOrTheCanGenerateTokens";
 
-const calculateToken = (userEmail = "", user_id = "") => {
-  return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, {
+const calculateToken = (userEmail = "", user_id = "") => { // eslint-disable-line
+  return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, { // eslint-disable-line
     expiresIn: "2h",
   });
 };
 
-/////////////login/////////////
+/// //////////login/////////////
 app.post("/checkCredentials", (req, res) => {
   const { email, password } = req.body;
   let existUser = null;
   db.query("SELECT * FROM user WHERE email = ?", [email]).then(
     async ([result]) => {
-      existUser = result[0];
+      existUser = result[0]; // eslint-disable-line
       if (!existUser) res.status(404).send({ message: "user does not exist" });
       else {
         const passwordIsCorect = await verifyPassword(
           password,
           existUser.hashedPassword
         );
-        console.log("passwordIsCorect", passwordIsCorect);
+        console.warn("passwordIsCorect", passwordIsCorect);
         if (passwordIsCorect) {
           const token = calculateToken(email, existUser.user_id);
           existUser.token = token;
           const decode = jwt_decode(token);
           res.cookie("user_token", token);
-          console.log("decode", decode);
+          console.warn("decode", decode);
           res.status(200).send(existUser);
         } else {
           res
@@ -120,7 +121,7 @@ app.post("/checkCredentials", (req, res) => {
   );
 });
 
-///////////////register////////////////
+/// ////////////register////////////////
 
 app.post("/register", async (req, res) => {
   const {
@@ -142,8 +143,8 @@ app.post("/register", async (req, res) => {
       .then(([result]) => result[0]),
   ])
     .then(([otherUserWithEmail, user]) => {
-      if (user) return Promise.reject("DUPLICATE_USERNAME");
-      if (otherUserWithEmail) return Promise.reject("DUPLICATE_EMAIL");
+      if (user) return Promise.reject("DUPLICATE_USERNAME"); // eslint-disable-line
+      if (otherUserWithEmail) return Promise.reject("DUPLICATE_EMAIL"); // eslint-disable-line
       validationErrors = Joi.object({
         username: Joi.string().min(3).max(255).required().messages({
           "string.base": `username should be a type of 'text'`,
@@ -171,7 +172,7 @@ app.post("/register", async (req, res) => {
         },
         { abortEarly: false }
       ).error;
-      if (validationErrors) return Promise.reject("INVALID_DATA");
+      if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
 
       return db
         .query(
@@ -219,13 +220,13 @@ app.get("/users", (req, res) => {
     }
   });
 });
-////////////////checklist////////
+/// /////////////checklist////////
 
 app.get("/checklist", (req, res) => {
-  console.log("req.headers", req.headers.authorization);
+  console.warn("req.headers", req.headers.authorization);
   const token = req.headers.authorization;
   const decode = jwt_decode(token);
-  console.log("decode", decode);
+  console.warn("decode", decode);
   db.query("SELECT * FROM checklist WHERE user_id = ?", [decode.id])
     .then((result) => {
       const reversList = result.reverse();
@@ -237,14 +238,14 @@ app.get("/checklist", (req, res) => {
     });
 });
 
-app.post("/checklist", (req, res) => {
+app.post("/checklist", (req, res) => { // eslint-disable-line
   const { title, responsible, checked } = req.body;
-  //const checked = req.body.checked ? true : false;
+  // const checked = req.body.checked ? true : false;
   const token = req.headers.authorization;
   const decode = jwt_decode(token);
-  const user_id = decode.id;
+  const user_id = decode.id; // eslint-disable-line
   let validationErrors = null;
-  console.log(checked);
+  console.warn(checked);
   validationErrors = Joi.object({
     title: Joi.string().min(3).max(255).required().messages({
       "string.base": `title should be a type of 'text'`,
@@ -256,16 +257,16 @@ app.post("/checklist", (req, res) => {
     responsible: Joi.string().required(),
     checked: Joi.boolean(),
   }).validate({ title, responsible, checked }, { abortEarly: false }).error;
-  if (validationErrors) return Promise.reject("INVALID_DATA");
+  if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
   db.query(
     "INSERT INTO checklist (title, responsible, checked, user_id) VALUE (?, ?, ?, ?)",
-    [title, responsible, checked, user_id]
+    [title, responsible, checked, user_id] // eslint-disable-line
   )
     .then(([{ insertId }]) => {
       res
         .status(201)
-        .json({ id: insertId, title, responsible, checked, user_id });
-      console.log({ title, responsible, checked, user_id });
+        .json({ id: insertId, title, responsible, checked, user_id }); // eslint-disable-line
+      console.warn({ title, responsible, checked, user_id }); // eslint-disable-line
     })
     .catch((err) => {
       if (err === "INVALID_DATA") {
@@ -279,14 +280,14 @@ app.post("/checklist", (req, res) => {
 app.put("/checklist", (req, res) => {
   const checklistId = req.body.id;
   const { title, responsible, checked } = req.body;
-  //const checked = req.body.checked ? true : false;
+  // const checked = req.body.checked ? true : false;
   let validationErrors = null;
   let existChecklist = null;
   db.query("SELECT * FROM checklist WHERE id = ?", [checklistId]).then(
     ([results]) => {
-      existChecklist = results[0];
+      existChecklist = results[0]; // eslint-disable-line
       if (!existChecklist)
-        return Promise.reject("THIS CHECKLIST DOSE NOT EXIST");
+        return Promise.reject("THIS CHECKLIST DOSE NOT EXIST"); // eslint-disable-line
       validationErrors = Joi.object({
         title: Joi.string().min(3).max(255).required().messages({
           "string.base": `title should be a type of 'text'`,
@@ -298,7 +299,7 @@ app.put("/checklist", (req, res) => {
         responsible: Joi.string().required(),
         checked: Joi.boolean(),
       }).validate({ title, responsible, checked }, { abortEarly: false }).error;
-      if (validationErrors) return Promise.reject("INVALID_DATA");
+      if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
       return db
         .query("UPDATE checklist SET ? WHERE id=?", [
           { title, responsible, checked },
@@ -308,7 +309,7 @@ app.put("/checklist", (req, res) => {
           res.status(201).json({ ...req.body, ...existChecklist });
         })
         .catch((err) => {
-          console.log(err);
+          console.warn(err);
           if (err === "THIS CHECKLIST DOSE NOT EXIST")
             res.status(404).send(`Checklist with id ${checklistId} not found.`);
           else if (err === "INVALID_DATA")
@@ -320,11 +321,11 @@ app.put("/checklist", (req, res) => {
 });
 app.delete("/checklist/:id", (req, res) => {
   const checklistId = req.params.id;
-  console.log(checklistId);
+  console.warn(checklistId);
   connection.query(
     "DELETE FROM checklist WHERE id = ?",
     [checklistId],
-    (err, result) => {
+    (err, result) => { // eslint-disable-line
       if (err) {
         res.status(500).send("server interval error");
       } else {
@@ -334,7 +335,7 @@ app.delete("/checklist/:id", (req, res) => {
   );
 });
 
-////////////////guestslist//////////////
+/// /////////////guestslist//////////////
 
 app.get("/guests", (req, res) => {
   const token = req.headers.authorization;
@@ -354,7 +355,7 @@ app.post("/guests", (req, res) => {
   const { firstname, lastname, number, checked } = req.body;
   const token = req.headers.authorization;
   const decode = jwt_decode(token);
-  const user_id = decode.id;
+  const user_id = decode.id; // eslint-disable-line
   let validationErrors = null;
   validationErrors = Joi.object({
     firstname: Joi.string()
@@ -396,12 +397,12 @@ app.post("/guests", (req, res) => {
   return db
     .query(
       "INSERT INTO guests (firstname, lastname, number, checked, user_id) VALUE (?, ?, ?, ?, ?)",
-      [firstname, lastname, number, checked, user_id]
+      [firstname, lastname, number, checked, user_id] // eslint-disable-line
     )
     .then(([{ insertId }]) => {
       res
         .status(201)
-        .json({ id: insertId, firstname, lastname, number, checked, user_id });
+        .json({ id: insertId, firstname, lastname, number, checked, user_id }); // eslint-disable-line
     })
     .catch((err) => {
       if (err === "INVALID_DATA")
@@ -451,13 +452,13 @@ app.put("/guests", (req, res) => {
       }),
       checked: Joi.boolean(),
     }).validate(
-      { firstname, lastname, number, checked },
+      { firstname, lastname, number, checked }, // eslint-disable-line
       { abortEarly: false }
     ).error;
     if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
     return db
       .query("UPDATE guests SET ? WHERE id = ?", [
-        { firstname, lastname, number, checked },
+        { firstname, lastname, number, checked }, // eslint-disable-line
         guestId,
       ])
       .then(() => {

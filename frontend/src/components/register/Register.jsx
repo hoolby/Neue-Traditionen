@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
@@ -53,7 +54,7 @@ function Register() {
   const [varient, setVarient] = useState("");
 
   const onSubmit = (data, e) => {
-    console.log(data);
+    console.warn(data);
     axios
       .post("http://localhost:5000/register", {
         email: data.email,
@@ -64,7 +65,7 @@ function Register() {
         role: "client",
       })
       .then((respons) => {
-        console.log(respons);
+        console.warn(respons);
         setHandelError("it was successfull");
         setShow(true);
         setVarient("success");

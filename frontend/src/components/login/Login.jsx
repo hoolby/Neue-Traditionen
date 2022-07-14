@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-//import Stack from "react-bootstrap/Stack";
+// import Stack from "react-bootstrap/Stack";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
@@ -45,7 +45,7 @@ function Login() {
   const navigate = useNavigate();
 
   const onSubmit = (data, e) => {
-    //console.log(data);
+    // console.log(data);
     axios
       .post("http://localhost:5000/checkCredentials", {
         email: data.email,
@@ -89,6 +89,7 @@ function Login() {
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
+                  // eslint-disable-next-line react/jsx-props-no-spreading
                   {...register("email", { required: true })}
                 />
                 {errors.email && (
@@ -100,6 +101,7 @@ function Login() {
                 <Form.Control
                   type="password"
                   placeholder="Password"
+                  // eslint-disable-next-line react/jsx-props-no-spreading
                   {...register("password")}
                 />
                 {errors.password && (

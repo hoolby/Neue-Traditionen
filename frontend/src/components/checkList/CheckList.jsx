@@ -30,7 +30,7 @@ function CheckList() {
         },
       })
       .then((respons) => {
-        console.log(respons.data[1]);
+        console.warn(respons.data[1]);
         setChecklistList(respons.data[1]);
       });
   };
