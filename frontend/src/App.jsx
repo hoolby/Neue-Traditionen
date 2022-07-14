@@ -35,11 +35,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
 
-          {/* <Route
+          {/*   <Route
             path="/register"
             element={<Register userMail={userMail} userId={userId} />}
-          />
-          <Route path="/login" element={<Login />} /> */}
+          /> 
+             <Route path="/login" element={<Login />} />  */}
           <Route path="/checkCredentials" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPage />} />

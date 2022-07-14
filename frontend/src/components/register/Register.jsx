@@ -171,6 +171,10 @@ function Register() {
         <Button variant="primary" type="submit">
           Register
         </Button>
+        <Button variant="secondary" type="submit">
+          Already registered?
+          <a href="/login"> Login</a>
+        </Button>
       </Form>
 
       {/* ****************************************************************

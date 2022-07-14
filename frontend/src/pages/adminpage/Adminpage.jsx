@@ -21,6 +21,12 @@ function AdminPage() {
       image: "",
       link: "/providers",
     },
+    {
+      title: "Inform in the blog",
+      image: "",
+      body: "On click, you can add a new blog.",
+      link: "/create",
+    },
   ]);
   return (
     <div className="admin-container">

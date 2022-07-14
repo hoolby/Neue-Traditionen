@@ -11,11 +11,11 @@ const argon2 = require("argon2");
 
 const app = express();
 app.use(express.json());
-const db = connection.promise(); // eslint-disable-line
 const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode"); // eslint-disable-line
 const connection = require("./db-config");
 
+const db = connection.promise();
 app.use(cors());
 
 app.use((req, res, next) => {
