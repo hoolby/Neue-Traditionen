@@ -1,11 +1,29 @@
 import "./blog.css";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import useFetch from "./useFetch";
 
 function BlogDetails() {
   const { id } = useParams();
+
+  useEffect(() => {
+    roleOfUser();
+  }, []);
+  const roleOfUser = () => {
+    axios
+      .get("http://localhost:5000/user", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((respons) => {
+        setRole(respons.data[0][0].role);
+      });
+  };
+  const [role, setRole] = useState();
   const { data, isPending, error } = useFetch(
     `http://localhost:5000/blogs/${id}`
   );
@@ -34,15 +52,18 @@ function BlogDetails() {
             </Card.Title>
             <Card.Text id="font" /* className="body" */>{data.texte}</Card.Text>
           </Card>
-
-          <Button
-            id="button"
-            variant="primary"
-            type="button"
-            onClick={handleClick}
-          >
-            Delete (don't do it.)
-          </Button>
+          {role && role === "admin" ? (
+            <Button
+              id="button"
+              variant="primary"
+              type="button"
+              onClick={handleClick}
+            >
+              Delete (don't do it.)
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
       )}
     </div>

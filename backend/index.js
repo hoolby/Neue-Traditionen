@@ -84,8 +84,10 @@ const verifyPassword = (plainPassword, hashedPassword) => {
 
 const PRIVATE_KEY = "superSecretStringNowoneShouldKnowOrTheCanGenerateTokens";
 
-const calculateToken = (userEmail = "", user_id = "") => { // eslint-disable-line
-  return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, { // eslint-disable-line
+const calculateToken = (userEmail = "", user_id = "") => {
+  // eslint-disable-line
+  return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, {
+    // eslint-disable-line
     expiresIn: "2h",
   });
 };
@@ -94,7 +96,7 @@ const calculateToken = (userEmail = "", user_id = "") => { // eslint-disable-lin
 app.post("/checkCredentials", (req, res) => {
   const { email, password } = req.body;
   let existUser = null;
-  db.query("SELECT * FROM user WHERE email = ?", [email]).then(
+  db.query("SELECT * FROM users WHERE email = ?", [email]).then(
     async ([result]) => {
       existUser = result[0]; // eslint-disable-line
       if (!existUser) res.status(404).send({ message: "user does not exist" });
@@ -136,10 +138,10 @@ app.post("/register", async (req, res) => {
   let validationErrors = null;
   Promise.all([
     db
-      .query("SELECT * FROM user WHERE email = ?", [email])
+      .query("SELECT * FROM users WHERE email = ?", [email])
       .then(([result]) => result[0]),
     db
-      .query("SELECT * FROM user WHERE username = ?", [username])
+      .query("SELECT * FROM users WHERE username = ?", [username])
       .then(([result]) => result[0]),
   ])
     .then(([otherUserWithEmail, user]) => {
@@ -176,7 +178,7 @@ app.post("/register", async (req, res) => {
 
       return db
         .query(
-          "INSERT INTO user (email, username, hashedPassword, consentNewsletter, consentForConnecting, role) VALUE (?, ?, ?, ?, ?, ?)",
+          "INSERT INTO users (email, username, hashedPassword, consentNewsletter, consentForConnecting, role) VALUE (?, ?, ?, ?, ?, ?)",
           [
             email,
             username,
@@ -210,15 +212,17 @@ app.post("/register", async (req, res) => {
       else res.status(500).send("interval server error");
     });
 });
-app.get("/users", (req, res) => {
-  connection.query("SELECT * FROM user", (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Error retrieving users from database");
-    } else {
+app.get("/user", (req, res) => {
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  db.query("SELECT * FROM users WHERE user_id = ?", [decode.id])
+    .then((result) => {
       res.json(result);
-    }
-  });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("this user does not exist");
+    });
 });
 /// /////////////checklist////////
 
@@ -238,7 +242,8 @@ app.get("/checklist", (req, res) => {
     });
 });
 
-app.post("/checklist", (req, res) => { // eslint-disable-line
+app.post("/checklist", (req, res) => {
+  // eslint-disable-line
   const { title, responsible, checked } = req.body;
   // const checked = req.body.checked ? true : false;
   const token = req.headers.authorization;
@@ -325,7 +330,8 @@ app.delete("/checklist/:id", (req, res) => {
   connection.query(
     "DELETE FROM checklist WHERE id = ?",
     [checklistId],
-    (err, result) => { // eslint-disable-line
+    (err, result) => {
+      // eslint-disable-line
       if (err) {
         res.status(500).send("server interval error");
       } else {
