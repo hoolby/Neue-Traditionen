@@ -1,2 +1,1 @@
-web: npm run setup && npm run dev-back
-
+web: cd backend && npm ci && cd .. && npm run dev-back
