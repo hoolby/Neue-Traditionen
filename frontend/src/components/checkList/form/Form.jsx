@@ -11,6 +11,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
 const schema = Joi.object({
   title: Joi.string().min(3).max(255).required().messages({
     "string.base": `title should be a type of 'text'`,
@@ -45,7 +47,7 @@ function Form({ checklistItems, newItemchecklist }) {
   const onSubmit = (data, e) => {
     const requestData = newItemchecklist.id ? axios.put : axios.post;
     requestData(
-      "http://localhost:5000/checklist",
+      `${backendURL}/checklist`,
       {
         title: data.title,
         responsible: data.responsible,

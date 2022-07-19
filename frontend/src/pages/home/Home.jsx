@@ -8,10 +8,11 @@ import Items from "../../components/items/Items";
 import AdminPage from "../adminpage/Adminpage";
 import "./Home.css";
 import "@components/blogs/blog.css";
-
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
 function Home() {
   const [showAdmin, setShowAdmin] = useState(true);
-  const { data, isPending, error } = useFetch("http://localhost:5000/blogs");
+  const { data, isPending, error } = useFetch(`${backendURL}/blogs`);
   return (
     <div>
       {!showAdmin ? (

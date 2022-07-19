@@ -1,13 +1,15 @@
 import React from "react";
 
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
 function InvitCard({ name, email, message, id }) {
   const handleClick = () => {
-    fetch(`http://localhost:5000/contact/${id}`, {
+    fetch(`${backendURL}/contact/${id}`, {
       method: "POST",
     });
   };
   const handleDelete = () => {
-    fetch(`http://localhost:5000/contact/${id}`, {
+    fetch(`${backendURL}/contact/${id}`, {
       method: "DELETE",
     });
   };
