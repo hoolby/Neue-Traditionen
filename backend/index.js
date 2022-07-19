@@ -49,6 +49,11 @@ transporter.verify(function (error, success) {
     console.warn(success, "Server is ready to take our messages");
   }
 });
+
+//TEST ROUTE:
+app.get("/", (req, res) => {
+  res.json({ status: "up" });
+});
 app.post("/createProvider", (req, res) => {
   const { title } = req.body;
   const { mobile } = req.body;
