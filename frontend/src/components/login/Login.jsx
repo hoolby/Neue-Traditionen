@@ -31,6 +31,8 @@ const schema = Joi.object({
   }), // .regex(/^[a-zA-Z0-9]{3,30}$/)
 });
 
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function Login() {
   const {
     register,
@@ -47,7 +49,7 @@ function Login() {
   const onSubmit = (data, e) => {
     // console.log(data);
     axios
-      .post("http://localhost:5000/checkCredentials", {
+      .post(`${backendURL}/checkCredentials`, {
         email: data.email,
         password: data.password,
       })

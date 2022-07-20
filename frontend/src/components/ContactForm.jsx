@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function ContactForm() {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState("Submit");
@@ -22,7 +24,7 @@ function ContactForm() {
       email: email.value,
       message: message.value,
     };
-    fetch("http://localhost:5000/contact", {
+    fetch(`${backendURL}/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

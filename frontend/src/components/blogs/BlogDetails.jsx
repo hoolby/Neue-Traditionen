@@ -5,6 +5,8 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import useFetch from "./useFetch";
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function BlogDetails() {
   const { id } = useParams();
@@ -14,9 +16,9 @@ function BlogDetails() {
   }, []);
   const roleOfUser = () => {
     axios
-      .get("http://localhost:5000/user", {
+      .get(`${backendURL}/user`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: localStorage.getItem("\token"),
         },
       })
       .then((respons) => {
@@ -24,13 +26,11 @@ function BlogDetails() {
       });
   };
   const [role, setRole] = useState();
-  const { data, isPending, error } = useFetch(
-    `http://localhost:5000/blogs/${id}`
-  );
+  const { data, isPending, error } = useFetch(`${backendURL}/blogs/${id}`);
   const navigate = useNavigate();
 
   const handleClick = () => {
-    fetch(`http://localhost:5000/blogs/${id}`, {
+    fetch(`${backendURL}/blogs/${id}`, {
       method: "DELETE",
     }).then(() => {
       navigate("/");

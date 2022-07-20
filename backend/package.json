@@ -23,6 +23,7 @@
     "jwt-decode": "^3.1.2",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.5",
+    "nodemon": "^2.0.19",
     "template-fullstack": "file:.."
   },
   "rules": {
@@ -42,7 +43,6 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
-    "nodemon": "^2.0.15",
     "prettier": "2.5.1"
   }
 }

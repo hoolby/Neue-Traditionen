@@ -9,7 +9,8 @@ import Joi from "joi";
 
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
-
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 const schema = Joi.object({
   title: Joi.string()
     .min(3)
@@ -62,7 +63,7 @@ function Form({ editProvider, providerList }) {
   const onSubmit = (data, e) => {
     /* console.log("data:", data); */
     const requestData = editProvider.id ? axios.put : axios.post;
-    requestData("http://localhost:5000/provider", {
+    requestData(`${backendURL}/provider`, {
       title: data.title,
       mobile: data.mobile,
       email: data.email,

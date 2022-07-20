@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 const schema = Joi.object({
   firstname: Joi.string()
@@ -69,7 +71,7 @@ function Form({ newGuest, guestItems }) {
   const onSubmit = (data, e) => {
     const requestData = newGuest.id ? axios.put : axios.post;
     requestData(
-      "http://localhost:5000/guests",
+      `${backendURL}/guests`,
       {
         firstname: data.firstname,
         lastname: data.lastname,

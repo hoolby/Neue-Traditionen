@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./blog.css";
+let backendURL =
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
@@ -15,7 +17,7 @@ function CreateBlog() {
 
     setIsPending(true);
 
-    fetch("http://localhost:5000/blogs", {
+    fetch(`${backendURL}/blogs`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(blog),
