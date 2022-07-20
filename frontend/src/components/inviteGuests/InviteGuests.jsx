@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import "./InviteGuests.css";
 let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function InviteGuests() {
   const [listOfGuest, setListOfGuest] = useState([]);

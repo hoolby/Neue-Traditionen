@@ -12,7 +12,7 @@ import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
 let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 const schema = Joi.object({
   title: Joi.string().min(3).max(255).required().messages({
     "string.base": `title should be a type of 'text'`,

@@ -5,7 +5,7 @@ import axios from "axios";
 import InvitCard from "@components/invitCard";
 
 let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function ContactAsked() {
   const [invitAsked, setInvitAsked] = useState([]);

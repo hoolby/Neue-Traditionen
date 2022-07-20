@@ -6,7 +6,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import useFetch from "./useFetch";
 let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function BlogDetails() {
   const { id } = useParams();

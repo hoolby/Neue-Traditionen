@@ -3,7 +3,7 @@ import "@components/blogs/blog.css";
 import BlogList from "@components/blogs/BlogList";
 import useFetch from "@components/blogs/useFetch";
 let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function HomeBlogs() {
   const { data, isPending, error } = useFetch(`${backendURL}/blogs`);
   return (

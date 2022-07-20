@@ -1,7 +1,7 @@
 import React from "react";
 
 let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function InvitCard({ name, email, message, id }) {
   const handleClick = () => {
     fetch(`${backendURL}/contact/${id}`, {

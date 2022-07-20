@@ -32,7 +32,7 @@ const schema = Joi.object({
 });
 
 let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com/";
+  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function Login() {
   const {
     register,
