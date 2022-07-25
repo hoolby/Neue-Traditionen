@@ -10,7 +10,7 @@ import "./Home.css";
 import "@components/blogs/blog.css";
 
 const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function Home() {
   const [showAdmin, setShowAdmin] = useState(true);
   const { data, isPending, error } = useFetch(`${backendURL}/blogs`);

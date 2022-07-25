@@ -7,7 +7,7 @@ import Alert from "react-bootstrap/Alert";
 import "./CheckList.css";
 
 const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function CheckList() {
   const [checklistList, setChecklistList] = useState([]);

@@ -11,7 +11,7 @@ import Container from "react-bootstrap/Container";
 import Items from "@components/items/ItemsCopyForRegistrationPage";
 
 const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 const schema = Joi.object({
   username: Joi.string().min(3).max(255).required().messages({
     "string.base": `username should be a type of 'text'`,
