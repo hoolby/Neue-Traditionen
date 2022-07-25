@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // require("dotenv").config();
 
 const dotenv = require("dotenv");
@@ -16,6 +18,10 @@ const jwt_decode = require("jwt-decode"); // eslint-disable-line
 const connection = require("./db-config");
 
 const db = connection.promise();
+
+// firebase
+const { initializeApp } = require('firebase-admin/app');
+
 app.use(cors());
 
 app.use((req, res, next) => {

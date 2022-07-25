@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* eslint-disable import/no-unresolved */
 // Pages and components
 import React from "react";
