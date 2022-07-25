@@ -2,6 +2,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import ContactForm from "@components/ContactForm";
 /* IMPORT AUTH STATE, DATABASE AND STORAGE INSTANCES AND LOGOUT FUNCTION */
 import {
   getDownloadURL,
@@ -16,10 +17,10 @@ function Dashboard() {
   /* DEFINE STATE FOR USER NAME */
   const [name, setName] = useState("");
   /* DEFINE STATE FOR FILE UPLOAD */
-  const [imgUrl, setImgUrl] = useState(null);
+  /*   const [imgUrl, setImgUrl] = useState(null); */
   const [progresspercent, setProgresspercent] = useState(0);
   /* DEFINE STATE FOR DOWNLOADED IMAGES */
-  const [gallery, setGallery] = useState([]);
+  /*   const [gallery, setGallery] = useState([]); */
   /* LOAD AUTH STATUS */
   const [user, loading, error] = useAuthState(auth); // eslint-disable-line
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Dashboard() {
     }
   };
   /* FETCH ALL IMAGES UPLOADED BY USER */
-  const fetchImages = async () => {
+  /*   const fetchImages = async () => {
     const storageRef = ref(storage, `${user.uid}`);
     listAll(storageRef)
       .then((res) => {
@@ -52,8 +53,8 @@ function Dashboard() {
         console.log(err); // eslint-disable-line
         // Uh-oh, an error occurred!
       });
-  };
-  const handleSubmit = (e) => {
+  }; */
+  /*   const handleSubmit = (e) => {
     e.preventDefault();
     const file = e.target[0]?.files[0];
 
@@ -79,13 +80,13 @@ function Dashboard() {
         });
       }
     );
-  };
+  }; */
 
   useEffect(() => {
     if (loading) return;
     if (!user) navigate("/login");
     fetchUserName();
-    fetchImages();
+    /*    fetchImages(); */
     /* console.log(user); */
   }, [user, loading]);
 
@@ -110,21 +111,24 @@ function Dashboard() {
         </button>
       </div>
       {/* UPLOAD FILES */}
-      <h2>Uploaded new image</h2>
+      {/*       <h2>Uploaded new image</h2>
       <div className="dashboard__container">
         <form onSubmit={handleSubmit} className="form">
           <input type="file" />
           <button type="submit">Upload</button>
         </form>
         {!imgUrl && <span>{progresspercent}%</span>}
-      </div>
+      </div> */}
       {/* UPLOADED IMAGES */}
-      <h2>Uploaded images</h2>
+      {/*       <h2>Uploaded images</h2>
       <div className="dashboard__container" style={{ flexDirection: "row" }}>
         {imgUrl && <img src={imgUrl} alt="uploaded file" />}
         {Object.keys(gallery).map((i) => (
           <img src={gallery[i]} alt="gallery" key={`${i}`} />
         ))}
+      </div> */}
+      <div>
+        <ContactForm />
       </div>
     </div>
   );
