@@ -5,7 +5,8 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import useFetch from "./useFetch";
-let backendURL =
+
+const backendURL =
   process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function BlogDetails() {

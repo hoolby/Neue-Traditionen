@@ -9,7 +9,8 @@ import Joi from "joi";
 import Alert from "react-bootstrap/Alert";
 import Container from "react-bootstrap/Container";
 import Items from "@components/items/ItemsCopyForRegistrationPage";
-let backendURL =
+
+const backendURL =
   process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 const schema = Joi.object({
   username: Joi.string().min(3).max(255).required().messages({

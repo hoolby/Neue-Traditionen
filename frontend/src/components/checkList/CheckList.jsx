@@ -5,7 +5,8 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import "./CheckList.css";
-let backendURL =
+
+const backendURL =
   process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function CheckList() {

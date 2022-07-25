@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { Link } from "react-router-dom";
-
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
-let backendURL =
+
+const backendURL =
   process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 const schema = Joi.object({

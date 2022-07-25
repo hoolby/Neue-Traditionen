@@ -50,7 +50,7 @@ transporter.verify(function (error, success) {
   }
 });
 
-//TEST ROUTE:
+// TEST ROUTE:
 app.get("/", (req, res) => {
   res.json({ status: "up" });
 });
@@ -88,11 +88,10 @@ const verifyPassword = (plainPassword, hashedPassword) => {
 };
 
 const PRIVATE_KEY = "superSecretStringNowoneShouldKnowOrTheCanGenerateTokens";
-
+// eslint-disable-next-line
 const calculateToken = (userEmail = "", user_id = "") => {
-  // eslint-disable-line
+  // eslint-disable-next-line
   return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, {
-    // eslint-disable-line
     expiresIn: "2h",
   });
 };
@@ -246,9 +245,8 @@ app.get("/checklist", (req, res) => {
       res.status(500).send("Error retrieving checklist from database");
     });
 });
-
+// eslint-disable-next-line
 app.post("/checklist", (req, res) => {
-  // eslint-disable-line
   const { title, responsible, checked } = req.body;
   // const checked = req.body.checked ? true : false;
   const token = req.headers.authorization;
@@ -335,8 +333,8 @@ app.delete("/checklist/:id", (req, res) => {
   connection.query(
     "DELETE FROM checklist WHERE id = ?",
     [checklistId],
+    // eslint-disable-next-line
     (err, result) => {
-      // eslint-disable-line
       if (err) {
         res.status(500).send("server interval error");
       } else {

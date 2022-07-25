@@ -31,7 +31,7 @@ const schema = Joi.object({
   }), // .regex(/^[a-zA-Z0-9]{3,30}$/)
 });
 
-let backendURL =
+const backendURL =
   process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function Login() {
   const {

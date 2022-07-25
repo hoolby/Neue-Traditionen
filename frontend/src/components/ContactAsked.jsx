@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import InvitCard from "@components/invitCard";
 
-let backendURL =
+const backendURL =
   process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function ContactAsked() {

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-let backendURL =
+const backendURL =
   process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function ContactForm() {
   const [value, setValue] = useState("");
