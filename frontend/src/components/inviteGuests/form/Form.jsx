@@ -11,7 +11,7 @@ import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
 const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 const schema = Joi.object({
   firstname: Joi.string()

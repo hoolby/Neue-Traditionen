@@ -12,7 +12,7 @@ import Providers from "@components/providers/Providers";
 import CreateBlog from "@components/blogs/CreateBlog";
 import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
-import Login from "@components/login/Login";
+import Login from "@components/Login";
 import Register from "@components/register/Register";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -26,8 +26,8 @@ import "./App.css";
 library.add(fas, fab);
 
 function App() {
-  const userMail = "testmail@testmail.com";
-  const userId = 1; // for Register Component - to be replaced by user email on entering the registration page from custom link
+  /*   const userMail = "testmail@testmail.com";
+  const userId = 1; // for Register Component - to be replaced by user email on entering the registration page from custom link */
   return (
     <div className="App">
       <Router>
@@ -39,8 +39,8 @@ function App() {
             path="/register"
             element={<Register userMail={userMail} userId={userId} />}
           /> 
-             <Route path="/login" element={<Login />} />  */}
-          <Route path="/checkCredentials" element={<Login />} />
+          <Route path="/login" element={<Login />} /> */}
+          <Route path="/Login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/carousel" element={<ControlledCarousel />} />

@@ -1,199 +1,130 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
-import { useForm } from "react-hook-form";
-import { joiResolver } from "@hookform/resolvers/joi";
-import Joi from "joi";
-import Alert from "react-bootstrap/Alert";
+/* eslint-disable */
+import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
 import Items from "@components/items/ItemsCopyForRegistrationPage";
-
-const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
-const schema = Joi.object({
-  username: Joi.string().min(3).max(255).required().messages({
-    "string.base": `username should be a type of 'text'`,
-    "string.min": `username should have at least 3 characters`,
-    "string.max": `username should have less than 255 characters`,
-    "string.empty": "username can't be empty",
-    "string.required": `username is a required field`,
-  }),
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .required()
-    .messages({
-      "string.base": `email is a required field`,
-      "string.empty": "email can't be empty",
-      "string.required": `email is a required field`,
-    }),
-  password: Joi.string().min(3).max(15).required().messages({
-    "string.base": `password should be a type of 'text'`,
-    "string.min": `password should have at least 3 characters`,
-    "string.max": `password should have less than 255 characters`,
-    "string.empty": "password can't be empty",
-    "string.required": `password is a required field`,
-  }), // .regex(/^[a-zA-Z0-9]{3,30}$/)
-  cppassword: Joi.any()
-    .valid(Joi.ref("password"))
-    .required()
-    .options({ messages: { "any.only": "Password does not match" } }),
-  consentNewsletter: Joi.boolean(),
-  consentForConnecting: Joi.boolean(),
-});
+import Button from "react-bootstrap/Button";
+import {
+  auth,
+  registerWithEmailAndPassword,
+  signInWithGoogle,
+} from "../../firebase";
 
 function Register() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm({ mode: "onTouched", resolver: joiResolver(schema) });
-  const [handelError, setHandelError] = useState("");
-  const [show, setShow] = useState(false);
-  const [varient, setVarient] = useState("");
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate();
 
-  const onSubmit = (data, e) => {
-    console.warn(data);
-    axios
-      .post(`${backendURL}/register`, {
-        email: data.email,
-        username: data.username,
-        password: data.password,
-        consentNewsletter: data.consentNewsletter,
-        consentForConnecting: data.consentForConnecting,
-        role: "client",
-      })
-      .then((respons) => {
-        console.warn(respons);
-        setHandelError("it was successfull");
-        setShow(true);
-        setVarient("success");
-        e.target.reset();
-      })
-      .catch((err) => {
-        setHandelError(err.response.data.message);
-        setShow(true);
-        setVarient("danger");
-      });
+  const register = () => {
+    if (!name) alert("Please enter name");
+    registerWithEmailAndPassword(name, email, password);
   };
+  useEffect(() => {
+    if (loading) return;
+    if (user) navigate("/dashboard");
+  }, [user, loading]);
+
   return (
     <>
-      <h1 className="mt-5 mb-5 fw-bold">Make an Account</h1>
-
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        {show && (
-          <Alert
-            className="alert-link"
-            variant={varient}
-            onClose={() => setShow(false)}
-            dismissible
+    <div className="register">
+      <h1 className="mt-5 mb-5 fw-bold">Das hat geklappt!</h1>
+      <Container fluid="md">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          <Form
+            className="mb-3"
+            noValidate
           >
-            <Alert.Heading>{handelError}</Alert.Heading>
-          </Alert>
-        )}
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            {...register("email", { required: true })}
-          />
-          {errors.email && (
-            <p className="error-message">{errors.email.message}</p>
-          )}
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicFirstname">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Username"
-            {...register("username")}
-          />
-          {errors.username && (
-            <p className="error-message">{errors.username.message}</p>
-          )}
-        </Form.Group>
+            <Stack gap={3}>
+              <Form.Group controlId="formFirstName">
+                <Form.Control
+                  required
+                  type="firstName"
+                  placeholder="Vorname"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)} />
+                <Form.Control.Feedback type="invalid">
+                  Feld ist erforderlich.
+                </Form.Control.Feedback>
+              </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="error-message">{errors.password.message}</p>
-          )}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            {...register("cppassword")}
-          />
-          {errors.cppassword && (
-            <p className="error-message">{errors.cppassword.message}</p>
-          )}
-        </Form.Group>
-        <Form.Group>
-          <Form.Check
-            type="checkbox"
-            {...register("consentNewsletter")}
-            label={
-              <p>
-                Newsletter
-                <br />
-                Ja, ich möchte persönliche Trost-Inspiration 1x monatlich in
-                meinem Postfach
-              </p>
-            }
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Check
-            type="checkbox"
-            {...register("consentForConnecting")}
-            label={
-              <p>
-                Matching
-                <br />
-                Ja, ich möchte mit anderen Menschen aus der Community verknüpft
-                werden
-              </p>
-            }
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Register
-        </Button>
-        <Button variant="secondary" type="submit">
-          Already registered?
-          <a href="/login"> Login</a>
-        </Button>
-      </Form>
+              <Form.Group controlId="formEmail">
+                <Form.Control
+                  type="formEmail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="E-mail Address" />
+                <Form.Control.Feedback type="invalid">
+                  Feld ist erforderlich.
+                </Form.Control.Feedback>
+              </Form.Group>
 
-      {/* ****************************************************************
-       BOTTOM SECTION
-      ***************************************************************** */}
-      <div className="mb-5">
+              <Form.Group controlId="formPassword">
+                <Form.Control
+                  required
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password" />
+
+                <Form.Control.Feedback type="invalid">
+                  Feld ist erforderlich.
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <div>
+                <Form.Group>
+                  <Form.Check
+                    type="checkbox"
+                    label={<p>
+                      Newsletter
+                      <br />
+                      Ja, ich möchte persönliche Trost-Inspiration 1x
+                      monatlich in meinem Postfach
+                    </p>}
+                    onChange={() => setConsentNewsletter(!consentNewsletter)} />
+                </Form.Group>
+              </div>
+
+              <Button
+                variant="secondary"
+                className="mt-3"
+                onClick={register}
+                type="none"
+              >
+                Speichern & Einloggen
+              </Button>
+              <Button
+                variant="secondary"
+                className="mt-3"
+                onClick={signInWithGoogle}
+                type="none"
+              >
+                Register with Google
+              </Button>
+              <div>
+                Already have an account?<Link to="/login">Login</Link> now.
+              </div>
+            </Stack>
+          </Form>
+        </div>
+      </Container>
+    </div>
+    <div className="mb-5">
         <h1 className="mt-5 mb-5 fw-bold">Deine nächsten Schritte</h1>
         <Items />
-        {/* ALTERNATIVELY: USE REACT BOOTSTRAP STACK */}
-        {/* <Stack direction="horizontal">
-          <Card>Card component from Homepage</Card>
-          <Card>Card component from Homepage</Card>
-          <Card>Card component from Homepage</Card>
-        </Stack> */}
-      </div>
+    </div>
     </>
   );
 }
-
 export default Register;

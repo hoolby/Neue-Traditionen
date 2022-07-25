@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import useFetch from "./useFetch";
 
 const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function BlogDetails() {
   const { id } = useParams();
