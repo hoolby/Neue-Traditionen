@@ -14,6 +14,8 @@ import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
 import Login from "@components/login/Login";
 import Register from "@components/register/Register";
+import Dashboard from "@pages/Dashboard";
+import Reset from "@pages/Reset";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -52,6 +54,8 @@ function App() {
           <Route path="/invitation" element={<ContactAsked />} />
           <Route path="/blogs" element={<HomeBlogs />} />
           <Route path="/create" element={<CreateBlog />} />
+          <Route exact path="/reset" element={<Reset />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
         </Routes>
         <Footer />
       </Router>

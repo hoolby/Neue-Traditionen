@@ -46,12 +46,10 @@ function BlogDetails() {
         <div>
           <Card
             id="oneCard"
-            /* className="card-body" */ style={{ width: "50rem" }}
+            /* style={{ width: "80%" }} */
           >
-            <Card.Title id="font" /* className="title" */>
-              {data.title}
-            </Card.Title>
-            <Card.Text id="font" /* className="body" */>{data.texte}</Card.Text>
+            <Card.Title id="font">{data.title}</Card.Title>
+            <Card.Text id="font">{data.texte}</Card.Text>
           </Card>
           {role && role === "admin" ? (
             <Button
