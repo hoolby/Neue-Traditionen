@@ -65,13 +65,13 @@ function Login() {
               </Stack>
 
           <Button
-          variant="secondary" type="submit" className="mt-3"
+          variant="secondary" type="none" className="mt-3"
             onClick={() => logInWithEmailAndPassword(email, password)}
           >
             Einloggen
           </Button>
           <Button
-          variant="secondary" type="submit" className="mt-3"
+          variant="secondary" type="none" className="mt-3"
             onClick={signInWithGoogle}
           >
             Login with Google

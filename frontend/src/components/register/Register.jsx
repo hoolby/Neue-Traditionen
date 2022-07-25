@@ -41,48 +41,48 @@ function Register() {
             justifyContent: "center"
           }}
         >
-          <Form
+          <div
             className="mb-3"
-            noValidate
+
           >
-            <Stack gap={3}>
-              <Form.Group controlId="formFirstName">
-                <Form.Control
+          {/*   <Stack gap={3}> */}
+           {/*    <Form.Group controlId="formFirstName"> */}
+                <input
                   required
                   type="firstName"
                   placeholder="Vorname"
                   value={name}
                   onChange={(e) => setName(e.target.value)} />
-                <Form.Control.Feedback type="invalid">
+             {/*    <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
-                </Form.Control.Feedback>
-              </Form.Group>
+                </Form.Control.Feedback> */}
+            {/*   </Form.Group> */}
 
-              <Form.Group controlId="formEmail">
-                <Form.Control
+           {/*    <Form.Group controlId="formEmail"> */}
+                <input
                   type="formEmail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="E-mail Address" />
-                <Form.Control.Feedback type="invalid">
+            {/*     <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
-                </Form.Control.Feedback>
-              </Form.Group>
+                </Form.Control.Feedback> */}
+            {/*   </Form.Group> */}
 
-              <Form.Group controlId="formPassword">
-                <Form.Control
+           {/*    <Form.Group controlId="formPassword"> */}
+                <input
                   required
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password" />
 
-                <Form.Control.Feedback type="invalid">
+               {/*  <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
-                </Form.Control.Feedback>
-              </Form.Group>
+                </Form.Control.Feedback> */}
+        {/*       </Form.Group> */}
 
-              <div>
+{/*               <div>
                 <Form.Group>
                   <Form.Check
                     type="checkbox"
@@ -94,7 +94,7 @@ function Register() {
                     </p>}
                     onChange={() => setConsentNewsletter(!consentNewsletter)} />
                 </Form.Group>
-              </div>
+              </div> */}
 
               <Button
                 variant="secondary"
@@ -115,8 +115,8 @@ function Register() {
               <div>
                 Already have an account?<Link to="/login">Login</Link> now.
               </div>
-            </Stack>
-          </Form>
+           {/*  </Stack> */}
+          </div>
         </div>
       </Container>
     </div>
