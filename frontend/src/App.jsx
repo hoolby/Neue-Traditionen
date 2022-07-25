@@ -12,7 +12,7 @@ import Providers from "@components/providers/Providers";
 import CreateBlog from "@components/blogs/CreateBlog";
 import AdminPage from "@pages/adminpage/Adminpage";
 import Home from "@pages/home/Home";
-import Login from "@components/Login";
+import Login from "@components/login/Login";
 import Register from "@components/register/Register";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
