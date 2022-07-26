@@ -40,6 +40,7 @@ function Register() {
               justifyContent: "center",
             }}
           >
+
             <div>
               <div className="mb-3">
                 {/*   <Stack gap={3}> */}
@@ -80,6 +81,7 @@ function Register() {
                   placeholder="Password"
                 />
               </div>
+
 
               {/*  <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.

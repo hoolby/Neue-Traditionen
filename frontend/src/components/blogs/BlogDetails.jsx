@@ -1,70 +1,55 @@
 import "./blog.css";
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import useFetch from "./useFetch";
-
-const backendURL =
-  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 function BlogDetails() {
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
   const { id } = useParams();
 
-  useEffect(() => {
-    roleOfUser();
-  }, []);
-  const roleOfUser = () => {
-    axios
-      .get(`${backendURL}/user`, {
-        headers: {
-          Authorization: localStorage.getItem("\token"),
-        },
-      })
-      .then((respons) => {
-        setRole(respons.data[0][0].role);
-      });
+  const fetchBlog = async () => {
+    try {
+      const docRef = doc(db, "blogs", id);
+      const docSnap = await getDoc(docRef);
+      setTitle(docSnap.data().title);
+      setText(docSnap.data().texte);
+    } catch (err) {
+      console.error(err); // eslint-disable-line
+      console.log("An error occured while fetching blog data"); // eslint-disable-line
+    }
   };
-  const [role, setRole] = useState();
-  const { data, isPending, error } = useFetch(`${backendURL}/blogs/${id}`);
-  const navigate = useNavigate();
 
-  const handleClick = () => {
-    fetch(`${backendURL}/blogs/${id}`, {
-      method: "DELETE",
-    }).then(() => {
-      navigate("/");
-    });
-  };
+  useEffect(() => {
+    fetchBlog();
+    /* const single = db
+      .collection("blogs")
+      .where(firebase.firestore.FieldPath.documentId(), "==", id);
+
+    single
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          const { titl, texte } = doc.data();
+          setTitle(titl);
+          setText(texte);
+        } else return "zero";
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
+      }); */
+  }, []);
 
   return (
     <div>
-      {error && <div>{error}</div>}
-      {isPending && <div>Loading...</div>}
-      {data && (
-        <div>
-          <Card
-            id="oneCard"
-            /* style={{ width: "80%" }} */
-          >
-            <Card.Title id="font">{data.title}</Card.Title>
-            <Card.Text id="font">{data.texte}</Card.Text>
-          </Card>
-          {role && role === "admin" ? (
-            <Button
-              id="button"
-              variant="primary"
-              type="button"
-              onClick={handleClick}
-            >
-              Delete (don't do it.)
-            </Button>
-          ) : (
-            ""
-          )}
-        </div>
-      )}
+      <div>
+        <Card id="oneCard">
+          <Card.Title id="font">{title}</Card.Title>
+          <Card.Text id="font">{text}</Card.Text>
+        </Card>
+      </div>
     </div>
   );
 }
