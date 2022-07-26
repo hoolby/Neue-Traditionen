@@ -31,7 +31,7 @@ function FunnelCard({
           choices={choices}
           id="selection1"
           onClick={(e) => {
-            let obj = {};
+            const obj = {};
             obj[choices.category] = choice.title;
             selectOption(obj, choiceIndex, multiplechoice);
           }}

@@ -1,12 +1,11 @@
-import Register from "@components/Register";
-import FunnelCard from "@components/Funnel/FunnelCard";
 import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
-import sections from "../Funnel/sectionsCopy";
+import Register from "@components/register/Register";
+import FunnelCard from "@components/Funnel/FunnelCard";
 import LastStepOfCarousel from "@components/LastStepOfCarousel";
+import sections from "../Funnel/sectionsCopy";
 
 import "./Carousel.css";
-import axios from "axios";
 
 function ControlledCarousel() {
   const [index, setIndex] = useState(0); //   index of the carousel's current step
@@ -23,8 +22,8 @@ function ControlledCarousel() {
   ) => {
     // Multiple choice
     if (multiplechoice) {
-      // Some choice has been made already at the current step
-      ////// Remove choice if previously selected
+      //   Some choice has been made already at the current step
+      //   Remove choice if previously selected
       if (
         selection[choicescategory] &&
         (selection[choicescategory][0]?.includes(choicetitle) ||
@@ -55,10 +54,9 @@ function ControlledCarousel() {
         setSelection({ ...selection });
       }
 
-      ////// add another choice
+      //  add another choice
       else if (selection[choicescategory]) {
         selection[choicescategory].push([choicetitle, choicecost]);
-        console.log(selection);
 
         setSelection({ ...selection });
       }
@@ -66,8 +64,9 @@ function ControlledCarousel() {
       // No choice made yet at the current step
       else {
         // Use an Array with all selected options
-        option[choicescategory] = new Array([choicetitle, choicecost]);
-        setSelection({ ...selection, ...option });
+        const optionsCopy = option;
+        optionsCopy[choicescategory] = new Array([choicetitle, choicecost]);
+        setSelection({ ...selection, ...optionsCopy });
       }
     }
 

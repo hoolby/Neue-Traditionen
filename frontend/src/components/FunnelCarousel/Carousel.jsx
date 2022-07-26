@@ -1,9 +1,9 @@
-import Register from "@components/Register";
-import FunnelCard from "@components/Funnel/FunnelCard";
 import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
-import sections from "../Funnel/sections";
+import FunnelCard from "@components/Funnel/FunnelCard";
 import LastStepOfCarousel from "@components/LastStepOfCarousel";
+import Register from "@components/register/Register";
+import sections from "../Funnel/sections";
 import "./Carousel.css";
 
 function ControlledCarousel() {

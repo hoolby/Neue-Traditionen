@@ -732,38 +732,6 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-// MAIL
-
-// SEND A MAIL
-
-// Create sender
-const transporter = nodemailer.createTransport({
-  host: "smtp.mailfence.com" /* change the host depending the mail provider */,
-  port: 465 /* same */,
-  auth: {
-    user: "etienne.duret@mailfence.com" /* ADD YOUR MAIL  */,
-    pass: "ADD YOUR PASSWAORD HERE",
-  },
-});
-
-// Create mail
-
-const mailOptions = {
-  from: "etienne.duret@mailfence.com",
-  to: "asathal.pierre@gmail.com",
-  subject: "Hello Lucie",
-  text: "text",
-  html: "<body><h1>HTML</h1></body>",
-};
-
-// Send the mail
-transporter.sendMail(mailOptions, (error) => {
-  if (error) {
-    return console.error(error);
-  }
-  return "text";
-});
-
 // CONTACT INVITATION
 
 app.post("/contact", (req, res) => {
@@ -854,17 +822,6 @@ app.post("/contact/:id", (req, res) => {
       } else res.status(404).send("talker not found");
     }
   );
-});
-
-// Getting content for the funeral selection process (carousel)
-
-app.get("/selectionprocess", (req, res) => {
-  connection.query("SELECT * FROM selectionprocess", (err, results) => {
-    if (err) {
-      res.status(500).send("Error retrieving options for funeral planning");
-    } else if (results.length) res.json(results);
-    else res.status(404).send("not found");
-  });
 });
 
 app.listen(port, (error) => {

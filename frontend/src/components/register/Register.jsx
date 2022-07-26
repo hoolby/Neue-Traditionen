@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Stack from "react-bootstrap/Stack";
+
 import Items from "@components/items/ItemsCopyForRegistrationPage";
 import Button from "react-bootstrap/Button";
 import {
@@ -12,9 +11,9 @@ import {
   registerWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase";
+import "./Register.css";
 
 function Register() {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -32,57 +31,62 @@ function Register() {
 
   return (
     <>
-    <div className="register">
-      <h1 className="mt-5 mb-5 fw-bold">Das hat geklappt!</h1>
-      <Container fluid="md">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center"
-          }}
-        >
+      <div className="register">
+        <h1 className="mt-5 mb-5 fw-bold">Das hat geklappt!</h1>
+        <Container fluid="md">
           <div
-            className="mb-3"
-
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
-          {/*   <Stack gap={3}> */}
-           {/*    <Form.Group controlId="formFirstName"> */}
+            <div>
+              <div className="mb-3">
+                {/*   <Stack gap={3}> */}
+                {/*    <Form.Group controlId="formFirstName"> */}
                 <input
+                  className="bgap"
                   required
                   type="firstName"
                   placeholder="Vorname"
                   value={name}
-                  onChange={(e) => setName(e.target.value)} />
-             {/*    <Form.Control.Feedback type="invalid">
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {/*    <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-            {/*   </Form.Group> */}
+                {/*   </Form.Group> */}
 
-           {/*    <Form.Group controlId="formEmail"> */}
+                {/*    <Form.Group controlId="formEmail"> */}
                 <input
+                  className="bgap"
                   type="formEmail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="E-mail Address" />
-            {/*     <Form.Control.Feedback type="invalid">
+                  placeholder="E-mail Address"
+                />
+                {/*     <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-            {/*   </Form.Group> */}
+                {/*   </Form.Group> */}
 
-           {/*    <Form.Group controlId="formPassword"> */}
+                {/*    <Form.Group controlId="formPassword"> */}
                 <input
+                  className="bgap"
                   required
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password" />
+                  placeholder="Password"
+                />
+              </div>
 
-               {/*  <Form.Control.Feedback type="invalid">
+              {/*  <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-        {/*       </Form.Group> */}
+              {/*       </Form.Group> */}
 
-{/*               <div>
+              {/*               <div>
                 <Form.Group>
                   <Form.Check
                     type="checkbox"
@@ -95,18 +99,17 @@ function Register() {
                     onChange={() => setConsentNewsletter(!consentNewsletter)} />
                 </Form.Group>
               </div> */}
-
               <Button
                 variant="secondary"
-                className="mt-3"
+                className="mt-3 bgap"
                 onClick={register}
                 type="none"
               >
-                Speichern & Einloggen
+                Registrieren & Einloggen
               </Button>
               <Button
                 variant="secondary"
-                className="mt-3"
+                className="mt-3 bgap"
                 onClick={signInWithGoogle}
                 type="none"
               >
@@ -115,15 +118,15 @@ function Register() {
               <div>
                 Already have an account?<Link to="/login">Login</Link> now.
               </div>
-           {/*  </Stack> */}
+              {/*  </Stack> */}
+            </div>
           </div>
-        </div>
-      </Container>
-    </div>
-    <div className="mb-5">
+        </Container>
+      </div>
+      <div className="mb-5">
         <h1 className="mt-5 mb-5 fw-bold">Deine nächsten Schritte</h1>
         <Items />
-    </div>
+      </div>
     </>
   );
 }

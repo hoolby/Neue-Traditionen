@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
 
 function NavbarDesktop() {
+  const [user, loading, error] = useAuthState(auth); // eslint-disable-line
   return (
     <div>
       <ul className="menu">
@@ -17,11 +20,17 @@ function NavbarDesktop() {
           <Link to="/blogs">Blogs</Link>
         </li>
         <li>
-          <Link to="/">About us</Link>
+          <Link to="/aboutus">About us</Link>
         </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
+        {!user ? (
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        ) : (
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+        )}
       </ul>
     </div>
   );

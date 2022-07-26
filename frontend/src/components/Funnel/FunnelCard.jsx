@@ -31,7 +31,7 @@ function FunnelCard({
           choices={choices}
           id="selection1"
           onClick={(e) => {
-            let option = {};
+            const option = {};
             option[choices.category] = [choice.title, choice.cost];
 
             selectOption(

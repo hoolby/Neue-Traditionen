@@ -21,7 +21,12 @@ function TopBarMobail() {
           <span className="navbar-toggler-icon" />
         </button>
       </nav>
-      <div className={toggle ? "show" : "heid"}>
+      <div
+        aria-hidden="true"
+        className={toggle ? "show" : "heid"}
+        onClick={(e) => handelClick(e)}
+        onKeyDown={(e) => handelClick(e)}
+      >
         <NavbarDesktop />
       </div>
     </div>

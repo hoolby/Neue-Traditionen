@@ -14,7 +14,8 @@ function HomepageSection1() {
       <div className="container">
         <h1 className="mt-5">
           <strong>
-            Jetzt Beerdigung planen<br></br>
+            Jetzt Beerdigung planen
+            <br />
           </strong>
           <small>und Vorschläge für </small>
           <strong>
@@ -69,8 +70,7 @@ function HomepageSection1() {
 
 export default HomepageSection1;
 
-{
-  /*   ERSTE IDEE:     DROPDOWN MENU
+/*   ERSTE IDEE:     DROPDOWN MENU
     <Dropdown as={ButtonGroup} autoClose="inside">
     <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
     
@@ -82,4 +82,3 @@ export default HomepageSection1;
           </Dropdown.Menu>
         <Button variant="success">Kostenlos planen</Button>
       </Dropdown> */
-}

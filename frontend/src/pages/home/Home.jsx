@@ -4,9 +4,9 @@ import React, { useState } from "react";
 /* import BlogList from "@components/blogs/BlogList"; */
 import HomeBlogs from "@pages/HomeBlogs";
 /* import useFetch from "@components/blogs/useFetch"; */
+import HomepageSection1 from "@components/HomepageSection1";
 import Items from "../../components/items/Items";
 import AdminPage from "../adminpage/Adminpage";
-import HomepageSection1 from "@components/HomepageSection1";
 import "./Home.css";
 import "@components/blogs/blog.css";
 
@@ -16,7 +16,7 @@ function Home() {
   const [showAdmin, setShowAdmin] = useState(true);
   /*   const { data, isPending, error } = useFetch(`${backendURL}/blogs`); */
   return (
-    <>
+    <div>
       {!showAdmin ? (
         <AdminPage />
       ) : (
@@ -32,7 +32,7 @@ function Home() {
           </section>
         </>
       )}
-    </>
+    </div>
   );
 }
 export default Home;
