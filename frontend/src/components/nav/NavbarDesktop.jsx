@@ -14,22 +14,10 @@ function NavbarDesktop() {
           <Link to="/carousel">Funeral</Link>
         </li>
         <li>
-          <Link to="/">Grief</Link>
-        </li>
-        <li>
-          <Link to="/contactform">Matching</Link>
-        </li>
-        <li>
           <Link to="/blogs">Blogs</Link>
         </li>
         <li>
           <Link to="/">About us</Link>
-        </li>
-        <li>
-          <Link to="/">Shop</Link>
-        </li>
-        <li>
-          <Link to="/">Event</Link>
         </li>
         <li>
           <Link to="/login">Login</Link>

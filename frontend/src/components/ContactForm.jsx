@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
 const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function ContactForm() {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState("Submit");
@@ -40,46 +40,48 @@ function ContactForm() {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        "& > :not(style)": { m: 1, width: "25ch" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        id="name"
-        htmlFor="name"
-        label="Firstname"
-        variant="outlined"
-        required
-      />
-      <TextField
-        id="email"
-        htmlFor="email"
-        label="email"
-        variant="outlined"
-        type="email"
-        placeholder="exemple@exemple.com"
-        helperText="valid email pls"
-        required
-      />
-      <TextField
-        id="message"
-        htmlFor="message"
-        label="Message"
-        variant="outlined"
-        placeholder="You want to talk with someone?"
-        multiline
-        maxRows={5}
-        value={value}
-        onChange={handleChange}
-        required
-      />
-      <button type="submit">{status}</button>
-    </Box>
+    <>
+      <h1>
+        if you feel the need to talk to someone, enter your email to receive an
+        invitation
+      </h1>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          id="name"
+          htmlFor="name"
+          label="Your name"
+          variant="outlined"
+        />
+        <TextField
+          id="email"
+          htmlFor="email"
+          label="email"
+          variant="outlined"
+          type="email"
+          placeholder="exemple@exemple.com"
+        />
+        <TextField
+          id="message"
+          htmlFor="message"
+          label="Message"
+          variant="outlined"
+          placeholder="Put a message here if you want to."
+          multiline
+          maxRows={5}
+          value={value}
+          onChange={handleChange}
+        />
+        <button type="submit">{status}</button>
+      </Box>
+    </>
   );
 }
 

@@ -7,7 +7,6 @@ import Items from "@components/items/ItemsCopyForRegistrationPage";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
-
 // eslint-disable-next-line
 function Register({ userMail, userId }) {
   // PROPS: userMail from the previous step in the sign-up process

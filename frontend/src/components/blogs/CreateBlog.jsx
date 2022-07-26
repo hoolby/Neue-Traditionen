@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./blog.css";
 
 const backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
