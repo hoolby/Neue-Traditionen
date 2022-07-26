@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import Container from "react-bootstrap/Container";
+import "./Login.css";
 import {
   auth,
   logInWithEmailAndPassword,
@@ -34,44 +35,44 @@ function Login() {
           justifyContent: "center",
         }}
       >
-        <Form className="mb-3">
-        <Stack gap={3}>
-        <Form.Group controlId="formEmail">
-                <Form.Control
-                  type="formEmail"
-                  placeholder="Deine E-Mail-Adresse"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Feld ist erforderlich.
-                </Form.Control.Feedback>
-              </Form.Group>
+        <div className="mb-3">
+          <Stack gap={3}>
+            <div controlId="formEmail">
+              <input
+                type="formEmail"
+                placeholder="Deine E-Mail-Adresse"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <div type="invalid">Feld ist erforderlich.</div>
+            </div>
 
-              <Form.Group controlId="formPassword">
-                <Form.Control
-                  required
-                  type="password"
-                  placeholder="Passwort"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+            <div controlId="formPassword">
+              <input
+                required
+                type="password"
+                placeholder="Passwort"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-                <Form.Control.Feedback type="invalid">
-                  Feld ist erforderlich.
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Stack>
+              <div type="invalid">Feld ist erforderlich.</div>
+            </div>
+          </Stack>
 
           <Button
-          variant="secondary" type="none" className="mt-3"
+            variant="secondary"
+            type="none"
+            className="mt-3 bgap"
             onClick={() => logInWithEmailAndPassword(email, password)}
           >
             Einloggen
           </Button>
           <Button
-          variant="secondary" type="none" className="mt-3"
+            variant="secondary"
+            type="none"
+            className="mt-3 bgap"
             onClick={signInWithGoogle}
           >
             Login with Google
@@ -82,7 +83,7 @@ function Login() {
           <div>
             Don't have an account? <Link to="/register">Register</Link> now.
           </div>
-        </Form>
+        </div>
       </div>
     </div>
   );

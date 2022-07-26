@@ -21,6 +21,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import CheckList from "@components/checkList/CheckList";
 import InviteGuests from "@components/inviteGuests/InviteGuests";
+import AboutUs from "@components/aboutUs/AboutUs";
 import HomeBlogs from "./pages/HomeBlogs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -43,6 +44,7 @@ function App() {
           /> 
           <Route path="/login" element={<Login />} /> */}
           <Route path="/Login" element={<Login />} />
+          <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/carousel" element={<ControlledCarousel />} />

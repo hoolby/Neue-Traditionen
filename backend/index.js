@@ -732,38 +732,6 @@ app.delete("/blogs/:id", (req, res) => {
   );
 });
 
-// MAIL
-
-// SEND A MAIL
-
-// Create sender
-const transporter = nodemailer.createTransport({
-  host: "smtp.mailfence.com" /* change the host depending the mail provider */,
-  port: 465 /* same */,
-  auth: {
-    user: "etienne.duret@mailfence.com" /* ADD YOUR MAIL  */,
-    pass: "ADD YOUR PASSWAORD HERE",
-  },
-});
-
-// Create mail
-
-const mailOptions = {
-  from: "etienne.duret@mailfence.com",
-  to: "asathal.pierre@gmail.com",
-  subject: "Hello Lucie",
-  text: "text",
-  html: "<body><h1>HTML</h1></body>",
-};
-
-// Send the mail
-transporter.sendMail(mailOptions, (error) => {
-  if (error) {
-    return console.error(error);
-  }
-  return "text";
-});
-
 // CONTACT INVITATION
 
 app.post("/contact", (req, res) => {
