@@ -19,8 +19,7 @@ function HomeBlogs() {
       const docs = await getDocs(q);
       const temp = [];
       docs.forEach((doc) => {
-        console.log(doc.data());
-        temp.push(doc.data());
+        temp.push({ id: doc.id, ...doc.data() });
       });
       setData(temp);
     } catch (err) {
@@ -37,7 +36,7 @@ function HomeBlogs() {
     <div className="home">
       {/* {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>} */}
-      {data && <BlogList blogs={data} />}
+      {data && <BlogList blogs={data} key={data.id} />}
     </div>
   );
 }

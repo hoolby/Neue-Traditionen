@@ -35,43 +35,47 @@ function Login() {
         }}
       >
         <Form className="mb-3">
-        <Stack gap={3}>
-        <Form.Group controlId="formEmail">
-                <Form.Control
-                  type="formEmail"
-                  placeholder="Deine E-Mail-Adresse"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Feld ist erforderlich.
-                </Form.Control.Feedback>
-              </Form.Group>
+          <Stack gap={3}>
+            <Form.Group controlId="formEmail">
+              <Form.Control
+                type="formEmail"
+                placeholder="Deine E-Mail-Adresse"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Form.Control.Feedback type="invalid">
+                Feld ist erforderlich.
+              </Form.Control.Feedback>
+            </Form.Group>
 
-              <Form.Group controlId="formPassword">
-                <Form.Control
-                  required
-                  type="password"
-                  placeholder="Passwort"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+            <Form.Group controlId="formPassword">
+              <Form.Control
+                required
+                type="password"
+                placeholder="Passwort"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-                <Form.Control.Feedback type="invalid">
-                  Feld ist erforderlich.
-                </Form.Control.Feedback>
-              </Form.Group>
-              </Stack>
+              <Form.Control.Feedback type="invalid">
+                Feld ist erforderlich.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Stack>
 
           <Button
-          variant="secondary" type="none" className="mt-3"
+            variant="secondary"
+            type="none"
+            className="mt-3"
             onClick={() => logInWithEmailAndPassword(email, password)}
           >
             Einloggen
           </Button>
           <Button
-          variant="secondary" type="none" className="mt-3"
+            variant="secondary"
+            type="none"
+            className="mt-3"
             onClick={signInWithGoogle}
           >
             Login with Google

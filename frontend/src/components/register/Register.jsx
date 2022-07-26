@@ -14,7 +14,6 @@ import {
 } from "../../firebase";
 
 function Register() {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -32,57 +31,57 @@ function Register() {
 
   return (
     <>
-    <div className="register">
-      <h1 className="mt-5 mb-5 fw-bold">Das hat geklappt!</h1>
-      <Container fluid="md">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center"
-          }}
-        >
+      <div className="register">
+        <h1 className="mt-5 mb-5 fw-bold">Das hat geklappt!</h1>
+        <Container fluid="md">
           <div
-            className="mb-3"
-
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
-          {/*   <Stack gap={3}> */}
-           {/*    <Form.Group controlId="formFirstName"> */}
-                <input
-                  required
-                  type="firstName"
-                  placeholder="Vorname"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)} />
-             {/*    <Form.Control.Feedback type="invalid">
+            <div className="mb-3">
+              {/*   <Stack gap={3}> */}
+              {/*    <Form.Group controlId="formFirstName"> */}
+              <input
+                required
+                type="firstName"
+                placeholder="Vorname"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              {/*    <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-            {/*   </Form.Group> */}
+              {/*   </Form.Group> */}
 
-           {/*    <Form.Group controlId="formEmail"> */}
-                <input
-                  type="formEmail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="E-mail Address" />
-            {/*     <Form.Control.Feedback type="invalid">
+              {/*    <Form.Group controlId="formEmail"> */}
+              <input
+                type="formEmail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="E-mail Address"
+              />
+              {/*     <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-            {/*   </Form.Group> */}
+              {/*   </Form.Group> */}
 
-           {/*    <Form.Group controlId="formPassword"> */}
-                <input
-                  required
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password" />
+              {/*    <Form.Group controlId="formPassword"> */}
+              <input
+                required
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
 
-               {/*  <Form.Control.Feedback type="invalid">
+              {/*  <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-        {/*       </Form.Group> */}
+              {/*       </Form.Group> */}
 
-{/*               <div>
+              {/*               <div>
                 <Form.Group>
                   <Form.Check
                     type="checkbox"
@@ -115,15 +114,15 @@ function Register() {
               <div>
                 Already have an account?<Link to="/login">Login</Link> now.
               </div>
-           {/*  </Stack> */}
+              {/*  </Stack> */}
+            </div>
           </div>
-        </div>
-      </Container>
-    </div>
-    <div className="mb-5">
+        </Container>
+      </div>
+      <div className="mb-5">
         <h1 className="mt-5 mb-5 fw-bold">Deine nächsten Schritte</h1>
         <Items />
-    </div>
+      </div>
     </>
   );
 }
