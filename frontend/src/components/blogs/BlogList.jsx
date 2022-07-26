@@ -1,16 +1,22 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/CardGroup";
+import BlogDetails from "./BlogDetails";
 import "./blog.css";
 
 function BlogList({ blogs }) {
+  /* console.log(blogs); */
   return (
-    <div className="blog-list">
+    <div className="cards">
       {blogs.map((blog) => (
-        <div className="blog-preview" key={blog.id}>
-          <Link to={`/blogs/${blog.id}`}>
-            <h2>{blog.title}</h2>
-          </Link>
-        </div>
+        <CardGroup key={blog.title}>
+          <Card className="card" style={{ width: "18rem" }}>
+            <Link to={`/blogs/${blog.id}`}>
+              <Card.Title className="title">{blog.title}</Card.Title>
+            </Link>
+          </Card>
+        </CardGroup>
       ))}
     </div>
   );

@@ -7,9 +7,11 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { Link } from "react-router-dom";
-
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
+
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 const schema = Joi.object({
   firstname: Joi.string()
@@ -55,7 +57,6 @@ function Form({ newGuest, guestItems }) {
     resolver: joiResolver(schema),
     mode: "onBlur",
   });
-  const valueOfChecked = !!newGuest.checked;
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
@@ -64,20 +65,27 @@ function Form({ newGuest, guestItems }) {
       setValue("firstname", newGuest.firstname);
       setValue("lastname", newGuest.lastname);
       setValue("number", newGuest.number);
-      setValue("checked", valueOfChecked);
+      setValue("checked", newGuest.checked);
     }
   }, [newGuest]);
   const onSubmit = (data, e) => {
-    const changeschecked = data.checked ? 1 : 0;
     const requestData = newGuest.id ? axios.put : axios.post;
-    requestData("http://localhost:5000/guests", {
-      firstname: data.firstname,
-      lastname: data.lastname,
-      number: data.number,
-      checked: changeschecked,
-      id: newGuest.id,
-    })
-      .then(() => {
+    requestData(
+      `${backendURL}/guests`,
+      {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        number: data.number,
+        checked: data.checked,
+        id: newGuest.id,
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
+      .then((respons) => {
         guestItems();
         e.target.reset();
         setHandelError("It was successfull");
@@ -95,8 +103,6 @@ function Form({ newGuest, guestItems }) {
           setShow(true);
           setVarient("danger");
         }
-
-        // alert(err.response.data.message);
       });
   };
 

@@ -11,6 +11,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 const schema = Joi.object({
   title: Joi.string().min(3).max(255).required().messages({
     "string.base": `title should be a type of 'text'`,
@@ -30,7 +32,6 @@ function Form({ checklistItems, newItemchecklist }) {
     setValue,
     formState: { errors },
   } = useForm({ resolver: joiResolver(schema), mode: "onBlur" });
-  const valueOfChecked = !!newItemchecklist.checked;
   const [show, setShow] = useState(false);
   const [handelError, setHandelError] = useState("");
   const [varient, setVarient] = useState("");
@@ -39,19 +40,26 @@ function Form({ checklistItems, newItemchecklist }) {
     if (newItemchecklist.id) {
       setValue("title", newItemchecklist.title);
       setValue("responsible", newItemchecklist.responsible);
-      setValue("checked", valueOfChecked);
+      setValue("checked", newItemchecklist.checked);
     }
   }, [newItemchecklist]); //eslint-disable-line
 
   const onSubmit = (data, e) => {
-    const changeschecked = data.checked ? 1 : 0;
     const requestData = newItemchecklist.id ? axios.put : axios.post;
-    requestData("http://localhost:5000/checklist", {
-      title: data.title,
-      responsible: data.responsible,
-      checked: changeschecked,
-      id: newItemchecklist.id,
-    })
+    requestData(
+      `${backendURL}/checklist`,
+      {
+        title: data.title,
+        responsible: data.responsible,
+        checked: data.checked,
+        id: newItemchecklist.id,
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
       .then(() => {
         checklistItems();
         e.target.reset();
@@ -151,7 +159,7 @@ function Form({ checklistItems, newItemchecklist }) {
         </div>
       </div>
       <button type="submit" className="btn btn-primary">
-        Create Item
+        {newItemchecklist.id ? "Edite Item" : "Create Item"}
       </button>
       <div className="form-row form-bottom" />
     </form>

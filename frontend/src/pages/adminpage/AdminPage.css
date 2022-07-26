@@ -10,6 +10,9 @@ a {
   padding: 20px 0px;
   color: #156064;
 }
+.admin-title {
+  width: 100%;
+}
 .admin-items {
   display: flex;
   flex-wrap: wrap;
@@ -18,7 +21,7 @@ a {
   box-sizing: border-box;
 }
 .box-admin-item {
-  width: 35%;
+  width: 30%;
   margin-bottom: 35px;
 }
 .admin-item-icon {
@@ -35,7 +38,7 @@ a {
   height: 300px;
 }
 .admin-item-body-imag {
-  background-color: gray;
+  background-color: #ccc;
   width: 100%;
   height: 181px;
 }
@@ -44,8 +47,27 @@ a {
   flex-direction: column;
   align-items: center;
 }
+.btn-detail {
+  border: 1px solid #156064;
+}
+.btn-detail a {
+  color: #156064;
+}
 @media only screen and (max-width: 1232px) {
   .admin-container {
     width: 100%;
+  }
+  .admin-item-title {
+    font-size: 18px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .box-admin-item {
+    width: 40%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .box-admin-item {
+    width: 80%;
   }
 }

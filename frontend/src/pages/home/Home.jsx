@@ -1,18 +1,20 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import BlogList from "@components/blogs/BlogList";
-import useFetch from "@components/blogs/useFetch";
-import Create from "@components/blogs/create";
+/* import BlogList from "@components/blogs/BlogList"; */
+import HomeBlogs from "@pages/HomeBlogs";
+/* import useFetch from "@components/blogs/useFetch"; */
 import Items from "../../components/items/Items";
 import AdminPage from "../adminpage/Adminpage";
 import HomepageSection1 from "@components/HomepageSection1";
 import "./Home.css";
 import "@components/blogs/blog.css";
 
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function Home() {
   const [showAdmin, setShowAdmin] = useState(true);
-  const { data, isPending, error } = useFetch("http://localhost:5000/blogs");
+  /*   const { data, isPending, error } = useFetch(`${backendURL}/blogs`); */
   return (
     <>
       {!showAdmin ? (
@@ -25,10 +27,7 @@ function Home() {
             <Items />
             <button className="item-button">JETZT STARTEN</button>
             <div className="home">
-              {error && <div>{error}</div>}
-              {isPending && <div>Loading...</div>}
-              {data && <BlogList blogs={data} />}
-              <Create />
+              <HomeBlogs />
             </div>
           </section>
         </>

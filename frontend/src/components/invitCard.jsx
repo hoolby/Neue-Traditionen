@@ -1,9 +1,16 @@
 import React from "react";
 
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function InvitCard({ name, email, message, id }) {
   const handleClick = () => {
-    fetch(`http://localhost:5000/contact/${id}`, {
+    fetch(`${backendURL}/contact/${id}`, {
       method: "POST",
+    });
+  };
+  const handleDelete = () => {
+    fetch(`${backendURL}/contact/${id}`, {
+      method: "DELETE",
     });
   };
   return (
@@ -15,6 +22,9 @@ function InvitCard({ name, email, message, id }) {
       </ul>
       <button type="submit" onClick={handleClick}>
         send invit & delete
+      </button>
+      <button type="submit" onClick={handleDelete}>
+        delete only
       </button>
     </div>
   );

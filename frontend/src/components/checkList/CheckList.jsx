@@ -6,6 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import "./CheckList.css";
 
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+
 function CheckList() {
   const [checklistList, setChecklistList] = useState([]);
   const [newItemchecklist, setNewItemchecklist] = useState({});
@@ -16,16 +19,29 @@ function CheckList() {
   useEffect(() => {
     checklistItems();
   }, []);
+
+  /* const config = {
+    headers: {
+      authentication: localStorage.getItem("token"),
+    },
+  }; */
   const checklistItems = () => {
-    axios.get("http://localhost:5000/checklist").then((respons) => {
-      setChecklistList(respons.data);
-    });
+    axios
+      .get(`${backendURL}/checklist`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((respons) => {
+        console.warn(respons.data[1]);
+        setChecklistList(respons.data[1]);
+      });
   };
   const updateChecklist = (list) => {
     setNewItemchecklist(list);
   };
   const deleteChecklist = (id) => {
-    axios.delete(`http://localhost:5000/checklist/${id}`).then(() => {
+    axios.delete(`${backendURL}/checklist/${id}`).then(() => {
       checklistItems();
       setHandelError("An item deleted!");
       setShow(true);

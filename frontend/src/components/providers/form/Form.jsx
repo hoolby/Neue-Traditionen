@@ -10,6 +10,8 @@ import Joi from "joi";
 import Alert from "react-bootstrap/Alert";
 import "./Form.css";
 
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 const schema = Joi.object({
   title: Joi.string()
     .min(3)
@@ -62,7 +64,7 @@ function Form({ editProvider, providerList }) {
   const onSubmit = (data, e) => {
     /* console.log("data:", data); */
     const requestData = editProvider.id ? axios.put : axios.post;
-    requestData("http://localhost:5000/provider", {
+    requestData(`${backendURL}/provider`, {
       title: data.title,
       mobile: data.mobile,
       email: data.email,
@@ -96,7 +98,7 @@ function Form({ editProvider, providerList }) {
         </Alert>
       )}
       <div className="form-row form-title">
-        <h4>Add providers</h4>
+        <h4>Add Funeral Provider</h4>
       </div>
       <div className="form-row">
         <div className="col-md-4 mb-3">
@@ -153,7 +155,7 @@ function Form({ editProvider, providerList }) {
       </div>
 
       <button type="submit" className="btn btn-primary">
-        {editProvider.id ? "Edite Provider" : "Create Provider"}
+        {editProvider.id ? "Edite Funeral Provider" : "Create Funeral Provider"}
       </button>
       <div className="form-row form-bottom" />
     </form>

@@ -6,6 +6,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import "./InviteGuests.css";
 
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+
 function InviteGuests() {
   const [listOfGuest, setListOfGuest] = useState([]);
   const [newGuest, setNewGuest] = useState({});
@@ -17,15 +20,22 @@ function InviteGuests() {
     guestItems();
   }, []);
   const guestItems = () => {
-    axios.get("http://localhost:5000/guests").then((respons) => {
-      setListOfGuest(respons.data);
-    });
+    axios
+      .get(`${backendURL}/guests`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((respons) => {
+        console.warn(respons.data[1]);
+        setListOfGuest(respons.data[1]);
+      });
   };
   const updateGuest = (list) => {
     setNewGuest(list);
   };
   const deleteGuest = (id) => {
-    axios.delete(`http://localhost:5000/guests/${id}`).then(() => {
+    axios.delete(`${backendURL}/guests/${id}`).then(() => {
       guestItems();
       setHandelError("An item deleted!");
       setShow(true);
