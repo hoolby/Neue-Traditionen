@@ -6,6 +6,7 @@ import HomeBlogs from "@pages/HomeBlogs";
 /* import useFetch from "@components/blogs/useFetch"; */
 import Items from "../../components/items/Items";
 import AdminPage from "../adminpage/Adminpage";
+import HomepageSection1 from "@components/HomepageSection1";
 import "./Home.css";
 import "@components/blogs/blog.css";
 
@@ -15,20 +16,23 @@ function Home() {
   const [showAdmin, setShowAdmin] = useState(true);
   /*   const { data, isPending, error } = useFetch(`${backendURL}/blogs`); */
   return (
-    <div>
+    <>
       {!showAdmin ? (
         <AdminPage />
       ) : (
-        <section className="home-container">
-          <p className="item-title">Thats How it works</p>
-          <Items />
-          <button className="item-button">START NOW</button>
-          <div className="home">
-            <HomeBlogs />
-          </div>
-        </section>
+        <>
+          <HomepageSection1 />
+          <section className="home-container">
+            <h5 className="mt-5 item-title">So funktioniert es:</h5>
+            <Items />
+            <button className="item-button">JETZT STARTEN</button>
+            <div className="home">
+              <HomeBlogs />
+            </div>
+          </section>
+        </>
       )}
-    </div>
+    </>
   );
 }
 export default Home;

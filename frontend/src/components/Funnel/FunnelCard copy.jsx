@@ -31,17 +31,9 @@ function FunnelCard({
           choices={choices}
           id="selection1"
           onClick={(e) => {
-            let option = {};
-            option[choices.category] = [choice.title, choice.cost];
-
-            selectOption(
-              option,
-              choices.category,
-              choice.title,
-              choice.cost,
-              choiceIndex,
-              multiplechoice
-            );
+            let obj = {};
+            obj[choices.category] = choice.title;
+            selectOption(obj, choiceIndex, multiplechoice);
           }}
         >
           BootstrapButton
