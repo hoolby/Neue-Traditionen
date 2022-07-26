@@ -27,9 +27,6 @@ function Footer() {
             <li>
               <Link to="/">Blog</Link>
             </li>
-            <li>
-              <Link to="/">Shop</Link>
-            </li>
           </ul>
           <ul className="info-right">
             <li>
