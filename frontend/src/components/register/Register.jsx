@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Stack from "react-bootstrap/Stack";
+
 import Items from "@components/items/ItemsCopyForRegistrationPage";
 import Button from "react-bootstrap/Button";
 import {
@@ -12,6 +11,7 @@ import {
   registerWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase";
+import "./Register.css";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -40,41 +40,48 @@ function Register() {
               justifyContent: "center",
             }}
           >
-            <div className="mb-3">
-              {/*   <Stack gap={3}> */}
-              {/*    <Form.Group controlId="formFirstName"> */}
-              <input
-                required
-                type="firstName"
-                placeholder="Vorname"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              {/*    <Form.Control.Feedback type="invalid">
+
+            <div>
+              <div className="mb-3">
+                {/*   <Stack gap={3}> */}
+                {/*    <Form.Group controlId="formFirstName"> */}
+                <input
+                  className="bgap"
+                  required
+                  type="firstName"
+                  placeholder="Vorname"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {/*    <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-              {/*   </Form.Group> */}
+                {/*   </Form.Group> */}
 
-              {/*    <Form.Group controlId="formEmail"> */}
-              <input
-                type="formEmail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="E-mail Address"
-              />
-              {/*     <Form.Control.Feedback type="invalid">
+                {/*    <Form.Group controlId="formEmail"> */}
+                <input
+                  className="bgap"
+                  type="formEmail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="E-mail Address"
+                />
+                {/*     <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-              {/*   </Form.Group> */}
+                {/*   </Form.Group> */}
 
-              {/*    <Form.Group controlId="formPassword"> */}
-              <input
-                required
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-              />
+                {/*    <Form.Group controlId="formPassword"> */}
+                <input
+                  className="bgap"
+                  required
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                />
+              </div>
+
 
               {/*  <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
@@ -94,18 +101,17 @@ function Register() {
                     onChange={() => setConsentNewsletter(!consentNewsletter)} />
                 </Form.Group>
               </div> */}
-
               <Button
                 variant="secondary"
-                className="mt-3"
+                className="mt-3 bgap"
                 onClick={register}
                 type="none"
               >
-                Speichern & Einloggen
+                Registrieren & Einloggen
               </Button>
               <Button
                 variant="secondary"
-                className="mt-3"
+                className="mt-3 bgap"
                 onClick={signInWithGoogle}
                 type="none"
               >

@@ -6,7 +6,7 @@ import BlogDetails from "@components/blogs/BlogDetails";
 import ContactAsked from "@components/ContactAsked";
 import ContactForm from "@components/ContactForm";
 import Footer from "@components/footer/Footer";
-import ControlledCarousel from "@components/FunnelCarousel/Carousel";
+import ControlledCarousel from "@components/FunnelCarousel/CarouselCopy";
 import Navbar from "@components/nav/Navbar";
 import Providers from "@components/providers/Providers";
 import CreateBlog from "@components/blogs/CreateBlog";
@@ -21,6 +21,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import CheckList from "@components/checkList/CheckList";
 import InviteGuests from "@components/inviteGuests/InviteGuests";
+import AboutUs from "@components/aboutUs/AboutUs";
 import HomeBlogs from "./pages/HomeBlogs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -43,6 +44,7 @@ function App() {
           /> 
           <Route path="/login" element={<Login />} /> */}
           <Route path="/Login" element={<Login />} />
+          <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/carousel" element={<ControlledCarousel />} />
