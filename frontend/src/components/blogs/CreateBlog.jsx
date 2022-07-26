@@ -2,20 +2,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./blog.css";
 
-function Create() {
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+
+function CreateBlog() {
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [texte, setTexte] = useState("");
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const blog = { title, body };
+    const blog = { title, texte };
 
     setIsPending(true);
 
-    fetch("http://localhost:5000/blogs", {
+    fetch(`${backendURL}/blogs`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(blog),
@@ -43,14 +46,14 @@ function Create() {
           <strong>Blog body:</strong>
           <textarea
             required
-            value={body}
-            onChange={(event) => setBody(event.target.value)}
+            value={texte}
+            onChange={(event) => setTexte(event.target.value)}
             id="bodyId"
           />
         </label>
-        {!isPending && <button type="button">Add blog</button>}
+        {!isPending && <button type="submit">Add blog</button>}
         {isPending && (
-          <button type="button" disabled>
+          <button type="submit" disabled>
             Adding blog...
           </button>
         )}
@@ -59,4 +62,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default CreateBlog;

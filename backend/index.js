@@ -6,13 +6,18 @@ const cors = require("cors");
 
 const nodemailer = require("nodemailer");
 const Joi = require("joi");
-const connection = require("./db-config");
+
+const argon2 = require("argon2");
 
 const app = express();
 app.use(express.json());
-const db = connection.promise();
+const jwt = require("jsonwebtoken");
+const jwt_decode = require("jwt-decode"); // eslint-disable-line
+const connection = require("./db-config");
 
+const db = connection.promise();
 app.use(cors());
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
@@ -24,23 +29,231 @@ process.on("unhandledRejection", (error) => {
 });
 
 const port = process.env.PORT || 5000;
-
-app.get("/checklist", (req, res) => {
-  connection.query("SELECT * FROM checklist", (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Error retrieving users from database");
-    } else {
-      const reversList = result.reverse();
-      res.json(reversList);
-    }
-  });
+const transporter = nodemailer.createTransport({
+  host: "smtp-mail.outlook.com" /* change the host depending the mail provider */,
+  port: 587 /* same */,
+  secureConnection: false,
+  tls: {
+    ciphers: "SSLv3",
+    rejectUnauthorized: false,
+  },
+  auth: {
+    user: process.env.MAIL /* ADD YOUR MAIL  */,
+    pass: process.env.MAILPASS /* ADD YOUR PASSWORD */,
+  },
+});
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.warn(success, "Server is ready to take our messages");
+  }
 });
 
-app.post("/checklist", (req, res) => {
-  const { title, responsible } = req.body;
-  const checked = req.body.checked ? true : false; // eslint-disable-line
+// TEST ROUTE:
+app.get("/", (req, res) => {
+  res.json({ status: "up" });
+});
+app.post("/createProvider", (req, res) => {
+  const { title } = req.body;
+  const { mobile } = req.body;
+  const { email } = req.body;
+  const { price } = req.body;
+  connection.query(
+    "INSERT INTO providers (title, mobile, email, price) VALUE (?, ? ,?, ?)",
+    [title, mobile, email, price],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        res.status(201).send(result);
+      }
+    }
+  );
+});
+
+const hashingOptions = {
+  type: argon2.argon2id,
+  memoryCost: 2 ** 16,
+  timeCost: 5,
+  parallelism: 1,
+};
+
+const hashPassword = (plainPassword) => {
+  return argon2.hash(plainPassword, hashingOptions);
+};
+
+const verifyPassword = (plainPassword, hashedPassword) => {
+  return argon2.verify(hashedPassword, plainPassword, hashingOptions);
+};
+
+const PRIVATE_KEY = "superSecretStringNowoneShouldKnowOrTheCanGenerateTokens";
+// eslint-disable-next-line
+const calculateToken = (userEmail = "", user_id = "") => {
+  // eslint-disable-next-line
+  return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, {
+    expiresIn: "2h",
+  });
+};
+
+/// //////////login/////////////
+app.post("/checkCredentials", (req, res) => {
+  const { email, password } = req.body;
+  let existUser = null;
+  db.query("SELECT * FROM users WHERE email = ?", [email]).then(
+    async ([result]) => {
+      existUser = result[0]; // eslint-disable-line
+      if (!existUser) res.status(404).send({ message: "user does not exist" });
+      else {
+        const passwordIsCorect = await verifyPassword(
+          password,
+          existUser.hashedPassword
+        );
+        console.warn("passwordIsCorect", passwordIsCorect);
+        if (passwordIsCorect) {
+          const token = calculateToken(email, existUser.user_id);
+          existUser.token = token;
+          const decode = jwt_decode(token);
+          res.cookie("user_token", token);
+          console.warn("decode", decode);
+          res.status(200).send(existUser);
+        } else {
+          res
+            .status(401)
+            .send({ message: "The password is not match with email" });
+        }
+      }
+    }
+  );
+});
+
+/// ////////////register////////////////
+
+app.post("/register", async (req, res) => {
+  const {
+    email,
+    username,
+    consentNewsletter,
+    password,
+    consentForConnecting,
+    role,
+  } = req.body;
+  const hashedPassword = await hashPassword(password);
   let validationErrors = null;
+  Promise.all([
+    db
+      .query("SELECT * FROM users WHERE email = ?", [email])
+      .then(([result]) => result[0]),
+    db
+      .query("SELECT * FROM users WHERE username = ?", [username])
+      .then(([result]) => result[0]),
+  ])
+    .then(([otherUserWithEmail, user]) => {
+      if (user) return Promise.reject("DUPLICATE_USERNAME"); // eslint-disable-line
+      if (otherUserWithEmail) return Promise.reject("DUPLICATE_EMAIL"); // eslint-disable-line
+      validationErrors = Joi.object({
+        username: Joi.string().min(3).max(255).required().messages({
+          "string.base": `username should be a type of 'text'`,
+          "string.min": `username should have at least 3 characters`,
+          "string.max": `username should have less than 255 characters`,
+          "string.empty": "username can't be empty",
+          "string.required": `username is a required field`,
+        }),
+        email: Joi.string()
+          .email({ tlds: { allow: false } })
+          .required()
+          .messages({
+            "string.base": `email is a required field`,
+            "string.empty": "email can't be empty",
+            "string.required": `email is a required field`,
+          }),
+        consentNewsletter: Joi.boolean(),
+        consentForConnecting: Joi.boolean(),
+      }).validate(
+        {
+          email,
+          username,
+          consentNewsletter,
+          consentForConnecting,
+        },
+        { abortEarly: false }
+      ).error;
+      if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
+
+      return db
+        .query(
+          "INSERT INTO users (email, username, hashedPassword, consentNewsletter, consentForConnecting, role) VALUE (?, ?, ?, ?, ?, ?)",
+          [
+            email,
+            username,
+            hashedPassword,
+            consentNewsletter,
+            consentForConnecting,
+            role,
+          ]
+        )
+        .then(([{ insertId }]) => {
+          const token = calculateToken(email, insertId);
+          res.cookie("user_token", token);
+          res.status(200).json({
+            user_id: insertId,
+            email,
+            username,
+            hashedPassword,
+            consentNewsletter,
+            consentForConnecting,
+            role,
+          });
+        });
+    })
+    .catch((err) => {
+      if (err === "DUPLICATE_USERNAME")
+        res.status(409).json({ message: "This username is already used" });
+      if (err === "DUPLICATE_EMAIL")
+        res.status(409).send({ message: "This email is already used" });
+      else if (err === "INVALID_DATA")
+        res.status(422).send({ message: "Invalid data" });
+      else res.status(500).send("interval server error");
+    });
+});
+app.get("/user", (req, res) => {
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  db.query("SELECT * FROM users WHERE user_id = ?", [decode.id])
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("this user does not exist");
+    });
+});
+/// /////////////checklist////////
+
+app.get("/checklist", (req, res) => {
+  console.warn("req.headers", req.headers.authorization);
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  console.warn("decode", decode);
+  db.query("SELECT * FROM checklist WHERE user_id = ?", [decode.id])
+    .then((result) => {
+      const reversList = result.reverse();
+      res.json(reversList);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving checklist from database");
+    });
+});
+// eslint-disable-next-line
+app.post("/checklist", (req, res) => {
+  const { title, responsible, checked } = req.body;
+  // const checked = req.body.checked ? true : false;
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  const user_id = decode.id; // eslint-disable-line
+  let validationErrors = null;
+  console.warn(checked);
   validationErrors = Joi.object({
     title: Joi.string().min(3).max(255).required().messages({
       "string.base": `title should be a type of 'text'`,
@@ -53,13 +266,15 @@ app.post("/checklist", (req, res) => {
     checked: Joi.boolean(),
   }).validate({ title, responsible, checked }, { abortEarly: false }).error;
   if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
-  return db
-    .query(
-      "INSERT INTO checklist (title, responsible, checked) VALUE (?, ?, ?)",
-      [title, responsible, checked]
-    )
+  db.query(
+    "INSERT INTO checklist (title, responsible, checked, user_id) VALUE (?, ?, ?, ?)",
+    [title, responsible, checked, user_id] // eslint-disable-line
+  )
     .then(([{ insertId }]) => {
-      res.status(201).json({ id: insertId, title, responsible, checked });
+      res
+        .status(201)
+        .json({ id: insertId, title, responsible, checked, user_id }); // eslint-disable-line
+      console.warn({ title, responsible, checked, user_id }); // eslint-disable-line
     })
     .catch((err) => {
       if (err === "INVALID_DATA") {
@@ -72,8 +287,8 @@ app.post("/checklist", (req, res) => {
 
 app.put("/checklist", (req, res) => {
   const checklistId = req.body.id;
-  const { title, responsible } = req.body;
-  const checked = req.body.checked ? true : false; // eslint-disable-line
+  const { title, responsible, checked } = req.body;
+  // const checked = req.body.checked ? true : false;
   let validationErrors = null;
   let existChecklist = null;
   db.query("SELECT * FROM checklist WHERE id = ?", [checklistId]).then(
@@ -102,6 +317,7 @@ app.put("/checklist", (req, res) => {
           res.status(201).json({ ...req.body, ...existChecklist });
         })
         .catch((err) => {
+          console.warn(err);
           if (err === "THIS CHECKLIST DOSE NOT EXIST")
             res.status(404).send(`Checklist with id ${checklistId} not found.`);
           else if (err === "INVALID_DATA")
@@ -113,10 +329,12 @@ app.put("/checklist", (req, res) => {
 });
 app.delete("/checklist/:id", (req, res) => {
   const checklistId = req.params.id;
+  console.warn(checklistId);
   connection.query(
     "DELETE FROM checklist WHERE id = ?",
     [checklistId],
-    (err) => {
+    // eslint-disable-next-line
+    (err, result) => {
       if (err) {
         res.status(500).send("server interval error");
       } else {
@@ -126,20 +344,27 @@ app.delete("/checklist/:id", (req, res) => {
   );
 });
 
+/// /////////////guestslist//////////////
+
 app.get("/guests", (req, res) => {
-  connection.query("SELECT * FROM guests", (err, result) => {
-    if (err) {
-      res.status(500).send("Error retrieving users from database");
-    } else {
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  db.query("SELECT * FROM guests WHERE user_id = ?", [decode.id])
+    .then((result) => {
       const reversList = result.reverse();
       res.json(reversList);
-    }
-  });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error retrieving guest from database");
+    });
 });
 
 app.post("/guests", (req, res) => {
-  const { firstname, lastname, number } = req.body;
-  const checked = req.body.checked ? true : false; // eslint-disable-line
+  const { firstname, lastname, number, checked } = req.body;
+  const token = req.headers.authorization;
+  const decode = jwt_decode(token);
+  const user_id = decode.id; // eslint-disable-line
   let validationErrors = null;
   validationErrors = Joi.object({
     firstname: Joi.string()
@@ -176,16 +401,17 @@ app.post("/guests", (req, res) => {
     { firstname, lastname, number, checked },
     { abortEarly: false }
   ).error;
+
   if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
   return db
     .query(
-      "INSERT INTO guests (firstname, lastname, number, checked) VALUE (?, ?, ?, ?)",
-      [firstname, lastname, number, checked]
+      "INSERT INTO guests (firstname, lastname, number, checked, user_id) VALUE (?, ?, ?, ?, ?)",
+      [firstname, lastname, number, checked, user_id] // eslint-disable-line
     )
     .then(([{ insertId }]) => {
       res
         .status(201)
-        .json({ id: insertId, firstname, lastname, number, checked });
+        .json({ id: insertId, firstname, lastname, number, checked, user_id }); // eslint-disable-line
     })
     .catch((err) => {
       if (err === "INVALID_DATA")
@@ -197,7 +423,6 @@ app.post("/guests", (req, res) => {
 app.put("/guests", (req, res) => {
   const guestId = req.body.id;
   const { firstname, lastname, number } = req.body;
-  const checked = req.body.checked ? true : false; // eslint-disable-line
   let validationErrors = null;
   let existGuest = null;
   db.query("SELECT * FROM guests WHERE id=?", [guestId]).then(([result]) => {
@@ -236,13 +461,13 @@ app.put("/guests", (req, res) => {
       }),
       checked: Joi.boolean(),
     }).validate(
-      { firstname, lastname, number, checked },
+      { firstname, lastname, number, checked }, // eslint-disable-line
       { abortEarly: false }
     ).error;
     if (validationErrors) return Promise.reject("INVALID_DATA"); // eslint-disable-line
     return db
       .query("UPDATE guests SET ? WHERE id = ?", [
-        { firstname, lastname, number, checked },
+        { firstname, lastname, number, checked }, // eslint-disable-line
         guestId,
       ])
       .then(() => {
@@ -451,6 +676,21 @@ app.post("/blogs", (req, res) => {
   }
 });
 
+/* app.post("/blogs", (req, res) => {
+  const { title, texte } = req.body;
+  connection.query(
+    "INSERT INTO blogs(title, texte) VALUES (?, ?)",
+    [title, texte],
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error adding the blog");
+      } else {
+        res.status(200).send("Blog successfully posted");
+      }
+    }
+  );
+}); */
+
 app.put("/blogs/:id", (req, res) => {
   const blogsId = req.params.id;
   const datbase = connection.promise();
@@ -526,7 +766,6 @@ transporter.sendMail(mailOptions, (error) => {
 
 // CONTACT INVITATION
 
-/* app.get("/form", (req, res) => res.render("form")); */
 app.post("/contact", (req, res) => {
   const { name } = req.body;
   const { email } = req.body;
@@ -542,11 +781,7 @@ app.post("/contact", (req, res) => {
       }
     }
   );
-  res.status(201).json({ response: "data received" });
 });
-
-/* app.use((req, res) => res.status(404)); 
-app.use((err, req, res, next) => res.status(500)); */
 
 // CHECK if some asked for invitation
 app.get("/contact", (req, res) => {
@@ -557,6 +792,68 @@ app.get("/contact", (req, res) => {
       res.json(result);
     }
   });
+});
+
+// DELETE only talker
+app.delete("/contact/:id", (req, res) => {
+  const talkerId = req.params.id;
+  connection.query(
+    "DELETE FROM talker WHERE id = ?",
+    [talkerId],
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error deleting a blog");
+      } else if (result.affectedRows)
+        res.status(200).send("🎉 talker deleted!");
+      else res.status(404).send("talker not found");
+    }
+  );
+});
+
+// SEND mail and delete talker
+app.post("/contact/:id", (req, res) => {
+  const talkerId = req.params.id;
+  // fetch user from db using id
+  connection.query(
+    `SELECT * from talker where id = ${talkerId}`,
+    (err, result) => {
+      if (err) {
+        res.status(500).send("Error fetching this talker");
+      } else if (result[0]) {
+        // MAIL
+        const emails = result[0].email;
+        // Create mail
+        const mailOptions = {
+          from: process.env.MAIL,
+          to: emails,
+          subject: "Hello",
+          text: "Hello from Neue Traditionen",
+          html: "<html><body><h1>Hello from Neue Traditionen</h1></body></html>",
+        };
+        // Send the mail
+        // eslint-disable-next-line consistent-return
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.warn("Email error:", error);
+            return res.status(500).send("Error sending email");
+          }
+          // delete user
+          connection.query(
+            "DELETE FROM talker WHERE id = ?",
+            [talkerId],
+            (deleteError, deleteResult) => {
+              if (deleteError) {
+                res.status(500).send("Error deleting this talker");
+              } else if (deleteResult.affectedRows) {
+                res.status(200).send("🎉 talker deleted!");
+              } else res.status(404).send("talker not found");
+            }
+          );
+          console.warn("Message sent: ", info);
+        });
+      } else res.status(404).send("talker not found");
+    }
+  );
 });
 
 app.listen(port, (error) => {

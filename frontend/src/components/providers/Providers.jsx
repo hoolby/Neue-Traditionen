@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./Providers.css";
 
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 function Providers() {
   const [providers, setProviders] = useState([]);
   const [editProvider, setEditProvider] = useState({});
@@ -18,7 +20,7 @@ function Providers() {
     /* console.log(providers); */
   }, []); // eslint-disable-line
   const providerList = () => {
-    axios.get("http://localhost:5000/provider").then((respons) => {
+    axios.get(`${backendURL}/provider`).then((respons) => {
       setProviders(respons.data);
     });
   };
@@ -29,7 +31,7 @@ function Providers() {
 
   const deleteProvider = (id) => {
     /* console.log(id); */
-    axios.delete(`http://localhost:5000/provider/${id}`).then((respons) => {
+    axios.delete(`${backendURL}/provider/${id}`).then((respons) => {
       /* console.log(respons); */
       providerList();
       setHandelError("A provider deleted!");

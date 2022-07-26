@@ -8,26 +8,19 @@ function NavbarDesktop() {
     <div>
       <ul className="menu">
         <li>
-          <Link to="/">Funeral</Link>
-        </li>
-
-        <li>
-          <Link to="/">Grief</Link>
+          <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/">Matching</Link>
+          <Link to="/carousel">Funeral</Link>
         </li>
         <li>
-          <Link to="/">Blog</Link>
+          <Link to="/blogs">Blogs</Link>
         </li>
         <li>
           <Link to="/">About us</Link>
         </li>
         <li>
-          <Link to="/">Shop</Link>
-        </li>
-        <li>
-          <Link to="/">Event</Link>
+          <Link to="/login">Login</Link>
         </li>
       </ul>
     </div>
