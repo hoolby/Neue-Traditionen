@@ -17,6 +17,7 @@ function ControlledCarousel() {
     option,
     choicescategory,
     choicetitle,
+    choicecost,
     choiceIndex,
     multiplechoice
   ) => {
@@ -24,7 +25,24 @@ function ControlledCarousel() {
     if (multiplechoice) {
       // Some choice has been made already at the current step
       ////// Remove choice if previously selected
-      if (selection[choicescategory]?.includes(choicetitle)) {
+      if (
+        selection[choicescategory] &&
+        (selection[choicescategory][0]?.includes(choicetitle) ||
+          selection[choicescategory][1]?.includes(choicetitle) ||
+          selection[choicescategory][2]?.includes(choicetitle) ||
+          selection[choicescategory][3]?.includes(choicetitle) ||
+          selection[choicescategory][4]?.includes(choicetitle) ||
+          selection[choicescategory][5]?.includes(choicetitle) ||
+          selection[choicescategory][6]?.includes(choicetitle) ||
+          selection[choicescategory][7]?.includes(choicetitle) ||
+          selection[choicescategory][8]?.includes(choicetitle) ||
+          selection[choicescategory][9]?.includes(choicetitle) ||
+          selection[choicescategory][10]?.includes(choicetitle) ||
+          selection[choicescategory][11]?.includes(choicetitle) ||
+          selection[choicescategory][12]?.includes(choicetitle) ||
+          selection[choicescategory][13]?.includes(choicetitle) ||
+          selection[choicescategory][14]?.includes(choicetitle))
+      ) {
         // OPTION 1:  try to target delete the choice from the Array directly
         // selection[choicescategory].delete(
         //   selection[choicescategory].indexOf(choicetitle)
@@ -32,14 +50,14 @@ function ControlledCarousel() {
 
         // OPTION 2:  Filter the array
         selection[choicescategory] = selection[choicescategory].filter(
-          (el) => el !== choicetitle
+          (el) => el[0] !== choicetitle
         );
         setSelection({ ...selection });
       }
 
       ////// add another choice
       else if (selection[choicescategory]) {
-        selection[choicescategory].push(choicetitle);
+        selection[choicescategory].push([choicetitle, choicecost]);
         console.log(selection);
 
         setSelection({ ...selection });
@@ -48,7 +66,7 @@ function ControlledCarousel() {
       // No choice made yet at the current step
       else {
         // Use an Array with all selected options
-        option[choicescategory] = new Array(choicetitle);
+        option[choicescategory] = new Array([choicetitle, choicecost]);
         setSelection({ ...selection, ...option });
       }
     }

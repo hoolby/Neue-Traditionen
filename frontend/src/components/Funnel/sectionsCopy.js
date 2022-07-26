@@ -2,7 +2,7 @@ const sections = [
   {
     id: 1,
     category: "burialtype",
-    instruction: "Wähle eine Art der Beisetzung\n\n",
+    instruction: "Wähle eine Art der Beisetzung",
     multiplechoice: 0,
     setofchoices: [
       {
@@ -11,6 +11,7 @@ const sections = [
         body: "",
         title: "Friedhof mit Urne",
         process: "",
+        cost: 1400,
       },
       {
         id: 1,
@@ -18,6 +19,7 @@ const sections = [
         body: "",
         title: "Friedhof mit Sarg",
         process: "",
+        cost: 1900,
       },
       {
         id: 2,
@@ -26,6 +28,7 @@ const sections = [
         title:
           "Friedhof mit Reerdigung (neues beschleunigtes Kompostierverfahren)",
         process: "",
+        cost: 2100,
       },
       {
         id: 3,
@@ -33,6 +36,7 @@ const sections = [
         body: "",
         title: "Nicht auf einem Friedhof (z.B. See, Wald, Feld)",
         process: "",
+        cost: 1300,
       },
     ],
   },
@@ -40,7 +44,7 @@ const sections = [
     id: 2,
     category: "sizeofevent",
     instruction: "Mit wie vielen Teilnehmenden planst du?",
-    multiplechoice: 1,
+    multiplechoice: 0,
     setofchoices: [
       {
         id: 0,
@@ -48,6 +52,7 @@ const sections = [
         body: "",
         title: "Kleiner Kreis (max. 10 Teilnehmende)",
         process: "",
+        cost: 300,
       },
       {
         id: 1,
@@ -55,6 +60,7 @@ const sections = [
         body: "",
         title: "Mittlere Größe (10 - 30 Teilnehmende)",
         process: "",
+        cost: 400,
       },
       {
         id: 2,
@@ -62,6 +68,55 @@ const sections = [
         body: "",
         title: "Große Veranstaltung (30+ Teilnehmende)",
         process: "",
+        cost: 600,
+      },
+    ],
+  },
+  {
+    id: 3,
+    category: "add-ons",
+    instruction: "Wähle weitere Elemente aus",
+    multiplechoice: 1,
+    setofchoices: [
+      {
+        id: 0,
+        img: "",
+        body: "",
+        title: "Trauerredner:in",
+        process: "",
+        cost: 350,
+      },
+      {
+        id: 1,
+        img: "",
+        body: "",
+        title: "Musiker:in",
+        process: "",
+        cost: 150,
+      },
+      {
+        id: 2,
+        img: "",
+        body: "",
+        title: "Blumen",
+        process: "",
+        cost: 200,
+      },
+      {
+        id: 3,
+        img: "",
+        body: "",
+        title: "Anzeige in einer lokalen Zeitung",
+        process: "",
+        cost: 50,
+      },
+      {
+        id: 4,
+        img: "",
+        body: "",
+        title: "Grabstein",
+        process: "",
+        cost: 450,
       },
     ],
   },
