@@ -4,22 +4,23 @@
 import { collection, getDocs, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
+import InvitCard from "@components/invitCard";
 
 function ContactAsked() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const fetchTalker = async () => {
     try {
       const q = query(collection(db, "talker"));
       const docs = await getDocs(q);
       const temp = [];
       docs.forEach((doc) => {
-        temp.push({ ...doc.data() });
+        temp.push({ id: doc.id, ...doc.data() });
       });
       setData(temp);
     } catch (err) {
-      console.error(err); 
+      console.error(err);
       console.log("An error occured while fetching talker data");
-    } console.log(data);
+    }
   };
 
   useEffect(() => {
@@ -27,22 +28,19 @@ function ContactAsked() {
   }, []);
 
   return (
-    <div>
-      {data.map((info) => (
-    <ul className="invitCard">
-        <li>{info.name}</li>
-        <li>{info.email}</li>
-        <li>{info.message}</li>
-      </ul>
-      ))}
-    </div>
+    <>
+      {data ? (
+        <div>
+          {data.map((info) => (
+            <InvitCard info={info} key={info.id} />
+          ))}
+        </div>
+      ) : null}
+    </>
   );
 }
 
 export default ContactAsked;
-
-
-
 
 /* import React, { useState } from "react";
 import axios from "axios";

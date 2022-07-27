@@ -94,7 +94,12 @@ function Form({ checklistItems, newItemchecklist }) {
         </Alert>
       )}
       <div className="form-row form-title">
-        <h4>Add checklist items</h4>
+        <h1>Checkliste Bestattung & Trauerfeier</h1>
+        <h4>
+          Mit dieser Liste möchten wir dir einen Überblick geben, welche
+          Schritte im Trauerfall unternommen werden können. Sie soll dir zur
+          Orientierung dienen und dich in der Organisation unterstützen.
+        </h4>
       </div>
       <div className="form-row">
         <div className="col-md-4 mb-3">
@@ -110,30 +115,30 @@ function Form({ checklistItems, newItemchecklist }) {
           )}
         </div>
         <div className="col-md-4 mb-3">
-          <label htmlFor="validationCustom01">Responsible</label>
+          {/* <label htmlFor="validationCustom01">Responsible</label>
           <select
             name="responsible"
             className={`form-control ${errors.responsible && "error-input"}`}
             aria-label="Default select example"
             {...register("responsible", { required: "true" })} //eslint-disable-line
-          >
+            >
             <option value="">-- How is responsible --</option>
             <option value="admin">Admin</option>
             <option value="user">User</option>
-          </select>
+            </select> */}
           {errors.responsible && (
             <p className="error-message">{errors.responsible.message}</p>
           )}
           {/* <select {...register("responsible")}>
             <option value="admin">admin</option>
             <option value="user">user</option>
-          </select> */}
+           </select> */}
           {/* <input
             {...register("responsible")}
             className="form-control"
             id="validationCustom01"
             placeholder="Responsible"
-          /> */}
+            /> */}
           <p>{errors.Responsible?.message}</p>
         </div>
       </div>
