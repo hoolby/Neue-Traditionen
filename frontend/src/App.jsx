@@ -25,6 +25,7 @@ import AboutUs from "@components/aboutUs/AboutUs";
 import HomeBlogs from "./pages/HomeBlogs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import CostOverview from "@components/CostOverview";
 
 library.add(fas, fab);
 
@@ -58,6 +59,7 @@ function App() {
           <Route path="/create" element={<CreateBlog />} />
           <Route exact path="/reset" element={<Reset />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/costoverview" element={<CostOverview />} />
         </Routes>
         <Footer />
       </Router>
