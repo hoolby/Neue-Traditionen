@@ -35,9 +35,12 @@ function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <a
+                href="https://instagram.com/neuetraditionen?igshid=YmMyMTA2M2Y="
+                target="blank"
+              >
                 <FontAwesomeIcon icon="fa-brands fa-instagram" />
-              </Link>
+              </a>
             </li>
           </ul>
         </section>

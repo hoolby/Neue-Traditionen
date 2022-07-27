@@ -2,9 +2,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 /* import BlogList from "@components/blogs/BlogList"; */
-import HomeBlogs from "@pages/HomeBlogs";
 /* import useFetch from "@components/blogs/useFetch"; */
 import HomepageSection1 from "@components/HomepageSection1";
+import BlogList from "@components/blogs/BlogList";
 import Items from "../../components/items/Items";
 import AdminPage from "../adminpage/Adminpage";
 import "./Home.css";
@@ -25,9 +25,9 @@ function Home() {
           <section className="home-container">
             <h5 className="mt-5 item-title">So funktioniert es:</h5>
             <Items />
-            <button className="item-button">JETZT STARTEN</button>
-            <div className="home">
-              <HomeBlogs />
+            {/* <button className="item-button">JETZT STARTEN</button> */}
+            <div className="home" style={{ width: "100vw" }}>
+              <BlogList />
             </div>
           </section>
         </>

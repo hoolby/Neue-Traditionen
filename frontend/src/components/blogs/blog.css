@@ -20,6 +20,15 @@
   align-content: space-between;
   flex-wrap: wrap;
 }
+.cardsBlogPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: space-between;
+  flex-wrap: wrap;
+
+  vertical-align: middle;
+}
 
 .card {
   background: #fff;

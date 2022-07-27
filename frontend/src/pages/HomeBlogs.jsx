@@ -1,7 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/prop-types */
 import "@components/blogs/blog.css";
-import BlogList from "@components/blogs/BlogList";
+import Blogs from "@components/blogs/Blogs";
 /* import useFetch from "@components/blogs/useFetch"; */
 import { collection, getDocs, query } from "firebase/firestore";
 
@@ -33,10 +33,10 @@ function HomeBlogs() {
   }, []);
   /* const { data, isPending, error } = useFetch(`${backendURL}/blogs`); */
   return (
-    <div className="home">
+    <div className="homeBlogs" style={{ height: "600px" }}>
       {/* {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>} */}
-      {data && <BlogList blogs={data} key={data.id} />}
+      {data && <Blogs blogs={data} key={data.id} />}
     </div>
   );
 }
