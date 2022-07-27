@@ -13,8 +13,8 @@ import {
 } from "../../firebase";
 import "./Register.css";
 
-function Register() {
-  const [email, setEmail] = useState("");
+function Register({ selection, userMail }) {
+  const [email, setEmail] = useState(userMail);
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [user, loading, error] = useAuthState(auth);
@@ -22,7 +22,7 @@ function Register() {
 
   const register = () => {
     if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
+    registerWithEmailAndPassword(name, email, password, selection);
   };
   useEffect(() => {
     if (loading) return;
@@ -33,6 +33,10 @@ function Register() {
     <>
       <div className="register">
         <h1 className="mt-5 mb-5 fw-bold">Das hat geklappt!</h1>
+        <p className="mb-5">
+          Bitte bestätige noch fix deine E-Mail-Adresse in deinem Posteingang
+          und vervollständige dein Profil.
+        </p>
         <Container fluid="md">
           <div
             style={{
@@ -40,46 +44,44 @@ function Register() {
               justifyContent: "center",
             }}
           >
-            <div>
-              <div className="mb-3">
-                {/*   <Stack gap={3}> */}
-                {/*    <Form.Group controlId="formFirstName"> */}
-                <input
-                  className="bgap"
-                  required
-                  type="firstName"
-                  placeholder="Vorname"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                {/*    <Form.Control.Feedback type="invalid">
+            <div className="mb-3 d-flex flex-column">
+              {/*   <Stack gap={3}> */}
+              {/*    <Form.Group controlId="formFirstName"> */}
+              <input
+                className="bgap"
+                required
+                type="firstName"
+                placeholder="Vorname"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              {/*    <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-                {/*   </Form.Group> */}
+              {/*   </Form.Group> */}
 
-                {/*    <Form.Group controlId="formEmail"> */}
-                <input
-                  className="bgap"
-                  type="formEmail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="E-mail Address"
-                />
-                {/*     <Form.Control.Feedback type="invalid">
+              {/*    <Form.Group controlId="formEmail"> */}
+              <input
+                className="bgap"
+                type="formEmail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="E-Mail-Adresse"
+              />
+              {/*     <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
                 </Form.Control.Feedback> */}
-                {/*   </Form.Group> */}
+              {/*   </Form.Group> */}
 
-                {/*    <Form.Group controlId="formPassword"> */}
-                <input
-                  className="bgap"
-                  required
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                />
-              </div>
+              {/*    <Form.Group controlId="formPassword"> */}
+              <input
+                className="bgap"
+                required
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
 
               {/*  <Form.Control.Feedback type="invalid">
                   Feld ist erforderlich.
@@ -101,7 +103,7 @@ function Register() {
               </div> */}
               <Button
                 variant="secondary"
-                className="mt-3 bgap"
+                className="mt-3"
                 onClick={register}
                 type="none"
               >
@@ -109,14 +111,14 @@ function Register() {
               </Button>
               <Button
                 variant="secondary"
-                className="mt-3 bgap"
+                className="mt-3 mb-3"
                 onClick={signInWithGoogle}
                 type="none"
               >
-                Register with Google
+                Mit Google registrieren
               </Button>
               <div>
-                Already have an account?<Link to="/login">Login</Link> now.
+                Bereits registriert? <Link to="/login">Hier einloggen</Link>.
               </div>
               {/*  </Stack> */}
             </div>
