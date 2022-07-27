@@ -33,26 +33,28 @@ function LastStepOfCarousel({
     } else {
       // Submitting the data
       event.preventDefault();
-      axios
-        .post(`/api/user/`, {
-          mail,
-          selection,
-        })
-        .then((res) => {
-          if (res.status === 200 || res.status === 204) {
-            setPostSubmitMessage("You have successfully created your account.");
-            setUserMail(mail);
-            setShowRegisterComponent(true);
-          }
-        })
-        .catch((err) => {
-          setPostSubmitMessage(
-            `An error occured while submitting your data. Please try again. ${err}`
-          );
-          // TAKE THESE NEXT TWO LINES OUT!!    MUST NOT SWITCH TO REGISTER BEFORE mail AND selection  HAVE BEEN STORED IN DB!!!
-          setUserMail(mail);
-          setShowRegisterComponent(true);
-        });
+      setUserMail(mail);
+      setShowRegisterComponent(true);
+      // axios
+      //   .post(`/api/user/`, {
+      //     mail,
+      //     selection,
+      //   })
+      //   .then((res) => {
+      //     if (res.status === 200 || res.status === 204) {
+      //       setPostSubmitMessage("You have successfully created your account.");
+      //       setUserMail(mail);
+      //       setShowRegisterComponent(true);
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     setPostSubmitMessage(
+      //       `An error occured while submitting your data. Please try again. ${err}`
+      //     );
+      //     // TAKE THESE NEXT TWO LINES OUT!!    MUST NOT SWITCH TO REGISTER BEFORE mail AND selection  HAVE BEEN STORED IN DB!!!
+      //     setUserMail(mail);
+      //     setShowRegisterComponent(true);
+      //   });
     }
   };
 
