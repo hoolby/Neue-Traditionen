@@ -17,6 +17,9 @@ function NavbarDesktop() {
           <Link to="/carousel">Funeral</Link>
         </li>
         <li>
+          <Link to="/checklist">Checklist</Link>
+        </li>
+        <li>
           <Link to="/blogs">Blogs</Link>
         </li>
         <li>
