@@ -28,14 +28,13 @@ function CheckListItem({ list, updateChecklist, deleteChecklist }) {
         </label>
       </td>
       <td>{list.title}</td>
-      <td>{list.responsible}</td>
       <td>
         <button
           type="button"
           className="btn btn-primary"
           onClick={() => updateChecklist(list)}
         >
-          Edite
+          Edit
         </button>
         <button
           type="button"

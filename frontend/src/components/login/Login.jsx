@@ -35,12 +35,10 @@ function Login() {
           justifyContent: "center",
         }}
       >
-
         <div className="mb-3">
           <Stack gap={3}>
             <div controlId="formEmail">
               <input
-
                 type="formEmail"
                 placeholder="Deine E-Mail-Adresse"
                 required
@@ -53,7 +51,6 @@ function Login() {
 
             <div controlId="formPassword">
               <input
-
                 required
                 type="password"
                 placeholder="Passwort"
@@ -61,18 +58,14 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-
               <div type="invalid">Feld ist erforderlich.</div>
             </div>
-
           </Stack>
 
           <Button
             variant="secondary"
             type="none"
-
             className="mt-3 bgap"
-
             onClick={() => logInWithEmailAndPassword(email, password)}
           >
             Einloggen
@@ -80,9 +73,7 @@ function Login() {
           <Button
             variant="secondary"
             type="none"
-
             className="mt-3 bgap"
-
             onClick={signInWithGoogle}
           >
             Login with Google

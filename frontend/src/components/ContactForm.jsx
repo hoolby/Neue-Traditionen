@@ -1,3 +1,80 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { db, auth } from "../firebase";
+
+function ContactForm({ isAuth }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const postsCollectionRef = collection(db, "talker");
+  const navigate = useNavigate();
+
+  const createContact = async () => {
+    await addDoc(postsCollectionRef, {
+      name,
+      email,
+      message,
+    });
+    navigate("/");
+  };
+
+  /*   useEffect(() => {
+    if (loading) return;
+    if (!user) navigate("/login");
+    fetchUserName();
+  }, [user, loading]); */
+
+  return (
+    <div>
+      <div>
+        <h1>
+          if you feel the need to talk to someone, enter your email to receive
+          invitation
+        </h1>
+        <div>
+          <div>
+            Name:
+            <input
+              placeholder="Your name"
+              onChange={(event) => {
+                setName(event.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div>
+          <div>
+            Email:
+            <input
+              placeholder="Your email"
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            />
+          </div>
+          <div>
+            Message:
+            <textarea
+              placeholder="Put here, if you want a message"
+              onChange={(event) => {
+                setMessage(event.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <button type="button" onClick={createContact}>
+          Ask invitation
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default ContactForm;
+
+/* 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -86,3 +163,4 @@ function ContactForm() {
 }
 
 export default ContactForm;
+ */

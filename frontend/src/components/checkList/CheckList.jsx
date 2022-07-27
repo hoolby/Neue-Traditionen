@@ -70,7 +70,6 @@ function CheckList() {
             <th scope="col">#</th>
             <th scope="col">Done</th>
             <th scope="col">Title</th>
-            <th scope="col">Responsible</th>
           </tr>
         </thead>
         <tbody>
