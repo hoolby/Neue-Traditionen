@@ -4,36 +4,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
+// import logo from "../../assets/Logos/b7final1.png";
 
 function Footer() {
   return (
     <div className="footer">
       <div className="footer-container">
         <section className="feedback">
-          <h3>Give us Feedback!</h3>
-          <p>Write us an Email</p>
-          <div>
+          <h3>Kontakt</h3>
+          <p>Kontaktiere uns per Mail</p>
+          <div className="logo-container">
             <FontAwesomeIcon icon="fa-solid fa-envelope" color="white" />
             <a href="mailto: info@NeueTraditionen.de" className="email-link">
               info@NeueTraditionen.de
             </a>
           </div>
         </section>
+        {/* <img src={logo} className="logo-footer" alt="" /> */}
         <section className="more-info">
           <ul className="info-left">
             <li>
-              <Link to="/">About us</Link>
+              <Link to="/aboutus">Über uns</Link>
             </li>
             <li>
-              <Link to="/">Blog</Link>
+              <Link to="/blogs">Blog</Link>
             </li>
           </ul>
           <ul className="info-right">
-            <li>
+            {/* <li>
               <Link to="/">
                 <FontAwesomeIcon icon="fa-brands fa-facebook-f" />
               </Link>
-            </li>
+            </li> */}
             <li>
               <a
                 href="https://instagram.com/neuetraditionen?igshid=YmMyMTA2M2Y="
