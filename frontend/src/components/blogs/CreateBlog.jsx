@@ -1,8 +1,74 @@
-import { useState } from "react";
+import "./blog.css";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { db, auth } from "../../firebase";
+
+function CreateBlog({ isAuth }) {
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+
+  const postsCollectionRef = collection(db, "blogs");
+  const navigate = useNavigate();
+
+  const createPost = async () => {
+    await addDoc(postsCollectionRef, {
+      title,
+      text,
+    });
+    navigate("/");
+  };
+
+  /*   useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, []); */
+
+  return (
+    <div className="createPostPage">
+      <div className="cpContainer">
+        <h1>Create A Post</h1>
+        <div className="inputGp">
+          <div>
+            Title:
+            <input
+              placeholder="Title..."
+              onChange={(event) => {
+                setTitle(event.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div className="inputGp">
+          <div>
+            Post:
+            <textarea
+              placeholder="Post..."
+              onChange={(event) => {
+                setText(event.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <button type="button" onClick={createPost}>
+          Submit Post
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default CreateBlog;
+
+/* MY SQL SERVER */
+
+/*   import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./blog.css";
-let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+
+const backendURL =
+  import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
@@ -61,4 +127,4 @@ function CreateBlog() {
   );
 }
 
-export default CreateBlog;
+export default CreateBlog; */

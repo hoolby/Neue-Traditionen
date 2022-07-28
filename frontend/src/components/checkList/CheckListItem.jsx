@@ -1,51 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useForm } from "react-hook-form";
+import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/CardGroup";
 import "./CheckList.css";
 
-function CheckListItem({ list, updateChecklist, deleteChecklist }) {
-  // let valueOfChecked = list.checked ? true : false;
-
-  const { register, setValue } = useForm({});
-
-  useEffect(() => {
-    //eslint-disable-line
-    setValue("checked", !!list.checked); //eslint-disable-line
-  }, [list.checked]); //eslint-disable-line
+function CheckListItem({ list }) {
   return (
-    <tr>
-      <td>{list.id}</td>
-      <td>
-        <input
-          className="form-check-input"
-          {...register("checked")} //eslint-disable-line
-          type="checkbox"
-          id="flexCheckDefault"
-          disabled
-        />
-        <label className="form-check-label" htmlFor="flexCheckDefault">
-          You did it {/* eslint-disable-line */}
-        </label>
-      </td>
-      <td>{list.title}</td>
-      <td>{list.responsible}</td>
-      <td>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => updateChecklist(list)}
-        >
-          Edite
-        </button>
-        <button
-          type="button"
-          className="btn btn-danger"
-          onClick={() => deleteChecklist(list.id)}
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
+    <section className="table-container">
+      <div className="table table-striped table-bordered table-responsive-lg">
+        <div>
+          <div>
+            <strong className="titleList">
+              Checkliste Bestattung & Trauerfeier
+            </strong>
+            <br />
+            <br />
+            <p className="subTitle">
+              Mit dieser Liste möchten wir dir einen Überblick geben, welche
+              Schritte im Trauerfall unternommen werden können. Sie soll dir zur
+              Orientierung dienen und dich in der Organisation unterstützen.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div>
+        {list.map((item) => (
+          <CardGroup key={item.id} className="listGroup">
+            <Card className="listCard">
+              <Card.Title className="listTitle">{item.head}</Card.Title>
+              <Card.Text>{item.description}</Card.Text>
+            </Card>
+          </CardGroup>
+        ))}
+      </div>
+    </section>
   );
 }
 

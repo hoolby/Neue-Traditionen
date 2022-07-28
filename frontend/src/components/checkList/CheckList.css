@@ -6,3 +6,19 @@
 .btn-primary {
   margin-right: 10px;
 }
+
+.listCard {
+  pointer-events: none;
+}
+
+.listTitle {
+  pointer-events: none;
+  color: #156064;
+}
+
+.titleList {
+  font-size: xx-large;
+}
+.subTitle {
+  font-size: x-large;
+}

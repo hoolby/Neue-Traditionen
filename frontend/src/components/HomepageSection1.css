@@ -1,0 +1,32 @@
+.homepagesection1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c97c5d;
+  width: 100vw;
+  color: #fff;
+}
+
+.kostenlosPlanen {
+  margin-right: 0px !important;
+  background-color: #156064;
+  border: 0px;
+  border-top-left-radius: 2em !important;
+  border-bottom-left-radius: 2em !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.kostenlosPlanen:hover {
+  background-color: rgb(41, 135, 139);
+}
+select {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 2em !important;
+  border-bottom-right-radius: 2em !important;
+}
+
+/* TRYING TO ADJUST THE FONT IN THE SELECTION DROPDOWN - NOT WORKING :::(((  */
+/* div div form div select option {
+  font-family: "Lexend Deca", sans-serif !important;
+} */

@@ -7,8 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./Providers.css";
 
-let backendURL =
-  process.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com";
+const backendURL =
+  import.meta.env.VITE_BACKEND_URLRL || "https://neuetraditionen.herokuapp.com";
 function Providers() {
   const [providers, setProviders] = useState([]);
   const [editProvider, setEditProvider] = useState({});
@@ -52,7 +52,6 @@ function Providers() {
           <Alert.Heading>{handelError}</Alert.Heading>
         </Alert>
       )}
-      <Form editProvider={editProvider} providerList={providerList} />
 
       <table className="table table-striped table-bordered table-responsive-lg">
         <thead>
@@ -75,6 +74,7 @@ function Providers() {
           ))}
         </tbody>
       </table>
+      <Form editProvider={editProvider} providerList={providerList} />
     </section>
   );
 }

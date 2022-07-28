@@ -50,7 +50,7 @@ transporter.verify(function (error, success) {
   }
 });
 
-//TEST ROUTE:
+// TEST ROUTE:
 app.get("/", (req, res) => {
   res.json({ status: "up" });
 });
@@ -88,11 +88,10 @@ const verifyPassword = (plainPassword, hashedPassword) => {
 };
 
 const PRIVATE_KEY = "superSecretStringNowoneShouldKnowOrTheCanGenerateTokens";
-
+// eslint-disable-next-line
 const calculateToken = (userEmail = "", user_id = "") => {
-  // eslint-disable-line
+  // eslint-disable-next-line
   return jwt.sign({ email: userEmail, id: user_id }, PRIVATE_KEY, {
-    // eslint-disable-line
     expiresIn: "2h",
   });
 };
@@ -246,9 +245,8 @@ app.get("/checklist", (req, res) => {
       res.status(500).send("Error retrieving checklist from database");
     });
 });
-
+// eslint-disable-next-line
 app.post("/checklist", (req, res) => {
-  // eslint-disable-line
   const { title, responsible, checked } = req.body;
   // const checked = req.body.checked ? true : false;
   const token = req.headers.authorization;
@@ -335,8 +333,8 @@ app.delete("/checklist/:id", (req, res) => {
   connection.query(
     "DELETE FROM checklist WHERE id = ?",
     [checklistId],
+    // eslint-disable-next-line
     (err, result) => {
-      // eslint-disable-line
       if (err) {
         res.status(500).send("server interval error");
       } else {
@@ -781,8 +779,14 @@ app.delete("/contact/:id", (req, res) => {
 });
 
 // SEND mail and delete talker
-app.post("/contact/:id", (req, res) => {
+
+/* app.post("/contact/:id", (req, res) => {
+  // if email sent succesfully return this code
+  //return res.status(204).send("🎉 tqlker ");
+
   const talkerId = req.params.id;
+  // console.log(req.params.id, req.body);
+
   // fetch user from db using id
   connection.query(
     `SELECT * from talker where id = ${talkerId}`,
@@ -801,29 +805,40 @@ app.post("/contact/:id", (req, res) => {
           html: "<html><body><h1>Hello from Neue Traditionen</h1></body></html>",
         };
         // Send the mail
-        // eslint-disable-next-line consistent-return
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
             console.warn("Email error:", error);
             return res.status(500).send("Error sending email");
           }
-          // delete user
-          connection.query(
-            "DELETE FROM talker WHERE id = ?",
-            [talkerId],
-            (deleteError, deleteResult) => {
-              if (deleteError) {
-                res.status(500).send("Error deleting this talker");
-              } else if (deleteResult.affectedRows) {
-                res.status(200).send("🎉 talker deleted!");
-              } else res.status(404).send("talker not found");
-            }
-          );
           console.warn("Message sent: ", info);
         });
       } else res.status(404).send("talker not found");
     }
   );
+});
+ */
+
+app.post("/contact/:id", (req, res) => {
+  // if email sent succesfully return this code
+  // return res.status(204).send("🎉 tqlker ");
+
+  // const talkerId = req.params.id;
+  // console.log(req.params.id, req.body);
+  const emails = req.body.email;
+  const mailOptions = {
+    from: process.env.MAIL,
+    to: emails,
+    subject: "Hello",
+    text: "Hello from Neue Traditionen",
+    html: "<html><body><h1>Hello from Neue Traditionen</h1></body></html>",
+  };
+  transporter.sendMail(mailOptions, (error) => {
+    if (error) {
+      console.warn("Email error:", error);
+      return res.status(500).send("Error sending email");
+    }
+    return res.status(204).send("🎉 talker ");
+  });
 });
 
 app.listen(port, (error) => {

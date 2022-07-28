@@ -1,48 +1,14 @@
 .carousel {
   margin-top: 4em;
-  /* color: blue; */
+  margin-bottom: 4em;
 }
 
-/* .carousel-container {
-  display: flex;
-  flex-direction: column;
-} */
-
-/* .carousel-control-next > * {
-  position: absolute;
-  background-color: red;
-  top: 50%;
-  right: -50%;
-  top: 20%;
-} */
-
-/* .carousel-control-prev > span {
-  position: absolute;
-  top: 20%;
-  left: -50%;
-  background-color: red;
-} */
-[role="button"] {
-  size: 5px;
-  margin-top: 25px;
-  height: 50px;
+.carousel-inner {
+  min-height: 500px;
 }
-
-#myCarousel > a {
-  background-color: red;
+.carousel-item {
+  min-height: 300px;
 }
-
-a.carousel-control-next {
-  /* display: none; */
-  left: 100%;
-}
-
-a.carousel-control-prev {
-  /* display: none; */
-  left: -15%;
-}
-
-/* 
 
 .carousel-control.left {
   margin-left: -25px;
@@ -60,12 +26,41 @@ a.carousel-control-prev {
 
 .visually-hidden {
   display: null;
-} */
-.carousel-indicators {
-  bottom: 300px !important;
 }
 
-.carousel-indicators,
-.carousel-indicators > button {
-  bottom: 17em;
+.carousel-indicators {
+  position: static !important;
+}
+
+.card-list {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* REARRANGING PREV / NEXT CONTROLS */
+
+.carousel-control-prev {
+  /* position: absolute; */
+  position: static !important;
+  display: inline !important;
+}
+
+.carousel-control-next {
+  /* position: absolute; */
+  position: static !important;
+  display: inline !important;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  display: inline-block;
+  width: 4rem !important;
+  height: 4rem !important;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100% 100%;
+  margin-top: 5vh;
 }
