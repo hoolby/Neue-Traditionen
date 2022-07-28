@@ -23,15 +23,12 @@ import CheckList from "@components/checkList/CheckList";
 import InviteGuests from "@components/inviteGuests/InviteGuests";
 import AboutUs from "@components/aboutUs/AboutUs";
 import HomeBlogs from "./pages/HomeBlogs";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./firebase";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 library.add(fas, fab);
 
 function App() {
-  const [user, loading, error] = useAuthState(auth); // eslint-disable-line
   /*   const userMail = "testmail@testmail.com";
   const userId = 1; // for Register Component - to be replaced by user email on entering the registration page from custom link */
   return (
