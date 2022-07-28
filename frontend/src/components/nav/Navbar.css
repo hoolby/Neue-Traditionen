@@ -8,7 +8,8 @@
   display: flex;
   justify-content: center;
   margin: 0;
-  box-sizing: border-box;
+  box-sizing: content-box;
+  width: 100%;
   padding-left: 10px;
   background-color: #c97c5d;
 }
@@ -58,3 +59,31 @@
     left: 0px;
   }
 }
+/* .container {
+  display: flex;
+  flex-direction: row;
+}
+.navLogo {
+ 
+  height: 5em;
+  margin-bottom: 50px;
+}
+ */
+.li-centered {
+  padding-top: 1.9rem;
+}
+
+.li-logo {
+  padding-right: 100px;
+}
+
+.li-logo a:hover {
+  border-bottom: none;
+}
+/* .li-pad {
+  padding-left: 300px;
+}
+
+.li-pad2 {
+  padding-right: 300px;
+} */

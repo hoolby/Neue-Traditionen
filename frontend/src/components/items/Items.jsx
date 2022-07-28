@@ -9,7 +9,7 @@ import "./Items.css";
 function Items() {
   const [infos, setInfos] = useState([
     {
-      link: "/",
+      link: "/carousel",
       icon: "fa-solid fa-sliders",
       text: "Elemente für die Bestattung auswählen",
     },
@@ -40,17 +40,18 @@ function Items() {
 
       <div className="check-box">
         <Checkbox
-          label="Choose funeral providers according to your wishes and needs"
+          label="Bestattungsanbieter nach deinen Wünschen & Bedürfnissen auswählen "
           value={checkedOne}
           onChange={handleChangeOne}
         />
         <Checkbox
-          label="Make informed decisions"
+          label="Informierte Entscheidungen treffen"
           value={checkedTwo}
           onChange={handleChangeTwo}
         />
         <Checkbox
-          label="Plan everything online in one place"
+          label="Alles online an einem 
+          Ort planen"
           value={checkedThree}
           onChange={handleChangeThree}
         />
