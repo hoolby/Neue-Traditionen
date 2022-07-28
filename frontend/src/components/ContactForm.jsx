@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import { db, auth } from "../firebase";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./ContactForm.css";
 
 function ContactForm({ isAuth }) {
   const [name, setName] = useState("");
@@ -27,48 +29,57 @@ function ContactForm({ isAuth }) {
   }, [user, loading]); */
 
   return (
-    <div>
-      <div>
-        <h1>
+    <form className="form-container">
+      <div className="form-row form-title">
+        <h4>
           if you feel the need to talk to someone, enter your email to receive
           invitation
-        </h1>
-        <div>
-          <div>
-            Name:
-            <input
-              placeholder="Your name"
-              onChange={(event) => {
-                setName(event.target.value);
-              }}
-            />
-          </div>
-        </div>
-        <div>
-          <div>
-            Email:
-            <input
-              placeholder="Your email"
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
-            />
-          </div>
-          <div>
-            Message:
-            <textarea
-              placeholder="Put here, if you want a message"
-              onChange={(event) => {
-                setMessage(event.target.value);
-              }}
-            />
-          </div>
-        </div>
-        <button type="button" onClick={createContact}>
-          Ask invitation
-        </button>
+        </h4>
       </div>
-    </div>
+      <div className="form-row">
+        <div className="col-md-6 mb-3">
+          Name:
+          <input
+            className="form-control"
+            placeholder="Your name"
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          />
+        </div>
+      </div>
+      <div className="form-row">
+        <div className="col-md-6 mb-3">
+          Email:
+          <input
+            className="form-control"
+            placeholder="Your email"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+        </div>
+      </div>
+      <div className="form-row">
+        <div className="col-md-6 mb-3">
+          Message:
+          <textarea
+            className="form-control"
+            placeholder="Put here, if you want a message"
+            onChange={(event) => {
+              setMessage(event.target.value);
+            }}
+          />
+        </div>
+      </div>
+      <button
+        type="button"
+        className="ivitation-button"
+        onClick={createContact}
+      >
+        Ask invitation
+      </button>
+    </form>
   );
 }
 
