@@ -4,6 +4,7 @@ import Register from "@components/register/Register";
 import FunnelCard from "@components/Funnel/FunnelCard";
 import LastStepOfCarousel from "@components/LastStepOfCarousel";
 import sections from "../Funnel/sectionsCopy";
+import CardGroup from "react-bootstrap/CardGroup";
 
 import "./Carousel.css";
 
@@ -20,6 +21,7 @@ function ControlledCarousel() {
     choiceIndex,
     multiplechoice
   ) => {
+    console.log("OPTION: ", option);
     // Multiple choice
     if (multiplechoice) {
       //   Some choice has been made already at the current step
@@ -96,28 +98,32 @@ function ControlledCarousel() {
       activeIndex={index}
       onSelect={handleSelect}
       id="myCarousel"
+      style={{ minHeight: "650px" }}
     >
-      {sections.map((choices, choiceIndex) => {
+      {sections.map((section, choiceIndex) => {
+        console.log("SECTION: ", section);
         //  map over "data sections" aka card categories and their category index
         return (
-          <Carousel.Item key={choices.category}>
-            <h1>{choices.instruction}</h1>
-            <div className="card-carousel-container">
-              <section className="card-list">
-                {choices.setofchoices.map((choice) => {
-                  return (
+          <Carousel.Item key={section.choiceIndex}>
+            <h1>{section.instruction}</h1>
+            <section className="card-list">
+              {section.setofchoices.map((choice, chIndex) => {
+                console.log("CHOICE: ", choice);
+                return (
+                  <CardGroup>
                     <FunnelCard
+                      key={chIndex}
                       choice={choice}
-                      choices={choices}
+                      choices={section}
                       selectOption={selectOption}
                       choiceIndex={choiceIndex}
-                      multiplechoice={choices.multiplechoice}
+                      multiplechoice={section.multiplechoice}
                       selection={selection}
                     />
-                  );
-                })}
-              </section>
-            </div>
+                  </CardGroup>
+                );
+              })}
+            </section>
           </Carousel.Item>
         );
       })}

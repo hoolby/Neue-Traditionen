@@ -7,6 +7,7 @@ import { collection, getDocs, query } from "firebase/firestore";
 
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
+import "./HomeBlogs.css";
 
 /* const backendURL =
   import.meta.env.VITE_BACKEND_URL || "https://neuetraditionen.herokuapp.com"; */

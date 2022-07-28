@@ -124,7 +124,7 @@ function LastStepOfCarousel({
           </Form>
         </div>
       </Container>
-      <p mt-5>
+      <p className="mt-5">
         Bereits registriert? Hier kannst du dich <a href="/login">einloggen</a>.
       </p>
       <h2>{postSubmitMessage}</h2>
