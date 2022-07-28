@@ -39,12 +39,5 @@
 }
 
 .card-body {
-  margin-bottom: 36px;
   text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* number of lines to show */
-  -webkit-box-orient: vertical;
-  max-height: 70px; /*  line-clamp shows ... after 3rd line but shows 4th line, fixed heigth to show correctly, not scalable.*/
 }

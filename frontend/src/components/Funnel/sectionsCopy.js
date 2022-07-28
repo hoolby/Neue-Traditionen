@@ -7,15 +7,15 @@ const sections = [
     setofchoices: [
       {
         id: 0,
-        img: "",
-        body: "",
+        img: "https://cdn.pixabay.com/photo/2019/04/04/11/23/cemetery-4102571_960_720.jpg",
+        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet lacus nibh, id molestie lorem cursus id. In erat nibh, consequat ultrices sem a, posuere imperdiet justo. In varius eu nisi eu fringilla. Fusce vitae lorem aliquet, fringilla ipsum id, rhoncus magna. Pellentesque velit magna, dictum eu tempus volutpat, gravida vel justo. Suspendisse ut neque eu felis hendrerit malesuada. Morbi porta fermentum feugiat. Maecenas a facilisis velit, non ultrices dui. Maecenas lacus tortor, fermentum quis metus rhoncus, ultricies interdum dui. Proin nunc nulla, auctor vel arcu ut, semper mattis nisl. Aenean in mi metus. Phasellus scelerisque eget quam eu sodales. Integer ac velit luctus, sollicitudin neque quis, finibus nisi. ",
         title: "Friedhof mit Urne",
         process: "",
         cost: 1400,
       },
       {
         id: 1,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2019/04/04/11/23/cemetery-4102571_960_720.jpg",
         body: "",
         title: "Friedhof mit Sarg",
         process: "",
@@ -23,7 +23,7 @@ const sections = [
       },
       {
         id: 2,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2019/04/04/11/23/cemetery-4102571_960_720.jpg",
         body: "",
         title:
           "Friedhof mit Reerdigung (neues beschleunigtes Kompostierverfahren)",
@@ -32,7 +32,7 @@ const sections = [
       },
       {
         id: 3,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2019/04/04/11/23/cemetery-4102571_960_720.jpg",
         body: "",
         title: "Nicht auf einem Friedhof (z.B. See, Wald, Feld)",
         process: "",
@@ -48,7 +48,7 @@ const sections = [
     setofchoices: [
       {
         id: 0,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2020/05/25/13/15/golden-weddings-5218598_960_720.jpg",
         body: "",
         title: "Kleiner Kreis (max. 10 Teilnehmende)",
         process: "",
@@ -56,7 +56,7 @@ const sections = [
       },
       {
         id: 1,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2020/05/25/13/15/golden-weddings-5218598_960_720.jpg",
         body: "",
         title: "Mittlere Größe (10 - 30 Teilnehmende)",
         process: "",
@@ -64,7 +64,7 @@ const sections = [
       },
       {
         id: 2,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2020/05/25/13/15/golden-weddings-5218598_960_720.jpg",
         body: "",
         title: "Große Veranstaltung (30+ Teilnehmende)",
         process: "",
@@ -80,7 +80,7 @@ const sections = [
     setofchoices: [
       {
         id: 0,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2016/11/26/09/23/funeral-1860298_960_720.jpg",
         body: "",
         title: "Trauerredner:in",
         process: "",
@@ -88,7 +88,7 @@ const sections = [
       },
       {
         id: 1,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2016/11/26/09/23/funeral-1860298_960_720.jpg",
         body: "",
         title: "Musiker:in",
         process: "",
@@ -96,7 +96,7 @@ const sections = [
       },
       {
         id: 2,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2016/11/26/09/23/funeral-1860298_960_720.jpg",
         body: "",
         title: "Blumen",
         process: "",
@@ -104,7 +104,7 @@ const sections = [
       },
       {
         id: 3,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2016/11/26/09/23/funeral-1860298_960_720.jpg",
         body: "",
         title: "Anzeige in einer lokalen Zeitung",
         process: "",
@@ -112,7 +112,7 @@ const sections = [
       },
       {
         id: 4,
-        img: "",
+        img: "https://cdn.pixabay.com/photo/2016/11/26/09/23/funeral-1860298_960_720.jpg",
         body: "",
         title: "Grabstein",
         process: "",

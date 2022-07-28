@@ -1,8 +1,13 @@
 .carousel {
   margin-top: 4em;
   margin-bottom: 4em;
-  margin-left: 1rem;
-  margin-right: 1rem;
+}
+
+.carousel-inner {
+  min-height: 500px;
+}
+.carousel-item {
+  min-height: 300px;
 }
 
 .carousel-control.left {
@@ -28,7 +33,8 @@
 }
 
 .card-list {
-  margin-top: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
