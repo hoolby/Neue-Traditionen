@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 // Pages and components
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import BlogDetails from "@components/blogs/BlogDetails";
 import ContactAsked from "@components/ContactAsked";
 import ContactForm from "@components/ContactForm";
@@ -23,12 +23,15 @@ import CheckList from "@components/checkList/CheckList";
 import InviteGuests from "@components/inviteGuests/InviteGuests";
 import AboutUs from "@components/aboutUs/AboutUs";
 import HomeBlogs from "./pages/HomeBlogs";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 library.add(fas, fab);
 
 function App() {
+  const [user, loading, error] = useAuthState(auth); // eslint-disable-line
   /*   const userMail = "testmail@testmail.com";
   const userId = 1; // for Register Component - to be replaced by user email on entering the registration page from custom link */
   return (
@@ -46,11 +49,14 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
+
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/carousel" element={<ControlledCarousel />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/checklist" element={<CheckList />} />
+
           <Route path="/guestslist" element={<InviteGuests />} />
+
           <Route path="/blogs/:id" element={<BlogDetails />} />
           <Route path="/contactform" element={<ContactForm />} />
           <Route path="/invitation" element={<ContactAsked />} />

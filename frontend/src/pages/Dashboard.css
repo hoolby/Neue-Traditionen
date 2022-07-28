@@ -3,14 +3,14 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
 }
 .dashboard__container {
   display: flex;
-  text-align: center;
-  background-color: #dcdcdc;
-  padding: 30px;
-  max-width: 600px;
-  flex-direction: column;
+  background-color: #c7f2a7;
+  align-items: center;
+  width: 100%;
+  padding-left: 30px;
 }
 
 .dashboard__container img {
@@ -24,5 +24,9 @@
   margin-top: 10px;
   border: none;
   color: white;
-  background-color: black;
+  background-color: #156064;
+}
+.user-name {
+  margin-left: 10px;
+  margin-right: 10px;
 }

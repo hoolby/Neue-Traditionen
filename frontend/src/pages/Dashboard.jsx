@@ -93,12 +93,9 @@ function Dashboard() {
   return (
     <div className="dashboard">
       {/* CURRENT USER */}
-      <h2>Current user</h2>
       <div className="dashboard__container">
-        Logged in as
-        <span>
-          {name} - {user?.email}
-        </span>
+        Hello
+        <span className="user-name"> {name}</span>
         <button
           type="button"
           className="dashboard__btn"
