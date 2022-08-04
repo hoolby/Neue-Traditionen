@@ -26,7 +26,7 @@ function Home() {
             <h5 className="mt-5 item-title">So funktioniert es:</h5>
             <Items />
             {/* <button className="item-button">JETZT STARTEN</button> */}
-            <div className="home" style={{ width: "100vw" }}>
+            <div className="home" /* style={{ width: "100vw" }} */>
               <BlogList />
             </div>
           </section>
