@@ -22,7 +22,7 @@ function Register({ selection, userMail }) {
 
   const register = () => {
     if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password, selection);
+    registerWithEmailAndPassword(name, email, password, selection || null);
   };
   useEffect(() => {
     if (loading) return;
