@@ -3,8 +3,8 @@ import { Carousel } from "react-bootstrap";
 import Register from "@components/register/Register";
 import FunnelCard from "@components/Funnel/FunnelCard";
 import LastStepOfCarousel from "@components/LastStepOfCarousel";
-import sections from "../Funnel/sectionsCopy";
 import CardGroup from "react-bootstrap/CardGroup";
+import sections from "../Funnel/sectionsCopy";
 
 import "./Carousel.css";
 
@@ -21,7 +21,7 @@ function ControlledCarousel() {
     choiceIndex,
     multiplechoice
   ) => {
-    console.log("OPTION: ", option);
+    console.warn("OPTION: ", option);
     // Multiple choice
     if (multiplechoice) {
       //   Some choice has been made already at the current step
@@ -101,17 +101,18 @@ function ControlledCarousel() {
       style={{ minHeight: "650px" }}
     >
       {sections.map((section, choiceIndex) => {
-        console.log("SECTION: ", section);
+        console.warn("SECTION: ", section);
         //  map over "data sections" aka card categories and their category index
         return (
           <Carousel.Item key={section.choiceIndex}>
             <h1>{section.instruction}</h1>
             <section className="card-list">
               {section.setofchoices.map((choice, chIndex) => {
-                console.log("CHOICE: ", choice);
+                console.warn("CHOICE: ", choice);
                 return (
                   <CardGroup>
                     <FunnelCard
+                      // eslint-disable-next-line react/no-array-index-key
                       key={chIndex}
                       choice={choice}
                       choices={section}

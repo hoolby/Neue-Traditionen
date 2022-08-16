@@ -1,4 +1,4 @@
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable */
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -32,7 +32,6 @@ function FunnelCard({
           onClick={(e) => {
             const option = {};
             option[choices.category] = [choice.title, choice.cost];
-
             selectOption(
               option,
               choices.category,

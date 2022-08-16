@@ -3,7 +3,7 @@ import { Carousel } from "react-bootstrap";
 import FunnelCard from "@components/Funnel/FunnelCard";
 import LastStepOfCarousel from "@components/LastStepOfCarousel";
 import Register from "@components/register/Register";
-import sections from "../Funnel/sections";
+import sections from "../Funnel/sectionsCopy";
 import "./Carousel.css";
 
 function ControlledCarousel() {

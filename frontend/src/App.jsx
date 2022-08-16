@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 // Pages and components
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import BlogDetails from "@components/blogs/BlogDetails";
 import ContactAsked from "@components/ContactAsked";
 import ContactForm from "@components/ContactForm";
@@ -46,11 +46,14 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
+
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/carousel" element={<ControlledCarousel />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/checklist" element={<CheckList />} />
+
           <Route path="/guestslist" element={<InviteGuests />} />
+
           <Route path="/blogs/:id" element={<BlogDetails />} />
           <Route path="/contactform" element={<ContactForm />} />
           <Route path="/invitation" element={<ContactAsked />} />
